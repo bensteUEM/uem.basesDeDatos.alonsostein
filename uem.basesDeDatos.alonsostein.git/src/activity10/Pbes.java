@@ -20,7 +20,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 
 	private static final long serialVersionUID = 7954557041637449001L;
 	private JPanel contentPane;
-	private JTextField txtSearch, txtMoney;
+	JTextField txtSearch;
+	private JTextField txtMoney;
 	private Integer customerCount;
 	private Customer[] customers;
 	final Color UEMCOLOR = new Color(143, 27, 39);
@@ -36,7 +37,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 
 			while (maxCustomers == 0) {
 				maxCustomers = a.getNumber();
-				Thread.sleep(2000); // waits a time in miliseconds
+				Thread.sleep(200); // waits a time in miliseconds
 
 			}
 			Pbes mainFrame = new Pbes(maxCustomers);
@@ -52,8 +53,9 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public Pbes(Integer numberOfCustomers) { // Constrcutor
 		super(numberOfCustomers);
 
-		customers = new Customer[numberOfCustomers];//initialize empty customer array
-		this.customerCount = 0 ; //initialize customer count
+		customers = new Customer[numberOfCustomers];// initialize empty customer
+													// array
+		this.customerCount = 0; // initialize customer count
 
 		// Frame and GUI Setup
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // constant that it
@@ -160,12 +162,14 @@ public class Pbes extends PbesAbstract implements ActionListener {
 																			// name
 
 		// IFs even if it's just caps
+		// TODO please SPLIT functions like in GuiUserModificator
 		if (sourceName.contains("Search User by ID")) { // Conditions for the
 														// button search by user
 														// ID
 
 			Integer searchId = Integer.parseInt(this.txtSearch.getText());
-			@SuppressWarnings("unused") //interaction links back from other class
+			@SuppressWarnings("unused")
+			// interaction links back from other class
 			GuiUserModificator editor = null;
 			if (this.getCustomer(searchId) != null) {
 				editor = new GuiUserModificator(this,
@@ -216,7 +220,10 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			GuiFilter paymentQuestion = new GuiFilter(2);
 			Integer cash = paymentQuestion.getNumber(); // works when luis
 			// made getmoney method
-			myCustomer.payBalance(cash); // TODO display change
+			JOptionPane.showMessageDialog(
+					this,
+					"Your change is:"
+							+ Integer.toString(myCustomer.payBalance(cash)));
 		}
 		// Conditions for Show all Customer Button
 		else if (sourceName.contains("Show all Customers")) {
@@ -301,14 +308,10 @@ public class Pbes extends PbesAbstract implements ActionListener {
 																					// size
 																					// found
 			{
-				/*
-				 * debugging only System.out .println(
-				 * "Found an empty spot for a new customer and saved it at position: "
-				 * + position); // TODO debug System.out.println(customer);
-				 */this.customers[position] = (Customer) customer; // save
-																	// customer
-																	// to empty
-																	// spot
+				this.customers[position] = (Customer) customer; // save
+																// customer
+																// to empty
+																// spot
 				this.customerCount++;
 				return true;
 			} else {
@@ -335,7 +338,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			// customers
 			if (compareCustomer == null) {
 				// skip empty customers
-			} else if (compareCustomer.getId() == currentCustomer.getId()) // customer
+			} else if (compareCustomer.getId().equals(currentCustomer.getId())) // customer
 			{
 				this.customers[position] = (Customer) currentCustomer; // overwrite
 																		// customer
@@ -363,13 +366,13 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		for (Customer compareCustomer : this.customers) { // iterate through all
 			// customers
 			if (compareCustomer != null) {
-				if (compareCustomer.getId() == searchId) // customer is the one
+				if (compareCustomer.getId().equals(searchId)) // customer is the one
 				{
 					return compareCustomer;
+
 				} // delete customer
 			}// end null checking
 		} // end for
-		System.out.println("Customer did not exist"); // TODO
 		return null;
 	}
 
@@ -383,11 +386,16 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * @author benste
 	 */
 	public boolean deleteCustomer(Integer searchId) {
+		Integer position = 0;
 		for (Customer compareCustomer : this.customers) { // iterate through all
 															// customers
-			Integer position = 0;
-			if (compareCustomer.getId() == searchId) // customer is the one we
+			if (compareCustomer.getId().equals(searchId)) // customer is the one
+															// we
 			{ // search
+				System.out.println("Found customer" + compareCustomer.getId()
+						+ " and will delete " + searchId + " at position "
+						+ position);
+				System.out.println("Deleting this user: " + compareCustomer);
 				this.customers[position] = null; // delete customer
 				this.customerCount--;
 				return true; // stop procedure

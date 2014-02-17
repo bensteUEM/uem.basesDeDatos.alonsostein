@@ -49,7 +49,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		JLabel lblCustomerInformation = new JLabel("CUSTOMER INFORMATION");
 		lblCustomerInformation.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblCustomerInformation);
-		
+
 		JLabel lblInfo = new JLabel("");
 		contentPane.add(lblInfo);
 
@@ -64,7 +64,8 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		contentPane.add(lblId);
 
 		textFieldId = new JTextField(Integer.toString(currentCustomer.getId()));
-		textFieldId.setEditable(false); //disable editing for this field because it's the identifier
+		textFieldId.setEditable(false); // disable editing for this field
+										// because it's the identifier
 		contentPane.add(textFieldId);
 		textFieldId.setColumns(10);
 
@@ -85,22 +86,25 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		JLabel lblAirtime = new JLabel("Airtime");
 		contentPane.add(lblAirtime);
 
-		textFieldAir = new JTextField(Integer.toString(currentCustomer.getAirtimeMinutes()));
+		textFieldAir = new JTextField(Integer.toString(currentCustomer
+				.getAirtimeMinutes()));
 		contentPane.add(textFieldAir);
 		textFieldAir.setColumns(10);
 
 		JLabel lblRate = new JLabel("Rate");
 		contentPane.add(lblRate);
 
-		textFieldRate = new JTextField(Integer.toString(currentCustomer.getRate()));
+		textFieldRate = new JTextField(Integer.toString(currentCustomer
+				.getRate()));
 		contentPane.add(textFieldRate);
 		textFieldRate.setColumns(10);
-		
+
 		JLabel lblBalance = new JLabel("Balance");
 		contentPane.add(lblBalance);
 
 		// Balance field
-		textFieldBalance = new JTextField(Integer.toString(currentCustomer.getBalance()));
+		textFieldBalance = new JTextField(Integer.toString(currentCustomer
+				.getBalance()));
 		textFieldBalance.setEditable(false);
 		textFieldBalance.setColumns(10);
 		contentPane.add(textFieldBalance);
@@ -108,9 +112,10 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		btnChangeId = new JButton("Change ID");
 		contentPane.add(btnChangeId);
 		btnChangeId.addActionListener(this);
-		//disable button until 100% works - currently issue after 2nd change - most likely insert / delete
-		btnChangeId.setEnabled(true); //TODO debug check propper function
-		
+		// disable button until 100% works - currently issue after 2nd change -
+		// most likely insert / delete
+		btnChangeId.setEnabled(true);
+
 		btnSave = new JButton("Save");
 		contentPane.add(btnSave);
 
@@ -120,50 +125,109 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		this.setVisible(true);
 	}
 
+	/**
+	 * This function does link the actions with the matching functions
+	 */
 	public void actionPerformed(ActionEvent e) {
 		// if the source is the button "next"
 		if (e.getSource() == btnSave) {
-			boolean success = true;
-			success = success && this.customer.setName(textFieldName.getText());
-			// ID should not be editable
-			success = success
-					&& this.customer
-							.setCellPhoneNumber(textFieldCell.getText());
-			success = success
-					&& this.customer.setLandlinePhoneNumber(textFieldLand
-							.getText());
-			success = success
-					&& this.customer.setAirtimeMinutes(Integer
-							.parseInt(textFieldAir.getText()));
-			success = success
-					&& this.customer.setRate(Integer.parseInt(textFieldRate
-							.getText()));
-			if (success) {
-				if (this.parent.saveCustomer(this.customer)) {
-					this.parent.setVisible(true);
-					this.setVisible(false);
-				}
-			} else {
-				error();
-			}
-		}
-		else if (e.getActionCommand() == "Change ID")
-		{
-			Integer newId = -1; //initialize a new ID
-			Integer suggestedId; //initialize a validated ID
-			while (newId< 0){
-				suggestedId = Integer.parseInt(JOptionPane.showInputDialog(this,"Please insert your new ID of your choice"));
-				if ((suggestedId > 0) && (null != this.parent.getCustomer(this.customer.getId()))){
-					newId = suggestedId;
-				}//else continue asking
-			}
-			this.parent.deleteCustomer(this.customer.getId());
-			this.customer.setId(newId);
-			this.parent.addCustomer(this.customer);
-			this.setVisible(false);
-			this.parent.setVisible(true);
+			this.onSave(e);
+		} else if (e.getActionCommand() == "Change ID") {
+			this.onChangeId(e);
 		}
 	}
+
+	/*
+	 * 
+	 * The following section does have the functions for the buttons
+	 */
+
+	/**
+	 * This function should be called when the content of the modificator should
+	 * be saved. It will also send the user back to the Pbes instance to allow
+	 * more modifications.
+	 * 
+	 * @param ae
+	 * @author Luis
+	 */
+	public void onSave(ActionEvent ae) {
+		boolean success = true;
+		success = success && this.customer.setName(textFieldName.getText());
+		// ID should not be editable
+		success = success
+				&& this.customer.setCellPhoneNumber(textFieldCell.getText());
+		success = success
+				&& this.customer
+						.setLandlinePhoneNumber(textFieldLand.getText());
+		success = success
+				&& this.customer.setAirtimeMinutes(Integer
+						.parseInt(textFieldAir.getText()));
+		success = success
+				&& this.customer.setRate(Integer.parseInt(textFieldRate
+						.getText()));
+		if (success) {
+			if (this.parent.saveCustomer(this.customer)) {
+				this.parent.setVisible(true);
+				this.setVisible(false);
+			}
+		} else {
+			error();
+		}
+	}
+
+	/**
+	 * This function is called for the Action of changing the ID of an existing
+	 * customer object It will ask for a new valid ID 3 times and only proceed
+	 * if the ID is not used by any other customer yet With a validated ID it
+	 * will delete the existing user object and add the modified copy
+	 * 
+	 * @param ae
+	 * @author benste
+	 */
+	public void onChangeId(ActionEvent ae) {
+		Integer newId = -1; // initialize a new ID
+		Integer checkingId = -1; // initialize a cheking ID
+		Byte counter = 1; // max attempt counter
+		while (newId < 0) {
+			try {
+				checkingId = Integer.parseInt(JOptionPane.showInputDialog(this,
+						"Please insert your new ID of your choice"));
+			} catch (NumberFormatException e) {// just an invalid attempt
+			}
+			if ((checkingId > 0)
+					&& (null == this.parent.getCustomer(checkingId))) {
+				newId = checkingId;
+			} else if (counter == 3) {
+				break;
+			} else {
+				System.out.println("ID:" + checkingId
+						+ "is either negative or does already exist");
+
+			}// end else
+			counter++; // increase max. attempt counter
+
+		}// end while
+		if (newId > 0) {
+			boolean a = true;
+			a = a && this.parent.deleteCustomer(this.customer.getId());
+			a = a && this.customer.setId(newId);
+			a = a && this.parent.addCustomer(this.customer);
+			System.out.println("change ID Success ? :" + a); // TODO debug
+			this.setVisible(false);
+			this.parent.setVisible(true);
+			this.parent.txtSearch.setText(Integer.toString(newId));
+		} else {
+			JOptionPane
+					.showMessageDialog(
+							this,
+							"You tried 3 invalid new IDs. Please consult the list of existing Users with their ID before trying again");
+		}
+	}// end function
+
+	/*
+	 * 
+	 * The following section only includes helper functions
+	 */
 
 	// Set a window to show there is an error in the imput information
 	public void error() {
@@ -178,15 +242,15 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 
 	// JUST FOR TESTING shows the input information is correct
 	public void correct() {
-		/* The following Code is only to visualize different steps of data processing
-		JFrame frameError = new JFrame("Correct");
-		JLabel labelError = new JLabel(
-				"Correct informtion saved, please wait while we process your changes");
-		frameError.getContentPane().add(labelError);
-		frameError.setLocation(90, 90);
-		frameError.pack();
-		frameError.setVisible(true);
-		*/
+		/*
+		 * The following Code is only to visualize different steps of data
+		 * processing JFrame frameError = new JFrame("Correct"); JLabel
+		 * labelError = new JLabel(
+		 * "Correct informtion saved, please wait while we process your changes"
+		 * ); frameError.getContentPane().add(labelError);
+		 * frameError.setLocation(90, 90); frameError.pack();
+		 * frameError.setVisible(true);
+		 */
 		this.setVisible(false); // hide input window
 	}
 
