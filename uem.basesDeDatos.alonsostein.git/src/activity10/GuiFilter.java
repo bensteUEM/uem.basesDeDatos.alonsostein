@@ -100,7 +100,6 @@ public class GuiFilter extends JFrame implements ActionListener, KeyListener {
 			 * "Please enter a number between 0 and 20", "Inane warning",
 			 * JOptionPane.WARNING_MESSAGE)); }
 			 */
-			System.out.println("DEBUG - number accepted: " + number);
 			// ADD waiting message and waiting time
 			this.setVisible(false);
 		} catch (Exception ex) {
