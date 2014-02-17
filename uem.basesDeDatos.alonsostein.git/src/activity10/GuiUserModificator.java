@@ -105,16 +105,12 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		textFieldBalance.setColumns(10);
 		contentPane.add(textFieldBalance);
 
-		/* deprecated code
-		JLabel lblNewLabel_3 = new JLabel("");
-		contentPane.add(lblNewLabel_3);
-		*/
-
 		btnChangeId = new JButton("Change ID");
 		contentPane.add(btnChangeId);
 		btnChangeId.addActionListener(this);
-		btnChangeId.setEnabled(false); //disable button until 100% works - currently issue after 2nd change - most likely insert / delete
-
+		//disable button until 100% works - currently issue after 2nd change - most likely insert / delete
+		btnChangeId.setEnabled(true); //TODO debug check propper function
+		
 		btnSave = new JButton("Save");
 		contentPane.add(btnSave);
 
@@ -126,8 +122,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		// if the source is the button "next"
-		if (e.getSource() == btnSave) { // TODO - now has the save functionality
-										// - pls rename
+		if (e.getSource() == btnSave) {
 			boolean success = true;
 			success = success && this.customer.setName(textFieldName.getText());
 			// ID should not be editable
@@ -142,8 +137,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 							.parseInt(textFieldAir.getText()));
 			success = success
 					&& this.customer.setRate(Integer.parseInt(textFieldRate
-							.getText())); // TODO
-			// check if the information is correct
+							.getText()));
 			if (success) {
 				if (this.parent.saveCustomer(this.customer)) {
 					this.parent.setVisible(true);

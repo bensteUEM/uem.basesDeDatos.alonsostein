@@ -52,7 +52,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public Pbes(Integer numberOfCustomers) { // Constrcutor
 		super(numberOfCustomers);
 
-		customers = new Customer[numberOfCustomers];
+		customers = new Customer[numberOfCustomers];//initialize empty customer array
+		this.customerCount = 0 ; //initialize customer count
 
 		// Frame and GUI Setup
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // constant that it
