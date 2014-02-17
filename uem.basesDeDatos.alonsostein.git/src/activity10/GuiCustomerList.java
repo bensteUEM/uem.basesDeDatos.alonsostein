@@ -1,15 +1,12 @@
 package activity10;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -19,8 +16,12 @@ import javax.swing.JScrollPane;
  * @author steinb
  *
  */
-public class GuiCustomerList extends JFrame {
+public class GuiCustomerList extends JFrame implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8158363265686707093L;
 	private JPanel contentPane;
 
 	/**
@@ -35,11 +36,18 @@ public class GuiCustomerList extends JFrame {
 		JLabel lblinformation = new JLabel(information); //create information label on top north orientation with predefined text
 		contentPane.add(lblinformation, BorderLayout.NORTH); //add the information
 
-		JList<Customer> list = new JList(listContent.toArray());// insert the predefined array into the list
+		JList<Customer> list = new JList<Customer>((Customer[]) listContent.toArray());// insert the predefined array into the list
 
 		JScrollPane scrollPane = new JScrollPane(list); //add the Jlist to a scrollable container
 		contentPane.add(scrollPane, BorderLayout.CENTER); //add scrollpane to Frame
 
 		contentPane.setVisible(true); //make it visble
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// there are no actions in this Class yet
+		// TODO might include future feature to click on customer and see its values
+		
 	}
 }

@@ -1,11 +1,12 @@
 package activity10;
 
-import java.awt.List;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
 public abstract class PbesAbstract  extends JFrame{
+	private static final long serialVersionUID = -7819707263724623611L;
+	@SuppressWarnings("unused") //implemented later
 	private CustomerAbstract[] customers;
 	
 	public abstract boolean addCustomer(CustomerAbstract customer);
@@ -21,6 +22,7 @@ public abstract class PbesAbstract  extends JFrame{
 	
 	public abstract Integer getCompanyRevenue();
 	
+	@SuppressWarnings("unused") //use to block default constructor
 	private PbesAbstract() {
 	}
 	public PbesAbstract(Integer numberOfCustomers) {

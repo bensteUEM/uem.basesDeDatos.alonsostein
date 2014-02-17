@@ -1,7 +1,5 @@
 package activity10;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -20,6 +18,7 @@ import activity10.Pbes;
 
 public class GuiUserModificator extends JFrame implements ActionListener {
 
+	private static final long serialVersionUID = -609295754837654259L;
 	private JPanel contentPane;
 	private JTextField textFieldName;
 	private JTextField textFieldId;

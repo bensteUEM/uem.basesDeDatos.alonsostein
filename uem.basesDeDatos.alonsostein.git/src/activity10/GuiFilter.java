@@ -4,7 +4,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import java.awt.EventQueue;
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
@@ -21,6 +20,7 @@ import java.awt.event.KeyListener;
 
 public class GuiFilter extends JFrame implements ActionListener, KeyListener {
 
+	private static final long serialVersionUID = -6962861024104247506L;
 	private JPanel contentPane;
 	private JTextField textFieldFilter;
 	final static int MAX_CUSTOMERS = 20;
@@ -29,6 +29,7 @@ public class GuiFilter extends JFrame implements ActionListener, KeyListener {
 	public int mode; // 0 for number of customers; 1 for amount to pay; 2 for
 						// rate
 
+	@SuppressWarnings("unused")
 	private GuiFilter() {
 	}
 
@@ -135,13 +136,13 @@ public class GuiFilter extends JFrame implements ActionListener, KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+		// This method is not used but required by interface
 
 	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+		// This method is not used but required by interface
 
 	}
 }

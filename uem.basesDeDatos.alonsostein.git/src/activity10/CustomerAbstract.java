@@ -9,6 +9,7 @@ public abstract class CustomerAbstract {
 	protected Integer balance; // Balance of Account in Euros
 	protected Integer rate; // per minute
 
+	@SuppressWarnings("unused")
 	private CustomerAbstract() {
 	}
 

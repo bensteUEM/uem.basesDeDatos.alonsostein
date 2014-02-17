@@ -2,9 +2,6 @@ package activity10;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
-import java.awt.EventQueue;
-import java.awt.List;
 
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -16,10 +13,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-
 
 public class Pbes extends PbesAbstract implements ActionListener {
 
@@ -118,7 +113,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		// Button CustomerRev
 		JButton btnCustomersAboveRate = new JButton("Show Customers Above Rate");
 		btnCustomersAboveRate.addActionListener(this);
-		
+
 		// Button CustomerRev
 		JButton btnCalcBalance = new JButton("Calculate Balance");
 		btnCalcBalance.addActionListener(this);
@@ -169,6 +164,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 														// ID
 
 			Integer searchId = Integer.parseInt(this.txtSearch.getText());
+			@SuppressWarnings("unused") //interaction links back from other class
 			GuiUserModificator editor = null;
 			if (this.getCustomer(searchId) != null) {
 				editor = new GuiUserModificator(this,
@@ -258,11 +254,12 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
 					+ " € not taking into accounts Cents");
 		}
-			// Conditions for Calculate Balance
-			else if (sourceName.contains("Calculate Balance")) { // function that shows the
-														// revenue of each customer
-				this.calculateAllBalances();
-			}
+		// Conditions for Calculate Balance
+		else if (sourceName.contains("Calculate Balance")) { // function that
+																// shows the
+			// revenue of each customer
+			this.calculateAllBalances();
+		}
 	}
 
 	/**
@@ -296,13 +293,22 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		}
 		for (Customer compareCustomer : this.customers) { // iterate through all
 			// customers
-			if ((compareCustomer == null) && (position < this.customers.length)) // unused position within array size found
-				{
+			if ((compareCustomer == null) && (position < this.customers.length)) // unused
+																					// position
+																					// within
+																					// array
+																					// size
+																					// found
+			{
 				/*
 				 * debugging only System.out .println(
 				 * "Found an empty spot for a new customer and saved it at position: "
 				 * + position); // TODO debug System.out.println(customer);
-				 */this.customers[position] = (Customer) customer; // save customer to empty spot
+				 */this.customers[position] = (Customer) customer; // save
+																	// customer
+																	// to empty
+																	// spot
+				this.customerCount++;
 				return true;
 			} else {
 				position++; // check next spot
@@ -382,6 +388,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			if (compareCustomer.getId() == searchId) // customer is the one we
 			{ // search
 				this.customers[position] = null; // delete customer
+				this.customerCount--;
 				return true; // stop procedure
 			} else {
 				position++; // increase to get next index
