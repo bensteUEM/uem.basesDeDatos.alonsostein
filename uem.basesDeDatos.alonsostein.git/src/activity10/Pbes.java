@@ -37,14 +37,14 @@ public class Pbes extends PbesAbstract implements ActionListener {
 												// application
 		Integer maxCustomers = 0;
 		try {
-			GUIFilter a = new GUIFilter(0);
+			GuiFilter a = new GuiFilter(0);
 
 			while (maxCustomers == 0) {
 				maxCustomers = a.getNumber();
 				Thread.sleep(2000); // waits a time in miliseconds
 
 			}
-			PBES mainFrame = new PBES(maxCustomers);
+			Pbes mainFrame = new Pbes(maxCustomers);
 			mainFrame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -169,9 +169,9 @@ public class Pbes extends PbesAbstract implements ActionListener {
 														// ID
 
 			Integer searchId = Integer.parseInt(this.txtSearch.getText());
-			GUIUserModificator editor = null;
+			GuiUserModificator editor = null;
 			if (this.getCustomer(searchId) != null) {
-				editor = new GUIUserModificator(this,
+				editor = new GuiUserModificator(this,
 						(Customer) this.getCustomer(searchId));
 			} else // user not found
 			{
@@ -201,7 +201,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 								this,
 								"<html>Something went wrong when trying to save a new user <br> you might have tried to exceed your user maximum</html>");
 			} else {
-				new GUIUserModificator(this, newCustomer); // this will run the
+				new GuiUserModificator(this, newCustomer); // this will run the
 															// Modificator
 															// hiding this
 															// window until
@@ -216,14 +216,14 @@ public class Pbes extends PbesAbstract implements ActionListener {
 														// textfield
 			Integer userId = Integer.parseInt(userIdText);
 			Customer myCustomer = (Customer) this.getCustomer(userId);
-			GUIFilter paymentQuestion = new GUIFilter(2);
+			GuiFilter paymentQuestion = new GuiFilter(2);
 			Integer cash = paymentQuestion.getNumber(); // works when luis
 			// made getmoney method
 			myCustomer.payBalance(cash); // TODO display change
 		}
 		// Conditions for Show all Customer Button
 		else if (sourceName.contains("Show all Customers")) {
-			GUICustomerList list = new GUICustomerList(
+			GuiCustomerList list = new GuiCustomerList(
 					this.getCustomersAboveRate(Integer.MIN_VALUE),
 					"List of all customers"); // opens list of all customers
 			list.setVisible(true);
@@ -241,7 +241,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 				rate = 0;
 			}
 
-			GUICustomerList list = new GUICustomerList(
+			GuiCustomerList list = new GuiCustomerList(
 					this.getCustomersAboveRate(rate),
 					"List of all customers above rate: " + rate); // shows list
 																	// of all
