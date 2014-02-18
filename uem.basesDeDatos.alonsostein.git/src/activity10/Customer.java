@@ -1,5 +1,5 @@
 package activity10;
-
+//This is a test commit for conflicting changes
 import java.util.Comparator; //needed for sorting 
 
 public class Customer extends CustomerAbstract implements Comparator<Customer> {
