@@ -273,7 +273,6 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		String userIdText = txtSearch.getText(); // get the text form
 		// textfield
 		// TESTING CHANGE 
-		System.out.println("test for comit");//TODO delete this
 		// other change
 		Integer userId = Integer.parseInt(userIdText);
 		Customer myCustomer = (Customer) this.getCustomer(userId);
