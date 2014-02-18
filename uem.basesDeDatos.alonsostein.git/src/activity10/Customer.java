@@ -191,4 +191,12 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 				+ this.cellPhoneNumber + " Current Rate: " + this.rate
 				+ " Current Minutes: " + this.airtimeMinutes;
 	}
+	
+	public boolean importText(String saved_customer){ //TODO
+		return false;
+	}
+	
+	public String exportText(){ //TODO
+		return "";
+	}
 }
