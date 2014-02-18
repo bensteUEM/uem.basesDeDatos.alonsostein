@@ -60,7 +60,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		// Frame and GUI Setup
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // constant that it
 														// exits
-		setBounds(100, 100, 450, 350);
+		setBounds(100, 100, 450, 500);
 		contentPane = new JPanel(); // creation of content Pane
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); // set Borders
 		setContentPane(contentPane);
@@ -129,6 +129,12 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		btnCalcRev.setBackground(UEMCOLOR);
 		btnCalcRev.setForeground(Color.WHITE);
 
+		// Button CustomerRev
+		JButton btnCustFromText = new JButton("Get customer from text");
+		btnCustFromText.addActionListener(this);
+		btnCustFromText.setBackground(UEMCOLOR);
+		btnCustFromText.setForeground(Color.WHITE);
+
 		// Positioning of the Buttons
 		setLayout(new GridLayout(3, 1));
 
@@ -156,6 +162,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		pnlFunctions.add(btnCompanyRev);
 		pnlFunctions.add(btnCalcBalance);
 		pnlFunctions.add(btnCalcRev);
+		pnlFunctions.add(btnCustFromText);
 	}
 
 	@Override
@@ -174,8 +181,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 														// button search by user
 														// ID
 			this.searchId(ae);
-		}
-		else if (sourceName.contains("Add a new Customer")) { // condition to
+		} else if (sourceName.contains("Add a new Customer")) { // condition to
 																// react on the
 																// add new
 																// customer
@@ -530,4 +536,3 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	}
 
 }
-
