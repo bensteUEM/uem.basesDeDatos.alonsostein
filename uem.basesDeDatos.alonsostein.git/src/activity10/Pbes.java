@@ -25,7 +25,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	private Integer customerCount;
 	private Customer[] customers;
 	final Color UEMCOLOR = new Color(143, 27, 39);
-
+	final Color UEMCOLOR_GRAY = new Color(0, 0, 0); //TODO find real color
 	/**
 	 * Launch the application.
 	 */
