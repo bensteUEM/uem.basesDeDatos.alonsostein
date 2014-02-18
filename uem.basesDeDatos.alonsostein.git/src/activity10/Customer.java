@@ -1,11 +1,4 @@
 package activity10;
-//more local testing for 2nd branch
-// and some more changes
-//this is a test for conflicting commit from two pcs
-// testing more changes on the code
-//This is a test commit for conflicting changes
-//this is a test for coinflictung commit frim twi pcs
-// testing more changes on the code
 import java.util.Comparator; //needed for sorting 
 
 public class Customer extends CustomerAbstract implements Comparator<Customer> {
