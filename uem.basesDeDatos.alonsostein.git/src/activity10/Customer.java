@@ -1,5 +1,5 @@
 package activity10;
-
+//this is a test for coinflictung commit frim twi pcs
 import java.util.Comparator; //needed for sorting 
 
 public class Customer extends CustomerAbstract implements Comparator<Customer> {
