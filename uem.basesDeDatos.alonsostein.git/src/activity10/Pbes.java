@@ -188,12 +188,12 @@ public class Pbes extends PbesAbstract implements ActionListener {
 																// button
 			// try to create an empty new customer and add it to our list of
 			// customers
-			this.addCustom(ae);
+			this.onAddCustomer(ae);
 		}
 
 		// Conditions for Pay by User ID Button
 		else if (sourceName.contains("Pay by User ID")) {
-			this.payId(ae);
+			this.onPayByUserId(ae);
 		}
 		// Conditions for Show all Customer Button
 		else if (sourceName.contains("Show all Customers")) {
@@ -249,7 +249,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		}
 	}
 
-	public void addCustom(ActionEvent ae) {
+	public void onAddCustomer(ActionEvent ae) {
 		Customer newCustomer = new Customer("", "",
 				Integer.parseInt(this.txtSearch.getText())); // function to
 																// add new
@@ -269,7 +269,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		}
 	}
 
-	public void payId(ActionEvent ae) {
+	public void onPayByUserId(ActionEvent ae) {
 		String userIdText = txtSearch.getText(); // get the text form
 		// textfield
 		Integer userId = Integer.parseInt(userIdText);
