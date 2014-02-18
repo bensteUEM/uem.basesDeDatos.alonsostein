@@ -272,7 +272,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void onPayByUserId(ActionEvent ae) {
 		String userIdText = txtSearch.getText(); // get the text form
 		// textfield
-		// TESTING CHANGE
+		// TESTING CHANGE 
+		// other change
 		Integer userId = Integer.parseInt(userIdText);
 		Customer myCustomer = (Customer) this.getCustomer(userId);
 		GuiFilter paymentQuestion = new GuiFilter(2);
