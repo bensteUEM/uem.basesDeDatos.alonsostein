@@ -1,5 +1,6 @@
 package activity10;
 //more local testing for 2nd branch
+// and some more changes
 import java.util.Comparator; //needed for sorting 
 
 public class Customer extends CustomerAbstract implements Comparator<Customer> {
