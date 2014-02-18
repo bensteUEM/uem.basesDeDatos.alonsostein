@@ -25,7 +25,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	private Integer customerCount;
 	private Customer[] customers;
 	final Color UEMCOLOR = new Color(143, 27, 39);
-	final Color UEMCOLOR_GRAY = new Color(0, 0, 0); //TODO find real color
+
 	/**
 	 * Launch the application.
 	 */
@@ -123,6 +123,12 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		btnCalcBalance.setBackground(UEMCOLOR);
 		btnCalcBalance.setForeground(Color.WHITE);
 
+		// Button CustomerRev
+		JButton btnCalcRev = new JButton("Calculate Revenue");
+		btnCalcRev.addActionListener(this);
+		btnCalcRev.setBackground(UEMCOLOR);
+		btnCalcRev.setForeground(Color.WHITE);
+
 		// Positioning of the Buttons
 		setLayout(new GridLayout(3, 1));
 
@@ -149,6 +155,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		pnlFunctions.add(btnAllCustomer);
 		pnlFunctions.add(btnCompanyRev);
 		pnlFunctions.add(btnCalcBalance);
+		pnlFunctions.add(btnCalcRev);
 	}
 
 	@Override
@@ -161,30 +168,13 @@ public class Pbes extends PbesAbstract implements ActionListener {
 																			// button
 																			// name
 
-		// IFs even if it's just caps
+		// Ifs even if it's just caps
 		// TODO please SPLIT functions like in GuiUserModificator
 		if (sourceName.contains("Search User by ID")) { // Conditions for the
 														// button search by user
 														// ID
-
-			Integer searchId = Integer.parseInt(this.txtSearch.getText());
-			@SuppressWarnings("unused")
-			// interaction links back from other class
-			GuiUserModificator editor = null;
-			if (this.getCustomer(searchId) != null) {
-				editor = new GuiUserModificator(this,
-						(Customer) this.getCustomer(searchId));
-			} else // user not found
-			{
-				JOptionPane.showMessageDialog(this, "User with ID: " + searchId
-						+ " does not exist yet"); // message when customer does
-													// not exist
-			}
+			this.searchId(ae);
 		}
-
-		/*
-		 * Condition: "Add a new Customer"
-		 */
 		else if (sourceName.contains("Add a new Customer")) { // condition to
 																// react on the
 																// add new
@@ -192,81 +182,39 @@ public class Pbes extends PbesAbstract implements ActionListener {
 																// button
 			// try to create an empty new customer and add it to our list of
 			// customers
-			Customer newCustomer = new Customer("", "",
-					Integer.parseInt(this.txtSearch.getText())); // function to
-																	// add new
-																	// customer
-			if (!(this.addCustomer(newCustomer))) {
-				JOptionPane
-						.showMessageDialog(
-								this,
-								"<html>Something went wrong when trying to save a new user <br> you might have tried to exceed your user maximum</html>");
-			} else {
-				new GuiUserModificator(this, newCustomer); // this will run the
-															// Modificator
-															// hiding this
-															// window until
-															// action was
-															// successful
-			}
+			this.addCustom(ae);
 		}
 
 		// Conditions for Pay by User ID Button
 		else if (sourceName.contains("Pay by User ID")) {
-			String userIdText = txtSearch.getText(); // get the text form
-														// textfield
-			Integer userId = Integer.parseInt(userIdText);
-			Customer myCustomer = (Customer) this.getCustomer(userId);
-			GuiFilter paymentQuestion = new GuiFilter(2);
-			Integer cash = paymentQuestion.getNumber(); // works when luis
-			// made getmoney method
-			JOptionPane.showMessageDialog(
-					this,
-					"Your change is:"
-							+ Integer.toString(myCustomer.payBalance(cash)));
+			this.payId(ae);
 		}
 		// Conditions for Show all Customer Button
 		else if (sourceName.contains("Show all Customers")) {
-			GuiCustomerList list = new GuiCustomerList(
-					this.getCustomersAboveRate(Integer.MIN_VALUE),
-					"List of all customers"); // opens list of all customers
-			list.setVisible(true);
-
+			this.showCustom(ae);
 		}
 		// Conditions for show customers rate Button
 		else if (sourceName.contains("Show Customers Above Rate")) {
-			Integer rate;
-			try {
-				rate = Integer.parseInt(txtMoney.getText()); // get the input
-																// text
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(this,
-						"No Valid minimum rate specified , using 0 instead");
-				rate = 0;
-			}
-
-			GuiCustomerList list = new GuiCustomerList(
-					this.getCustomersAboveRate(rate),
-					"List of all customers above rate: " + rate); // shows list
-																	// of all
-																	// customers
-																	// and rates
-			list.setVisible(true);
-
+			this.customAboveRate(ae);
 		}
-		// Conditions for Revenue Button
-		else if (sourceName.contains("Revenue")) { // function that shows the
-													// revenue of each customer
-			this.calculateAllBalances();
-			Integer revenue = this.getCompanyRevenue();
-			JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
-					+ " € not taking into accounts Cents");
+		// Conditions for Revenue Button and balances
+		else if (sourceName.contains("Company Revenue")) { // function that
+															// shows the revenue
+															// of each customer
+			this.companyRevenue(ae);
 		}
 		// Conditions for Calculate Balance
 		else if (sourceName.contains("Calculate Balance")) { // function that
 																// shows the
 			// revenue of each customer
 			this.calculateAllBalances();
+		}
+		// Conditions for Revenue Button
+		else if (sourceName.contains("Calculate Revenue")) { // function that
+																// shows the
+																// company
+																// revenue
+			this.revenue(ae);
 		}
 	}
 
@@ -278,6 +226,99 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * @param new Customer Object
 	 * @return success of the operation
 	 */
+
+	public void searchId(ActionEvent ae) {
+		Integer searchId = Integer.parseInt(this.txtSearch.getText());
+		@SuppressWarnings("unused")
+		// interaction links back from other class
+		GuiUserModificator editor = null;
+		if (this.getCustomer(searchId) != null) {
+			editor = new GuiUserModificator(this,
+					(Customer) this.getCustomer(searchId));
+		} else // user not found
+		{
+			JOptionPane.showMessageDialog(this, "User with ID: " + searchId
+					+ " does not exist yet"); // message when customer does
+												// not exist
+		}
+	}
+
+	public void addCustom(ActionEvent ae) {
+		Customer newCustomer = new Customer("", "",
+				Integer.parseInt(this.txtSearch.getText())); // function to
+																// add new
+																// customer
+		if (!(this.addCustomer(newCustomer))) {
+			JOptionPane
+					.showMessageDialog(
+							this,
+							"<html>Something went wrong when trying to save a new user <br> you might have tried to exceed your user maximum</html>");
+		} else {
+			new GuiUserModificator(this, newCustomer); // this will run the
+														// Modificator
+														// hiding this
+														// window until
+														// action was
+														// successful
+		}
+	}
+
+	public void payId(ActionEvent ae) {
+		String userIdText = txtSearch.getText(); // get the text form
+		// textfield
+		Integer userId = Integer.parseInt(userIdText);
+		Customer myCustomer = (Customer) this.getCustomer(userId);
+		GuiFilter paymentQuestion = new GuiFilter(2);
+		Integer cash = paymentQuestion.getNumber(); // works when luis
+		// made getmoney method
+		JOptionPane.showMessageDialog(
+				this,
+				"Your change is:"
+						+ Integer.toString(myCustomer.payBalance(cash)));
+	}
+
+	public void showCustom(ActionEvent ae) {
+		GuiCustomerList list = new GuiCustomerList(
+				this.getCustomersAboveRate(Integer.MIN_VALUE),
+				"List of all customers"); // opens list of all customers
+		list.setVisible(true);
+	}
+
+	public void customAboveRate(ActionEvent ae) {
+		Integer rate;
+		try {
+			rate = Integer.parseInt(txtMoney.getText()); // get the input
+															// text
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this,
+					"No Valid minimum rate specified , using 0 instead");
+			rate = 0;
+		}
+
+		GuiCustomerList list = new GuiCustomerList(
+				this.getCustomersAboveRate(rate),
+				"List of all customers above rate: " + rate); // shows list
+																// of all
+																// customers
+																// and rates
+		list.setVisible(true);
+
+	}
+
+	public void companyRevenue(ActionEvent ae) {
+		// revenue of each customer
+		this.calculateAllBalances();
+		Integer revenue = this.getCompanyRevenue();
+		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
+				+ " € not taking into accounts Cents");
+	}
+
+	public void revenue(ActionEvent ae) {
+		Integer revenue = this.getCompanyRevenue();
+		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
+				+ " € not taking into accounts Cents");
+	}
+
 	@Override
 	public boolean addCustomer(CustomerAbstract customer) {
 		Integer position = 0;
@@ -366,7 +407,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		for (Customer compareCustomer : this.customers) { // iterate through all
 			// customers
 			if (compareCustomer != null) {
-				if (compareCustomer.getId().equals(searchId)) // customer is the one
+				if (compareCustomer.getId().equals(searchId)) // customer is the
+																// one
 				{
 					return compareCustomer;
 
@@ -488,3 +530,4 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	}
 
 }
+
