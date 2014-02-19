@@ -129,11 +129,17 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		btnCalcRev.setBackground(UEMCOLOR);
 		btnCalcRev.setForeground(Color.WHITE);
 
-		// Button CustomerRev
+		// Import customer from text
 		JButton btnCustFromText = new JButton("Get customer from text");
 		btnCustFromText.addActionListener(this);
 		btnCustFromText.setBackground(UEMCOLOR);
 		btnCustFromText.setForeground(Color.WHITE);
+
+		// Export customer to text
+		JButton btnCustToText = new JButton("Save customers to text");
+		btnCustToText.addActionListener(this);
+		btnCustToText.setBackground(UEMCOLOR);
+		btnCustToText.setForeground(Color.WHITE);
 
 		// Positioning of the Buttons
 		setLayout(new GridLayout(3, 1));
@@ -163,6 +169,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		pnlFunctions.add(btnCalcBalance);
 		pnlFunctions.add(btnCalcRev);
 		pnlFunctions.add(btnCustFromText);
+		pnlFunctions.add(btnCustToText);
 	}
 
 	@Override
@@ -180,7 +187,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		if (sourceName.contains("Search User by ID")) { // Conditions for the
 														// button search by user
 														// ID
-			this.searchId(ae);
+			this.onSearchId(ae);
 		} else if (sourceName.contains("Add a new Customer")) { // condition to
 																// react on the
 																// add new
@@ -197,17 +204,17 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		}
 		// Conditions for Show all Customer Button
 		else if (sourceName.contains("Show all Customers")) {
-			this.showCustom(ae);
+			this.onShowCustomer(ae);
 		}
 		// Conditions for show customers rate Button
 		else if (sourceName.contains("Show Customers Above Rate")) {
-			this.customAboveRate(ae);
+			this.onCustomerAboveRate(ae);
 		}
 		// Conditions for Revenue Button and balances
 		else if (sourceName.contains("Company Revenue")) { // function that
 															// shows the revenue
 															// of each customer
-			this.companyRevenue(ae);
+			this.onCompanyRevenue(ae);
 		}
 		// Conditions for Calculate Balance
 		else if (sourceName.contains("Calculate Balance")) { // function that
@@ -220,7 +227,21 @@ public class Pbes extends PbesAbstract implements ActionListener {
 																// shows the
 																// company
 																// revenue
-			this.revenue(ae);
+			this.onRevenue(ae);
+		}
+		// Conditions for Revenue Button
+		else if (sourceName.contains("Get customer")) { // function that
+																// shows the
+																// company
+																// revenue
+			this.onImportText(ae);
+		}
+		// Conditions for Revenue Button
+		else if (sourceName.contains("Save customer")) { // function that
+																// shows the
+																// company
+																// revenue
+			this.onExportText(ae);
 		}
 	}
 
@@ -233,7 +254,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * @return success of the operation
 	 */
 
-	public void searchId(ActionEvent ae) {
+	public void onSearchId(ActionEvent ae) {
+
 		Integer searchId = Integer.parseInt(this.txtSearch.getText());
 		@SuppressWarnings("unused")
 		// interaction links back from other class
@@ -283,14 +305,14 @@ public class Pbes extends PbesAbstract implements ActionListener {
 						+ Integer.toString(myCustomer.payBalance(cash)));
 	}
 
-	public void showCustom(ActionEvent ae) {
+	public void onShowCustomer(ActionEvent ae) {
 		GuiCustomerList list = new GuiCustomerList(
 				this.getCustomersAboveRate(Integer.MIN_VALUE),
 				"List of all customers"); // opens list of all customers
 		list.setVisible(true);
 	}
 
-	public void customAboveRate(ActionEvent ae) {
+	public void onCustomerAboveRate(ActionEvent ae) {
 		Integer rate;
 		try {
 			rate = Integer.parseInt(txtMoney.getText()); // get the input
@@ -311,7 +333,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 
 	}
 
-	public void companyRevenue(ActionEvent ae) {
+	public void onCompanyRevenue(ActionEvent ae) {
 		// revenue of each customer
 		this.calculateAllBalances();
 		Integer revenue = this.getCompanyRevenue();
@@ -319,7 +341,19 @@ public class Pbes extends PbesAbstract implements ActionListener {
 				+ " € not taking into accounts Cents");
 	}
 
-	public void revenue(ActionEvent ae) {
+	public void onRevenue(ActionEvent ae) {
+		Integer revenue = this.getCompanyRevenue();
+		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
+				+ " € not taking into accounts Cents");
+	}
+	// TODO set conditions to import text
+	public void onImportText(ActionEvent ae) {
+		Integer revenue = this.getCompanyRevenue();
+		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
+				+ " € not taking into accounts Cents");
+	}
+	// TODO set conditions to export text
+	public void onExportText(ActionEvent ae) {
 		Integer revenue = this.getCompanyRevenue();
 		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
 				+ " € not taking into accounts Cents");
