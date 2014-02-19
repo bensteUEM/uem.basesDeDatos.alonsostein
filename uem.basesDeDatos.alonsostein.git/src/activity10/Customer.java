@@ -1,11 +1,14 @@
 package activity10;
 import java.util.Comparator; //needed for sorting 
 
+import javax.swing.JTextField;
+
 public class Customer extends CustomerAbstract implements Comparator<Customer> {
 
 	// Setup NUMBRES and LETTERS constants for validations
 	public final static String NUMBERS = "+ 0123456789";
 	public final static String LETTERS = "abcdefghijklmnopqrstuvwxyz";
+	public final static Integer IMPLEMENTEDARGS = 7; //number of arguments implemented for a customer
 
 	/**
 	 * Constructor for a new Custoemr object
@@ -192,11 +195,66 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 				+ " Current Minutes: " + this.airtimeMinutes;
 	}
 	
-	public boolean importText(String saved_customer){ //TODO
-		return false;
+	/**
+	 * Function which allows to overwrite an existing customer object with a String formated the following way:
+	 *@param savedCustomer {@literal <}FieldId>;FieldName;FieldCell;FieldLand;FieldAir;FieldRate;FieldBalance; 
+	 *@author benste
+	 */
+	public boolean importText(String savedCustomer){ //TODO
+		boolean success = true;
+		System.out.println("Import line for this cusotmer is: "+savedCustomer);
+
+		String[] parts = savedCustomer.split(";");
+		
+		if (!(parts.length == Customer.IMPLEMENTEDARGS)){
+			System.out.println("WARNING - wrong number of items: "+parts.length); //TODO check whether +1 is needed
+			success = false;
+		}
+		//check that first item is the ID with a <ID> formatting
+		else if(!(parts[0].startsWith("<") && parts[0].endsWith(">")))
+		{
+			System.out.println("WARNING - import has wrong formatting");
+			System.out.println("WARNING - starts with < "+parts[0].startsWith("<"));
+			System.out.println("WARNING - starts with > "+parts[0].endsWith(">"));
+			success = false;
+		}
+		else //if checks succeeds
+			{
+				String idText = parts[0];
+				idText = idText.substring(1,idText.length()-1);
+				System.out.println("ID with removed outer <> is "+idText); //TODO debugging only
+				success = success && this.setId(Integer.parseInt(idText)); 
+				success = success && this.setName(parts[1]);
+				success = success && this.setCellPhoneNumber(parts[2]);
+				success = success && this.setLandlinePhoneNumber(parts[3]);
+				success = success && this.setAirtimeMinutes(Integer.parseInt(parts[4])); //TODO there is something wrong here
+				success = success && this.setRate(Integer.parseInt(parts[5]));//TODO there is something wrong here
+				this.balance = Integer.parseInt(parts[6]);
+			}
+		return success;
 	}
 	
+	/**
+	 * Function which allows to overwrite an existing customer object with a String formated the following way:
+	 *@return {@literal <}FieldId>;FieldName;FieldCell;FieldLand;FieldAir;FieldRate;FieldBalance; 
+	 *@author benste
+	 */
 	public String exportText(){ //TODO
-		return "";
+		// Parse All Items into an Array
+		String[] parts = new String[Customer.IMPLEMENTEDARGS];
+		parts[0] = "<"+Integer.toString(this.getId())+">";
+		parts[1] = this.getName();
+		parts[2] = this.getCellPhoneNumber();
+		parts[3] = this.getLandlinePhoneNumer();
+		parts[4] = Integer.toString(this.getAirtimeMinutes());
+		parts[5] = Integer.toString(this.getRate());
+		parts[6] = Integer.toString(this.getBalance());
+		// Parse the Array into a String
+		String result = "";
+		for (String part : parts){
+			result += part+";";
+		}
+		System.out.println("The final export line for this cusotmer is: "+result);
+		return result;
 	}
 }
