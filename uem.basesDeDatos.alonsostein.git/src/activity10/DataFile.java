@@ -7,9 +7,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
 public class DataFile {
-	private Customer[] customersToWrite;
+	private Customer[] groupOfCustomers;
+	private Customer oneCustomerToWrite;
 
 	/*
 	 * public static void main(String[] args) { DataFile w = new DataFile();
@@ -22,7 +22,13 @@ public class DataFile {
 	 * 
 	 * }
 	 */
-	public void exportText() {
+	public void exportGroupOfCustomers(Customer[] groupOfCustomers) { // set a
+																		// mode
+																		// to
+																		// import
+																		// one
+																		// customer
+		// or a group
 		Integer maxCustomers = 0;
 		try {
 			GuiFilter a = new GuiFilter(0);
@@ -30,8 +36,8 @@ public class DataFile {
 			while (maxCustomers == 0) {
 				maxCustomers = a.getNumber();
 				Thread.sleep(200); // waits a time in miliseconds
-				customersToWrite = new Customer[maxCustomers];
 			}
+			groupOfCustomers = new Customer[maxCustomers];
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -48,13 +54,17 @@ public class DataFile {
 		try {
 			// 2. WRITE
 			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
-					true)); // Creates a buffered character-output stream of a
+					true)); // Creates a buffered character-output
+							// stream of a
 							// class for writing character files
 			for (int i = 0; i <= maxCustomers; i++) {
-				writer.write(customersToWrite[i].exportText()); // writes a
-																// string with
-																// the number
-				writer.newLine(); // adds a line separator for every customer
+				writer.write(groupOfCustomers[i].exportText()); // writes a
+																// string
+																// with
+																// the
+																// number
+				writer.newLine(); // adds a line separator for every
+									// customer
 
 			}
 			// 3. CLOSE
@@ -65,7 +75,7 @@ public class DataFile {
 	}
 
 	// TODO find out how to do the read file
-	public Customer[] importText() {
+	public Customer[] importGroupOfCustomers() {
 		// 1. OPEN file
 		String fileName = "customerData" + File.separator + "data.txt";
 		int numberOfLines = 0;
@@ -101,8 +111,33 @@ public class DataFile {
 
 	}
 
-	public DataFile(Customer[] customers) {
+	public void exportOneCustomer(Customer oneCustomer) { 
+	
 
+		// 1. OPEN
+		String fileName = "I:\\workspace\\data.txt"; // sets file name
+		
+		try {
+			// 2. WRITE
+			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
+					true)); // Creates a buffered character-output
+			// stream of a
+			// class for writing character files
+			writer.write(oneCustomer.exportText()); // writes a string with the customer
+			writer.newLine(); // adds a line separator for every customer
+			// 3. CLOSE
+			writer.close(); // close the file
+		} catch (IOException e) {
+			e.printStackTrace(); // throws a standard error
+		}
+	}
+
+	public DataFile(Customer[] customers) {
+		this.groupOfCustomers = customers;
+	}
+
+	public DataFile(Customer oneCustomer) {
+		this.oneCustomerToWrite = oneCustomer;
 	}
 
 }

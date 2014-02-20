@@ -29,6 +29,8 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	private JTextField textFieldBalance;
 	private JButton btnChangeId;
 	private JButton btnSave;
+	private JButton btnImport;
+	private JButton btnExport;
 	private Customer customer;
 	private Pbes parent;
 
@@ -119,6 +121,14 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		btnSave = new JButton("Save");
 		contentPane.add(btnSave);
 
+		btnImport = new JButton("Import customer from file");
+		contentPane.add(btnImport);
+		btnImport.addActionListener(this);
+
+		btnExport = new JButton("Export customer to file");
+		contentPane.add(btnExport);
+		btnExport.addActionListener(this);
+
 		this.customer = currentCustomer;
 
 		btnSave.addActionListener(this);
@@ -130,10 +140,15 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		// if the source is the button "next"
+		String sourceName = e.getActionCommand();
 		if (e.getSource() == btnSave) {
 			this.onSave(e);
 		} else if (e.getActionCommand() == "Change ID") {
 			this.onChangeId(e);
+		} else if (sourceName.contains("Import")) {
+			this.onImportCustomer(e);
+		} else if (sourceName.contains("Export")) {
+			this.onExportCustomer(e);
 		}
 	}
 
@@ -174,6 +189,38 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 			error();
 		}
 	}
+	
+	public void onImportCustomer(ActionEvent ae) {
+		DataFile f = new DataFile(this.customer);
+		
+	}
+	
+	public void onExportCustomer(ActionEvent ae) {
+		DataFile f = new DataFile(this.customer);
+		boolean success = true;
+		success = success && this.customer.setName(textFieldName.getText());
+		// ID should not be editable
+		success = success
+				&& this.customer.setCellPhoneNumber(textFieldCell.getText());
+		success = success
+				&& this.customer
+						.setLandlinePhoneNumber(textFieldLand.getText());
+		success = success
+				&& this.customer.setAirtimeMinutes(Integer
+						.parseInt(textFieldAir.getText()));
+		success = success
+				&& this.customer.setRate(Integer.parseInt(textFieldRate
+						.getText()));
+		if (success) {
+			f.exportOneCustomer(this.customer);
+			this.parent.setVisible(true);
+			this.setVisible(false);
+		} 
+		else {
+			error();
+		}	
+}
+
 
 	/**
 	 * This function is called for the Action of changing the ID of an existing
