@@ -2,6 +2,7 @@ package activity10;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -48,13 +49,10 @@ public class DataFile {
 					true)); // Creates a buffered character-output stream of a
 							// class for writing character files
 			for (int i = 0; i <= maxCustomers; i++) {
-				writer.write(customersToWrite[i].name); // writes a string with the number
-				writer.write(customersToWrite[i].id); // writes a string id
-				writer.write(customersToWrite[i].cellPhoneNumber);
-				writer.write(customersToWrite[i].landlinePhoneNumber);
-				writer.write(customersToWrite[i].airtimeMinutes);
-				writer.write(customersToWrite[i].balance);
-				writer.write(customersToWrite[i].rate);
+				writer.write(customersToWrite[i].exportText()); // writes a
+				// TODO add new line character												// string with
+																// the number
+
 			}
 			// 3. CLOSE
 			writer.close(); // close the file
@@ -64,19 +62,23 @@ public class DataFile {
 	}
 
 	// TODO find out how to do the read file
-	public String importText() {
+	public Customer[] importText() {
 		// 1. OPEN file
-		String fileName = "C:\\data.txt";
+		String fileName = "customerData" + File.separator + "data.txt";
 		String LS = System.getProperty("line.separator");
 		StringBuffer fileContent = new StringBuffer();
-
+		// TODO set array length to number of rows in file
+		Customer[] newCustomers = new Customer[1];
+		
 		try {
 			// 2. READ file
 			BufferedReader reader = new BufferedReader(new FileReader(fileName));
 
 			String line;
 			while ((line = reader.readLine()) != null) {
-				fileContent.append(line).append(LS); // concatenate strings
+				// TODO add customer into local array
+				newCustomers[number] = new Customer(line);
+				// TODO increment the number of customers acordingly
 			}
 			// 3. CLOSE file
 			reader.close();
@@ -85,7 +87,7 @@ public class DataFile {
 			e.printStackTrace();
 		}
 
-		return fileContent.toString();
+		return newCustomers;
 
 	}
 

@@ -274,3 +274,4 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		return this.customer;
 	}
 }
+// TODO add import and export one customer using DataFile
