@@ -34,6 +34,9 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	private Customer customer;
 	private Pbes parent;
 
+	private Customer[] customerToExport;
+	private Customer[] customerToImport;
+
 	/**
 	 * Create the frame.
 	 */
@@ -141,7 +144,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// if the source is the button "next"
 		String sourceName = e.getActionCommand();
-		if (e.getSource() == btnSave) {
+		if (sourceName.contains("Save")) {
 			this.onSave(e);
 		} else if (e.getActionCommand() == "Change ID") {
 			this.onChangeId(e);
@@ -189,14 +192,22 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 			error();
 		}
 	}
-	
+
 	public void onImportCustomer(ActionEvent ae) {
-		DataFile f = new DataFile(this.customer);
+		GuiUserModificator editor;
+		customerToImport = new Customer[1]; 		
+		DataFile f = new DataFile(this.customerToImport);
+		//customerToImport[0] = this.customer;
+		customerToImport = f.importCustomer();
 		
+		Pbes pbesParent = new Pbes(f.getNumberOfLines());
+		//GuiUserModificator editor = null;
+		this.setVisible(false);
+		editor = new GuiUserModificator(pbesParent, customerToImport[0]);
+
 	}
-	
+
 	public void onExportCustomer(ActionEvent ae) {
-		DataFile f = new DataFile(this.customer);
 		boolean success = true;
 		success = success && this.customer.setName(textFieldName.getText());
 		// ID should not be editable
@@ -212,15 +223,18 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 				&& this.customer.setRate(Integer.parseInt(textFieldRate
 						.getText()));
 		if (success) {
-			f.exportOneCustomer(this.customer);
+			customerToExport = new Customer[1]; // as in this case we want to
+												// add only one customer, it
+												// creates an array of 1 element
+			customerToExport[0] = this.customer;	// sets the position 0 of the array to the current customer
+			DataFile f = new DataFile(customerToExport);
+			f.exportCustomer(customerToExport);
 			this.parent.setVisible(true);
 			this.setVisible(false);
-		} 
-		else {
+		} else {
 			error();
-		}	
-}
-
+		}
+	}
 
 	/**
 	 * This function is called for the Action of changing the ID of an existing

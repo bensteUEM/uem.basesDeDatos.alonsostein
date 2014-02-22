@@ -5,8 +5,11 @@ import java.awt.Color;
 
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.GridLayout;
+
 import javax.swing.JButton;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +27,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	private JTextField txtMoney;
 	private Integer customerCount;
 	private Customer[] customers;
+	private Customer[] customerToImport;
 	final Color UEMCOLOR = new Color(143, 27, 39);
 
 	/**
@@ -83,6 +87,17 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		btnSearch.addActionListener(this);
 		btnSearch.setBackground(Color.DARK_GRAY);
 		btnSearch.setForeground(Color.WHITE);
+
+		// User Imput Button by ID
+		JButton btnImput = new JButton("Import customer from text"); // creation
+																	// of new
+		// Button and
+		// its
+		// appearance
+		btnImput.setMnemonic('s');
+		btnImput.addActionListener(this);
+		btnImput.setBackground(Color.DARK_GRAY);
+		btnImput.setForeground(Color.WHITE);
 
 		// Pay Button by ID
 		JButton btnPay = new JButton("Pay by User ID");
@@ -149,6 +164,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		pnlSearch.setLayout(new BorderLayout());
 		add(pnlSearch);
 		pnlSearch.add(btnSearch, BorderLayout.WEST);
+		pnlSearch.add(btnImput, BorderLayout.EAST);
 		pnlSearch.add(txtSearch, BorderLayout.CENTER);
 
 		// Pay Panel
@@ -231,17 +247,20 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		}
 		// Conditions for Revenue Button
 		else if (sourceName.contains("Get customer")) { // function that
-																// shows the
-																// company
-																// revenue
+														// shows the
+														// company
+														// revenue
 			this.onImportText(ae);
 		}
 		// Conditions for Revenue Button
 		else if (sourceName.contains("Save customer")) { // function that
-																// shows the
-																// company
-																// revenue
+															// shows the
+															// company
+															// revenue
 			this.onExportText(ae);
+		} else if (sourceName.contains("Import customer from text")) { // function that imports a
+													// customer from text
+			this.onImportCustomer(ae);
 		}
 	}
 
@@ -346,17 +365,40 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
 				+ " € not taking into accounts Cents");
 	}
+
 	// TODO set conditions to import text
 	public void onImportText(ActionEvent ae) {
 		Integer revenue = this.getCompanyRevenue();
 		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
 				+ " € not taking into accounts Cents");
 	}
+
 	// TODO set conditions to export text
 	public void onExportText(ActionEvent ae) {
 		Integer revenue = this.getCompanyRevenue();
 		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
 				+ " € not taking into accounts Cents");
+	}
+
+	public void onImportCustomer(ActionEvent ae) {
+		Integer searchId = Integer.parseInt(this.txtSearch.getText());
+		GuiUserModificator editor=null;
+		customerToImport = new Customer[1];
+		DataFile f = new DataFile(this.customerToImport);
+		// customerToImport[0] = this.customer;
+		customerToImport = f.importCustomer();
+
+		
+		if (this.getCustomer(searchId) != null) {
+			editor = new GuiUserModificator(this,
+					customerToImport[0]);
+		} else // user not found
+		{
+			JOptionPane.showMessageDialog(this, "User with ID: " + searchId
+					+ " does not exist yet"); // message when customer does
+												// not exist
+		}
+
 	}
 
 	@Override
