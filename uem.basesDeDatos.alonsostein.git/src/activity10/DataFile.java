@@ -23,16 +23,25 @@ public class DataFile {
 	 * 
 	 * }
 	 */
+	/**
+	 * By default export this objects customers
+	 */
+	public void exportCustomer() {
+		exportCustomer(this.groupOfCustomers);
+	}
+	
+	/**
+	 * Use this class to export any list of customers
+	 * @param customers
+	 */
 	public void exportCustomer(Customer[] customers) { // Export customer/s to
 														// file
 		this.groupOfCustomers = customers;
 		Integer maxCustomers = customers.length;
 
 		// 1. OPEN
-		// String fileName = "customerData" + File.separator + "data.txt";
-		// String fileName = "I:\\workspace\\data.txt";
 		File path = new File("." + File.separator + File.separator + "src"
-				+ File.separator +  "activity10" + File.separator + "data.txt");
+				+ File.separator + "activity10" + File.separator + "data_customers.txt");
 		String fileName = path.getPath();
 		try {
 			// 2. WRITE
@@ -53,19 +62,19 @@ public class DataFile {
 			}
 
 			// 3. CLOSE
+			writer.flush(); //make sure the buffer writes everything
+			System.out.println("Following file has been written"+fileName); //TODO debug
 			writer.close(); // close the file
 		} catch (IOException e) {
-			e.printStackTrace(); // throws a standard error
+			e.printStackTrace(); // throws a standard error when there are errors with file handling
 		}
 	}
 
-	// TODO find out how to do the read file
 	public Customer[] importCustomer() {
 		// 1. OPEN file
 		File path = new File("." + File.separator + File.separator + "src"
-				+ File.separator +  "activity10" + File.separator + "data.txt");
+				+ File.separator + "activity10" + File.separator + "data_customers.txt");
 		String fileName = path.getPath();
-		// TODO set array length to number of rows in file
 
 		StringBuffer fileContent = new StringBuffer();
 
@@ -74,7 +83,7 @@ public class DataFile {
 			BufferedReader reader = new BufferedReader(new FileReader(fileName));
 
 			String line;
-
+			numberOfLines = 0 ; //reset number of lines
 			while ((line = reader.readLine()) != null) {
 				// groupOfCustomers[numberOfLines].importText(line); // reads
 				// the
@@ -87,40 +96,46 @@ public class DataFile {
 														// customers from that
 														// symbol
 			}
-			String customerData[] = new String[numberOfLines]; // create a new
+			String[] customerData = new String[numberOfLines]; // create a new
 																// array string
 																// to store all
 																// customers
 																// separated
+			//@LUIS Syntax TYPE[] NAME = OBJECT
+			// TODO reset file object and loop directly instead of splitting and
+			// Modifying original content with a -
 			customerData = fileContent.toString().split("-"); // splits the
 																// StringBuffer
 																// every time it
-																// fids an "-"
+																// finds an "-"
 																// to store
 																// every
 																// customer in a
 																// position of
 																// the array
 			this.groupOfCustomers = new Customer[numberOfLines];
-			System.out.println(oneCustomerToWrite);
-			for (int i = 0; i < numberOfLines; i++) {
-				groupOfCustomers[i] = new Customer("0", "0", 0); // initialize
-																	// all
-																	// elements
-																	// to avoid
-																	// nullpointerexception
-				groupOfCustomers[i].importText(customerData[i]); // import the
-																	// text with
-																	// the
-																	// required
-																	// format
-																	// for every
-																	// customer
+			// @LUIS - code not needed for import ... 
+			// System.out.println(oneCustomerToWrite);
+			for (int i = 0; i <= (groupOfCustomers.length-1); i++) { //@LUIS index of arrays are starting with 0 and ending with length-1
+				/*
+				 * LUIS OLD CODE groupOfCustomers[i] = new Customer("0", "0",
+				 * 0); // initialize // all // elements // to avoid //
+				 * nullpointerexception
+				 * 
+				 * groupOfCustomers[i].importText(customerData[i]); // import
+				 * the // text with // the // required // format // for every //
+				 * customer
+				 */
+				// NEW CODE with easy constructor
+				try {
+					groupOfCustomers[i] = new Customer(customerData[i]);
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out
+							.println("WARNING, customer was not successfully imported, there might be corrupted data");
+				}
 			}
 
-			// TODO add customer into local array
-
-			// TODO increment the number of customers acordingly
 			// 3. CLOSE file
 			reader.close();
 
@@ -134,6 +149,13 @@ public class DataFile {
 
 	public DataFile(Customer[] customers) {
 		this.groupOfCustomers = customers;
+	}
+	
+	/**
+	 * Another constructor to avoid duplicated passing of the Customer to export and dynamically use the class
+	 */
+	public DataFile() {
+		this.groupOfCustomers = null;
 	}
 
 	public Integer getNumberOfLines() {

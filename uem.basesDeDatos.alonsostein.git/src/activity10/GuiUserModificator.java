@@ -236,6 +236,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// if the source is the button "next"
 		String sourceName = e.getActionCommand();
+		System.out.println("The following button was pressed: "+ sourceName); //TODO DEBUG
 		if (sourceName.contains("Save")) {
 			this.onSave(e);
 		} else if (e.getActionCommand() == "Change ID") {
@@ -261,6 +262,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	 * @author Luis
 	 */
 	public void onSave(ActionEvent ae) {
+		
 		boolean success = true;
 		success = success && this.customer.setName(textFieldName.getText());
 		// ID should not be editable
@@ -279,6 +281,10 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 			if (this.parent.saveCustomer(this.customer)) {
 				this.parent.setVisible(true);
 				this.setVisible(false);
+				System.out.println("onSave of User modificator visibiility changes applied");
+			}
+			else { //if there is a problem saving the user
+				System.out.println("Something went wrong in PBES when saving the user");
 			}
 		} else {
 			error();
@@ -286,6 +292,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	}
 
 	public void onImportCustomer(ActionEvent ae) {
+		/* @LUIS falty code not needed!
 		Customer[] customerToImport = new Customer[this.customer.getId()]; // set
 																			// the
 																			// number
@@ -298,11 +305,18 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 																			// wish
 																			// to
 																			// import
-		DataFile f = new DataFile(customerToImport);
-		customerToImport = f.importCustomer();
-		this.customer = customerToImport[this.customer.getId()];
+																			 */
+		DataFile f = new DataFile();
+		this.customer = f.importCustomer()[0];
+		//@LUIS code not needed // this.customer = customerToImport[this.customer.getId()];
+		if (this.parent.addCustomer(this.customer)){
 		this.setUserModificator(this.customer); // set the modificator to the
 												// customer required
+		}
+		else {
+			System.out.println("The imported user can not be saved into the current database");
+			//TODO offer alternative ID if this is the problem
+		}
 	}
 
 	public void onExportCustomer(ActionEvent ae) {
@@ -375,6 +389,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 
 	// Set a window to show there is an error in the imput information
 	public void error() {
+		System.out.println("WARNING, saving failed;");//TODO debug
 		JFrame frameError = new JFrame("Error");
 		JLabel labelError = new JLabel(
 				"ERROR: Please check that the information is correct");

@@ -36,18 +36,24 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	/**
 	 * Constructor for a new Custoemr object based on an import from Text
 	 * 
-	 * @param a String representing a fully qualified Customer for Text import
+	 * @param a
+	 *            String representing a fully qualified Customer for Text import
 	 * @author benste
-	 * @throws Exception - error when Customer can not be imported
+	 * @throws Exception
+	 *             - error when Customer can not be imported
 	 */
-	public Customer(String fullyQualifiedExportedCustomerString) throws Exception {
-		super(fullyQualifiedExportedCustomerString); //run parent constructor
-		boolean success = this.importText(fullyQualifiedExportedCustomerString); //import from text
-		if (!(success)){
-			throw new Exception("your customer string for import has a problem");
+	public Customer(String fullyQualifiedExportedCustomerString)
+			throws Exception {
+		super(fullyQualifiedExportedCustomerString); // run parent constructor
+		boolean success = this.importText(fullyQualifiedExportedCustomerString); // import
+																					// from
+																					// text
+		if (!(success)) {
+			System.out
+					.println("Import returned false - check string import function");
 		}
 	}
-	
+
 	/**
 	 * Additional payment functionality modifies the customers balance by the
 	 * ammount paid
@@ -161,7 +167,11 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 */
 	@Override
 	public boolean setAirtimeMinutes(Integer airtimeMinutes) {
-		this.airtimeMinutes += airtimeMinutes;
+		if (this.airtimeMinutes != null) {//needed for importing customers from 0
+			this.airtimeMinutes += airtimeMinutes;
+		} else {
+			this.airtimeMinutes = airtimeMinutes; 
+		}
 		return true;
 	}
 
@@ -230,9 +240,10 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	public boolean importText(String savedCustomer) {
 		boolean success = true;
 		System.out
-				.println("Import line for this cusotmer is: " + savedCustomer); //TODO DEBUG
+				.println("Import line for this cusotmer is: " + savedCustomer); // TODO
+																				// DEBUG
 
-		String[] parts = savedCustomer.split(","); //split by delimiter
+		String[] parts = savedCustomer.split(","); // split by delimiter
 
 		if (parts.length != Customer.IMPLEMENTEDARGS) {
 			System.out.println("WARNING - wrong number of items: "
@@ -252,15 +263,14 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 																			// only
 			success = success && this.setId(Integer.parseInt(idText));
 			success = success && this.setName(parts[1]);
-			if (!(this.setCellPhoneNumber(parts[2])))
-			{
+			if (!(this.setCellPhoneNumber(parts[2]))) {
 				success = false;
 			}
-			if (!(this.setLandlinePhoneNumber(parts[3])))
-			{
+			if (!(this.setLandlinePhoneNumber(parts[3]))) {
 				success = false;
 			}
-			success = success && this.setAirtimeMinutes(Integer.parseInt(parts[4]));
+			success = success
+					&& this.setAirtimeMinutes(Integer.parseInt(parts[4]));
 			success = success && this.setRate(Integer.parseInt(parts[5]));
 			this.balance = Integer.parseInt(parts[6]);
 		}
@@ -268,8 +278,8 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	}
 
 	/**
-	 * Function which export an existing customer object with a
-	 * String formated the following way:
+	 * Function which export an existing customer object with a String formated
+	 * the following way:
 	 * 
 	 * @return {@literal <}
 	 *         FieldId>,FieldName,FieldCell,FieldLand,FieldAir,FieldRate,

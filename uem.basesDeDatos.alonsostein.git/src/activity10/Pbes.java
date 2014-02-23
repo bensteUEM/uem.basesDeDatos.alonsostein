@@ -27,7 +27,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	private JTextField txtMoney;
 	private Integer customerCount;
 	private Customer[] customers;
-	private Customer[] customerToImport;
+	/* private Customer[] customerToImport; //@LUIS - not needed */
 	final Color UEMCOLOR = new Color(143, 27, 39);
 
 	/**
@@ -134,13 +134,13 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		btnCalcRev.setForeground(Color.WHITE);
 
 		// Import customer from text
-		JButton btnCustFromText = new JButton("Get customer from text");
+		JButton btnCustFromText = new JButton("Import customers from text");
 		btnCustFromText.addActionListener(this);
 		btnCustFromText.setBackground(UEMCOLOR);
 		btnCustFromText.setForeground(Color.WHITE);
 
 		// Export customer to text
-		JButton btnCustToText = new JButton("Save customers to text");
+		JButton btnCustToText = new JButton("Export customers to text");
 		btnCustToText.addActionListener(this);
 		btnCustToText.setBackground(UEMCOLOR);
 		btnCustToText.setForeground(Color.WHITE);
@@ -234,14 +234,14 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			this.onRevenue(ae);
 		}
 		// Conditions for Revenue Button
-		else if (sourceName.contains("Get customer")) { // function that
+		else if (sourceName.contains("Import customers from text")) { // function that
 														// shows the
 														// company
 														// revenue
 			this.onImportText(ae);
 		}
 		// Conditions for Revenue Button
-		else if (sourceName.contains("Save customer")) { // function that
+		else if (sourceName.contains("Export customers from text")) { // function that
 															// shows the
 															// company
 															// revenue
@@ -351,18 +351,20 @@ public class Pbes extends PbesAbstract implements ActionListener {
 				+ " € not taking into accounts Cents");
 	}
 
-	// TODO set conditions to import text
+	/**
+	 * Import all customers using the default file location of the DataFile
+	 */
 	public void onImportText(ActionEvent ae) {
-		Integer revenue = this.getCompanyRevenue();
-		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
-				+ " € not taking into accounts Cents");
+		DataFile export = new DataFile(); //create a new file without a customer object
+		this.customers = export.importCustomer();
 	}
 
-	// TODO set conditions to export text
+	/**
+	 * Export all customers using the default file location of the DataFile
+	 */
 	public void onExportText(ActionEvent ae) {
-		Integer revenue = this.getCompanyRevenue();
-		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
-				+ " € not taking into accounts Cents");
+		DataFile export = new DataFile(); //create a new file without a customer object
+		export.exportCustomer(this.customers); //export the current set of customers
 	}
 
 	
