@@ -241,7 +241,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			this.onImportText(ae);
 		}
 		// Conditions for Revenue Button
-		else if (sourceName.contains("Export customers from text")) { // function that
+		else if (sourceName.contains("Export customers to text")) { // function that
 															// shows the
 															// company
 															// revenue

@@ -307,6 +307,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 																			// import
 																			 */
 		DataFile f = new DataFile();
+		this.parent.deleteCustomer(this.customer.getId()); //DELETE template user
 		this.customer = f.importCustomer()[0];
 		//@LUIS code not needed // this.customer = customerToImport[this.customer.getId()];
 		if (this.parent.addCustomer(this.customer)){
