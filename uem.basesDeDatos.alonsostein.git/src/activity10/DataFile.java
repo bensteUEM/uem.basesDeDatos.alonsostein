@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class DataFile {
 	private Customer[] groupOfCustomers;
@@ -37,7 +39,13 @@ public class DataFile {
 	 */
 	public void exportCustomer(Customer[] customers) { // Export customer/s to
 														// file
+		 //SORTING Addon - ref comparator to empty customer object
+		Arrays.sort(customers,new Customer("","",-1));
+		
 		this.groupOfCustomers = customers;
+		//optional Addon - sort customers by ID
+		
+		
 		Integer maxCustomers = customers.length;
 
 		// 1. OPEN

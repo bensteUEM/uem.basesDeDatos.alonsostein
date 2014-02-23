@@ -77,9 +77,26 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	// Comparators for sorting by different attributes
 	@Override
 	/**
-	 * compare by Balance
+	 * compare by selected method
 	 */
 	public int compare(Customer arg0, Customer arg1) {
+		// Choose here the default operation for comparing
+		if ((arg0 != null) && (arg1 != null)) {
+			return this.compareId(arg0, arg1);
+		} else if ((arg0 != null)) {// existing object 1 is smaller
+			return -1;
+		} else if ((arg1 != null)) {// existing object 2 is smaller
+			return 1;
+		} else // no object exist - they're even
+		{
+			return 0;
+		}
+	}
+
+	/**
+	 * compare by Balance
+	 */
+	public int compareBalance(Customer arg0, Customer arg1) {
 		return arg0.getBalance().compareTo(arg1.getBalance());
 	}
 
@@ -95,6 +112,13 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 */
 	public int compareRate(Customer arg0, Customer arg1) {
 		return arg0.getRate().compareTo(arg1.getRate());
+	}
+
+	/**
+	 * compare by ID
+	 */
+	public int compareId(Customer arg0, Customer arg1) {
+		return arg0.getId().compareTo(arg1.getId());
 	}
 
 	// set and get Methods for attributes
@@ -167,10 +191,11 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 */
 	@Override
 	public boolean setAirtimeMinutes(Integer airtimeMinutes) {
-		if (this.airtimeMinutes != null) {//needed for importing customers from 0
+		if (this.airtimeMinutes != null) {// needed for importing customers from
+											// 0
 			this.airtimeMinutes += airtimeMinutes;
 		} else {
-			this.airtimeMinutes = airtimeMinutes; 
+			this.airtimeMinutes = airtimeMinutes;
 		}
 		return true;
 	}
