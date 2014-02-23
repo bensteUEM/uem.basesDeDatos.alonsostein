@@ -19,6 +19,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 * @param newName
 	 * @param newCellPhoneNumber
 	 * @param newId
+	 * @author benste
 	 */
 	public Customer(String newName, String newCellPhoneNumber, Integer newId) {
 		super(newName, newCellPhoneNumber, newId);
@@ -32,6 +33,21 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		this.rate = 0; // per minute in Cents
 	}
 
+	/**
+	 * Constructor for a new Custoemr object based on an import from Text
+	 * 
+	 * @param a String representing a fully qualified Customer for Text import
+	 * @author benste
+	 * @throws Exception - error when Customer can not be imported
+	 */
+	public Customer(String fullyQualifiedExportedCustomerString) throws Exception {
+		super(fullyQualifiedExportedCustomerString); //run parent constructor
+		boolean success = this.importText(fullyQualifiedExportedCustomerString); //import from text
+		if (!(success)){
+			throw new Exception("your customer string for import has a problem");
+		}
+	}
+	
 	/**
 	 * Additional payment functionality modifies the customers balance by the
 	 * ammount paid

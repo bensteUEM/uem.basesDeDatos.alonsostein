@@ -24,6 +24,9 @@ public abstract class CustomerAbstract {
 	public CustomerAbstract(String newName, String newCellPhoneNumber,
 			Integer newId) {
 	}
+	
+	public CustomerAbstract(String fullyQualifiedExportedCustomerString) {
+	}
 
 	/**
 	 * @return the landlinePhoneNumer
