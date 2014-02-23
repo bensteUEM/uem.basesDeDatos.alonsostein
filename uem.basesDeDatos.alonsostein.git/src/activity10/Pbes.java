@@ -88,17 +88,6 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		btnSearch.setBackground(Color.DARK_GRAY);
 		btnSearch.setForeground(Color.WHITE);
 
-		// User Imput Button by ID
-		JButton btnImput = new JButton("Import customer from text"); // creation
-																	// of new
-		// Button and
-		// its
-		// appearance
-		btnImput.setMnemonic('s');
-		btnImput.addActionListener(this);
-		btnImput.setBackground(Color.DARK_GRAY);
-		btnImput.setForeground(Color.WHITE);
-
 		// Pay Button by ID
 		JButton btnPay = new JButton("Pay by User ID");
 		btnPay.setSize(40, 40);
@@ -164,7 +153,6 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		pnlSearch.setLayout(new BorderLayout());
 		add(pnlSearch);
 		pnlSearch.add(btnSearch, BorderLayout.WEST);
-		pnlSearch.add(btnImput, BorderLayout.EAST);
 		pnlSearch.add(txtSearch, BorderLayout.CENTER);
 
 		// Pay Panel
@@ -258,10 +246,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 															// company
 															// revenue
 			this.onExportText(ae);
-		} else if (sourceName.contains("Import customer from text")) { // function that imports a
-													// customer from text
-			this.onImportCustomer(ae);
-		}
+		} 
 	}
 
 	/**
@@ -380,27 +365,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 				+ " € not taking into accounts Cents");
 	}
 
-	public void onImportCustomer(ActionEvent ae) {
-		Integer searchId = Integer.parseInt(this.txtSearch.getText());
-		GuiUserModificator editor=null;
-		customerToImport = new Customer[1];
-		DataFile f = new DataFile(this.customerToImport);
-		// customerToImport[0] = this.customer;
-		customerToImport = f.importCustomer();
-
-		
-		if (this.getCustomer(searchId) != null) {
-			editor = new GuiUserModificator(this,
-					customerToImport[0]);
-		} else // user not found
-		{
-			JOptionPane.showMessageDialog(this, "User with ID: " + searchId
-					+ " does not exist yet"); // message when customer does
-												// not exist
-		}
-
-	}
-
+	
 	@Override
 	public boolean addCustomer(CustomerAbstract customer) {
 		Integer position = 0;

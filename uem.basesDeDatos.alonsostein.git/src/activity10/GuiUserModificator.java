@@ -34,9 +34,6 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	private Customer customer;
 	private Pbes parent;
 
-	private Customer[] customerToExport;
-	private Customer[] customerToImport;
-
 	/**
 	 * Create the frame.
 	 */
@@ -44,6 +41,101 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		this.parent = sourceParent;
 		this.parent.setVisible(false);
 		this.setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 335);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(new GridLayout(17, 2, 0, 0));
+
+		JLabel lblCustomerInformation = new JLabel("CUSTOMER INFORMATION");
+		lblCustomerInformation.setHorizontalAlignment(SwingConstants.CENTER);
+		contentPane.add(lblCustomerInformation);
+
+		JLabel lblInfo = new JLabel("");
+		contentPane.add(lblInfo);
+
+		JLabel lblName = new JLabel("Name");
+		contentPane.add(lblName);
+
+		textFieldName = new JTextField(currentCustomer.getName());
+		contentPane.add(textFieldName);
+		textFieldName.setColumns(10);
+
+		JLabel lblId = new JLabel("ID number");
+		contentPane.add(lblId);
+
+		textFieldId = new JTextField(Integer.toString(currentCustomer.getId()));
+		textFieldId.setEditable(false); // disable editing for this field
+										// because it's the identifier
+		contentPane.add(textFieldId);
+		textFieldId.setColumns(10);
+
+		JLabel lblCell = new JLabel("Cellphone number");
+		contentPane.add(lblCell);
+
+		textFieldCell = new JTextField(currentCustomer.getCellPhoneNumber());
+		contentPane.add(textFieldCell);
+		textFieldCell.setColumns(10);
+
+		JLabel lblLand = new JLabel("Landline phone number");
+		contentPane.add(lblLand);
+
+		textFieldLand = new JTextField(currentCustomer.getLandlinePhoneNumer());
+		contentPane.add(textFieldLand);
+		textFieldLand.setColumns(10);
+
+		JLabel lblAirtime = new JLabel("Airtime");
+		contentPane.add(lblAirtime);
+
+		textFieldAir = new JTextField(Integer.toString(currentCustomer
+				.getAirtimeMinutes()));
+		contentPane.add(textFieldAir);
+		textFieldAir.setColumns(10);
+
+		JLabel lblRate = new JLabel("Rate");
+		contentPane.add(lblRate);
+
+		textFieldRate = new JTextField(Integer.toString(currentCustomer
+				.getRate()));
+		contentPane.add(textFieldRate);
+		textFieldRate.setColumns(10);
+
+		JLabel lblBalance = new JLabel("Balance");
+		contentPane.add(lblBalance);
+
+		// Balance field
+		textFieldBalance = new JTextField(Integer.toString(currentCustomer
+				.getBalance()));
+		textFieldBalance.setEditable(false);
+		textFieldBalance.setColumns(10);
+		contentPane.add(textFieldBalance);
+
+		btnChangeId = new JButton("Change ID");
+		contentPane.add(btnChangeId);
+		btnChangeId.addActionListener(this);
+		// disable button until 100% works - currently issue after 2nd change -
+		// most likely insert / delete
+		btnChangeId.setEnabled(true);
+
+		btnSave = new JButton("Save");
+		contentPane.add(btnSave);
+
+		btnImport = new JButton("Import customer from file");
+		contentPane.add(btnImport);
+		btnImport.addActionListener(this);
+
+		btnExport = new JButton("Export customer to file");
+		contentPane.add(btnExport);
+		btnExport.addActionListener(this);
+
+		this.customer = currentCustomer;
+
+		btnSave.addActionListener(this);
+		this.setVisible(true);
+	}
+
+	public void setUserModificator(Customer currentCustomer) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 335);
 		contentPane = new JPanel();
@@ -194,46 +286,37 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	}
 
 	public void onImportCustomer(ActionEvent ae) {
-		GuiUserModificator editor;
-		customerToImport = new Customer[1]; 		
-		DataFile f = new DataFile(this.customerToImport);
-		//customerToImport[0] = this.customer;
+		Customer[] customerToImport = new Customer[this.customer.getId()]; // set
+																			// the
+																			// number
+																			// of
+																			// elements
+																			// to
+																			// the
+																			// customer
+																			// you
+																			// wish
+																			// to
+																			// import
+		DataFile f = new DataFile(customerToImport);
 		customerToImport = f.importCustomer();
-		
-		Pbes pbesParent = new Pbes(f.getNumberOfLines());
-		//GuiUserModificator editor = null;
-		this.setVisible(false);
-		editor = new GuiUserModificator(pbesParent, customerToImport[0]);
-
+		this.customer = customerToImport[this.customer.getId()];
+		this.setUserModificator(this.customer); // set the modificator to the
+												// customer required
 	}
 
 	public void onExportCustomer(ActionEvent ae) {
-		boolean success = true;
-		success = success && this.customer.setName(textFieldName.getText());
-		// ID should not be editable
-		success = success
-				&& this.customer.setCellPhoneNumber(textFieldCell.getText());
-		success = success
-				&& this.customer
-						.setLandlinePhoneNumber(textFieldLand.getText());
-		success = success
-				&& this.customer.setAirtimeMinutes(Integer
-						.parseInt(textFieldAir.getText()));
-		success = success
-				&& this.customer.setRate(Integer.parseInt(textFieldRate
-						.getText()));
-		if (success) {
-			customerToExport = new Customer[1]; // as in this case we want to
-												// add only one customer, it
-												// creates an array of 1 element
-			customerToExport[0] = this.customer;	// sets the position 0 of the array to the current customer
-			DataFile f = new DataFile(customerToExport);
-			f.exportCustomer(customerToExport);
-			this.parent.setVisible(true);
-			this.setVisible(false);
-		} else {
-			error();
-		}
+		this.onSave(ae);
+		Customer[] customerToExport = new Customer[1]; // as in this case we
+														// want to
+		// add only one customer, it
+		// creates an array of 1 element
+		customerToExport[0] = this.customer; // sets the position 0 of the array
+												// to the current customer
+		DataFile f = new DataFile(customerToExport);
+		f.exportCustomer(customerToExport);
+		this.parent.setVisible(true);
+		this.setVisible(false);
 	}
 
 	/**

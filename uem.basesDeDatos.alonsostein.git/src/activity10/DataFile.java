@@ -120,6 +120,7 @@ public class DataFile {
 	public DataFile(Customer[] customers) {
 		this.groupOfCustomers = customers;
 	}
+	
 
 	public Integer getNumberOfLines() {
 		return numberOfLines;
