@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -64,6 +65,15 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		// Frame and GUI Setup
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // constant that it
 														// exits
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			public void windowClosing(WindowEvent winEvt) {
+				// TODO this can be used to export before closing
+				System.out.println("Safe Shutdown Function Excecuted");// TODO
+																		// DEBUG
+				System.exit(0);
+			} // end embedded function
+		});//end of window listener
+
 		setBounds(100, 100, 450, 500);
 		contentPane = new JPanel(); // creation of content Pane
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); // set Borders
@@ -234,19 +244,21 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			this.onRevenue(ae);
 		}
 		// Conditions for Revenue Button
-		else if (sourceName.contains("Import customers from text")) { // function that
-														// shows the
-														// company
-														// revenue
+		else if (sourceName.contains("Import customers from text")) { // function
+																		// that
+			// shows the
+			// company
+			// revenue
 			this.onImportText(ae);
 		}
 		// Conditions for Revenue Button
-		else if (sourceName.contains("Export customers to text")) { // function that
-															// shows the
-															// company
-															// revenue
+		else if (sourceName.contains("Export customers to text")) { // function
+																	// that
+			// shows the
+			// company
+			// revenue
 			this.onExportText(ae);
-		} 
+		}
 	}
 
 	/**
@@ -355,7 +367,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * Import all customers using the default file location of the DataFile
 	 */
 	public void onImportText(ActionEvent ae) {
-		DataFile export = new DataFile(); //create a new file without a customer object
+		DataFile export = new DataFile(); // create a new file without a
+											// customer object
 		this.customers = export.importCustomer();
 	}
 
@@ -363,11 +376,12 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * Export all customers using the default file location of the DataFile
 	 */
 	public void onExportText(ActionEvent ae) {
-		DataFile export = new DataFile(); //create a new file without a customer object
-		export.exportCustomer(this.customers); //export the current set of customers
+		DataFile export = new DataFile(); // create a new file without a
+											// customer object
+		export.exportCustomer(this.customers); // export the current set of
+												// customers
 	}
 
-	
 	@Override
 	public boolean addCustomer(CustomerAbstract customer) {
 		Integer position = 0;
