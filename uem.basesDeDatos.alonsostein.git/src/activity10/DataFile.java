@@ -62,7 +62,9 @@ public class DataFile {
 	// TODO find out how to do the read file
 	public Customer[] importCustomer() {
 		// 1. OPEN file
-		String fileName = "I:\\workspace\\data.txt";
+		File path = new File("." + File.separator + File.separator + "src"
+				+ File.separator +  "activity10" + File.separator + "data.txt");
+		String fileName = path.getPath();
 		// TODO set array length to number of rows in file
 
 		StringBuffer fileContent = new StringBuffer();
