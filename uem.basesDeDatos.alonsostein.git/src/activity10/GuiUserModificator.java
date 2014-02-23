@@ -241,7 +241,12 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		} else if (e.getActionCommand() == "Change ID") {
 			this.onChangeId(e);
 		} else if (sourceName.contains("Import")) {
-			this.onImportCustomer(e);
+			try {
+				this.onImportCustomer(e);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		} else if (sourceName.contains("Export")) {
 			this.onExportCustomer(e);
 		}
@@ -285,7 +290,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		}
 	}
 
-	public void onImportCustomer(ActionEvent ae) {
+	public void onImportCustomer(ActionEvent ae) throws Exception {
 		Customer[] customerToImport = new Customer[this.customer.getId()]; // set
 																			// the
 																			// number
@@ -299,7 +304,12 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 																			// to
 																			// import
 		DataFile f = new DataFile(customerToImport);
-		customerToImport = f.importCustomer();
+		try {
+			customerToImport = f.importCustomer();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.customer = customerToImport[this.customer.getId()];
 		this.setUserModificator(this.customer); // set the modificator to the
 												// customer required

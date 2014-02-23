@@ -60,7 +60,7 @@ public class DataFile {
 	}
 
 	// TODO find out how to do the read file
-	public Customer[] importCustomer() {
+	public Customer[] importCustomer() throws Exception {
 		// 1. OPEN file
 		File path = new File("." + File.separator + File.separator + "src"
 				+ File.separator +  "activity10" + File.separator + "data.txt");
@@ -74,48 +74,19 @@ public class DataFile {
 			BufferedReader reader = new BufferedReader(new FileReader(fileName));
 
 			String line;
+			String customerData[] = new String[50];
 
 			while ((line = reader.readLine()) != null) {
-				// groupOfCustomers[numberOfLines].importText(line); // reads
-				// the
-				// actual
-				// customer
+				
 				numberOfLines++; // and increments the number of customers the
 									// file has till it gets to the end of the
-				// file
-				fileContent.append(line).append("-"); // add a symbol to split
-														// customers from that
-														// symbol
+				customerData[numberOfLines-1] = line;
 			}
-			String customerData[] = new String[numberOfLines]; // create a new
-																// array string
-																// to store all
-																// customers
-																// separated
-			customerData = fileContent.toString().split("-"); // splits the
-																// StringBuffer
-																// every time it
-																// fids an "-"
-																// to store
-																// every
-																// customer in a
-																// position of
-																// the array
+			
 			this.groupOfCustomers = new Customer[numberOfLines];
-			System.out.println(oneCustomerToWrite);
 			for (int i = 0; i < numberOfLines; i++) {
-				groupOfCustomers[i] = new Customer("0", "0", 0); // initialize
-																	// all
-																	// elements
-																	// to avoid
-																	// nullpointerexception
-				groupOfCustomers[i].importText(customerData[i]); // import the
-																	// text with
-																	// the
-																	// required
-																	// format
-																	// for every
-																	// customer
+				
+				groupOfCustomers[i] = new Customer(customerData[i]);
 			}
 
 			// TODO add customer into local array
