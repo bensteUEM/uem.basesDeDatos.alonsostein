@@ -30,7 +30,10 @@ public class DataFile {
 
 		// 1. OPEN
 		// String fileName = "customerData" + File.separator + "data.txt";
-		String fileName = "I:\\workspace\\data.txt";
+		// String fileName = "I:\\workspace\\data.txt";
+		File path = new File("." + File.separator + File.separator + "src"
+				+ File.separator +  "activity10" + File.separator + "data.txt");
+		String fileName = path.getPath();
 		try {
 			// 2. WRITE
 			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
@@ -99,8 +102,18 @@ public class DataFile {
 			this.groupOfCustomers = new Customer[numberOfLines];
 			System.out.println(oneCustomerToWrite);
 			for (int i = 0; i < numberOfLines; i++) {
-				groupOfCustomers[i]=new Customer("0","0",0);	// initialize all elements to avoid nullpointerexception
-				groupOfCustomers[i].importText(customerData[i]);	// import the text with the required format for every customer
+				groupOfCustomers[i] = new Customer("0", "0", 0); // initialize
+																	// all
+																	// elements
+																	// to avoid
+																	// nullpointerexception
+				groupOfCustomers[i].importText(customerData[i]); // import the
+																	// text with
+																	// the
+																	// required
+																	// format
+																	// for every
+																	// customer
 			}
 
 			// TODO add customer into local array
@@ -120,7 +133,6 @@ public class DataFile {
 	public DataFile(Customer[] customers) {
 		this.groupOfCustomers = customers;
 	}
-	
 
 	public Integer getNumberOfLines() {
 		return numberOfLines;
