@@ -74,7 +74,7 @@ public class DataFile {
 			BufferedReader reader = new BufferedReader(new FileReader(fileName));
 
 			String line;
-			String customerData[] = new String[50];
+			String customerData[] = new String[50];	// create an array of strings to store the customer data. It will store 50 data at max
 
 			while ((line = reader.readLine()) != null) {
 				
@@ -84,8 +84,8 @@ public class DataFile {
 			}
 			
 			this.groupOfCustomers = new Customer[numberOfLines];
-			for (int i = 0; i < numberOfLines; i++) {
-				
+			
+			for (int i = 0; i < numberOfLines; i++) {				
 				groupOfCustomers[i] = new Customer(customerData[i]);
 			}
 

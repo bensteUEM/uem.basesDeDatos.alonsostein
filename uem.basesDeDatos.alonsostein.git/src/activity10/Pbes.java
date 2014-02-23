@@ -14,6 +14,8 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -134,13 +136,13 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		btnCalcRev.setForeground(Color.WHITE);
 
 		// Import customer from text
-		JButton btnCustFromText = new JButton("Get customer from text");
+		JButton btnCustFromText = new JButton("Import customers");
 		btnCustFromText.addActionListener(this);
 		btnCustFromText.setBackground(UEMCOLOR);
 		btnCustFromText.setForeground(Color.WHITE);
 
 		// Export customer to text
-		JButton btnCustToText = new JButton("Save customers to text");
+		JButton btnCustToText = new JButton("Export customers");
 		btnCustToText.addActionListener(this);
 		btnCustToText.setBackground(UEMCOLOR);
 		btnCustToText.setForeground(Color.WHITE);
@@ -246,7 +248,25 @@ public class Pbes extends PbesAbstract implements ActionListener {
 															// company
 															// revenue
 			this.onExportText(ae);
-		} 
+		} else if (sourceName.contains("Export customers")) { // function that
+																// imports
+																// customers
+																// from text
+																// file
+
+			this.onExportGroupOfCustomers(ae);
+		}
+
+		else if (sourceName.contains("Import customers")) {
+
+			try {
+				this.onImportGroupOfCustomers(ae);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 	/**
@@ -365,7 +385,20 @@ public class Pbes extends PbesAbstract implements ActionListener {
 				+ " € not taking into accounts Cents");
 	}
 
-	
+	public void onImportGroupOfCustomers(ActionEvent ae) throws Exception {
+		
+	}
+
+	public void onExportGroupOfCustomers(ActionEvent ae) {
+		ArrayList<Customer> results = this
+				.getCustomersAboveRate(Integer.MIN_VALUE);
+
+		Customer[] customerToExport = results.toArray(new Customer[0]);
+		DataFile f = new DataFile(customerToExport);
+		f.exportCustomer(customerToExport);
+		this.setVisible(false);
+	}
+
 	@Override
 	public boolean addCustomer(CustomerAbstract customer) {
 		Integer position = 0;
