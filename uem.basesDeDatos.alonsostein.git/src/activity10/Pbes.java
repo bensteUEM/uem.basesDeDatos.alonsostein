@@ -15,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -37,21 +39,20 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public static void main(String[] args) { // Main Method that launches the
 												// application
 		Integer maxCustomers = 50;
-		/* Starting from Activity 10 max number is fixed to 50
-		try {
-			GuiFilter a = new GuiFilter(0);
-
-			while (maxCustomers == 0) {
-				maxCustomers = a.getNumber();
-				Thread.sleep(200); // waits a time in miliseconds
-
-			}
-			Pbes mainFrame = new Pbes(maxCustomers);
-			mainFrame.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		*/
+		/*
+		 * Starting from Activity 10 max number is fixed to 50 try { GuiFilter a
+		 * = new GuiFilter(0);
+		 * 
+		 * while (maxCustomers == 0) { maxCustomers = a.getNumber();
+		 * Thread.sleep(200); // waits a time in miliseconds
+		 * 
+		 * }
+		 */
+		Pbes mainFrame = new Pbes(maxCustomers);
+		mainFrame.setVisible(true);
+		/*
+		 * } catch (Exception e) { e.printStackTrace(); }
+		 */
 	}
 
 	/**
@@ -74,7 +75,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 																		// DEBUG
 				System.exit(0);
 			} // end embedded function
-		});//end of window listener
+		});// end of window listener
 
 		setBounds(100, 100, 450, 500);
 		contentPane = new JPanel(); // creation of content Pane
@@ -146,13 +147,13 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		btnCalcRev.setForeground(Color.WHITE);
 
 		// Import customer from text
-		JButton btnCustFromText = new JButton("Import customers from text");
+		JButton btnCustFromText = new JButton("Import customers");
 		btnCustFromText.addActionListener(this);
 		btnCustFromText.setBackground(UEMCOLOR);
 		btnCustFromText.setForeground(Color.WHITE);
 
 		// Export customer to text
-		JButton btnCustToText = new JButton("Export customers to text");
+		JButton btnCustToText = new JButton("Export customers");
 		btnCustToText.addActionListener(this);
 		btnCustToText.setBackground(UEMCOLOR);
 		btnCustToText.setForeground(Color.WHITE);
@@ -246,16 +247,16 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			this.onRevenue(ae);
 		}
 		// Conditions for Revenue Button
-		else if (sourceName.contains("Import customers from text")) { // function
-																		// that
+		else if (sourceName.contains("Import customers")) { // function
+															// that
 			// shows the
 			// company
 			// revenue
 			this.onImportText(ae);
 		}
 		// Conditions for Revenue Button
-		else if (sourceName.contains("Export customers to text")) { // function
-																	// that
+		else if (sourceName.contains("Export customers")) { // function
+															// that
 			// shows the
 			// company
 			// revenue
@@ -372,18 +373,17 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		DataFile export = new DataFile(); // create a new file without a
 											// customer object
 		Customer[] importCustomers = export.importCustomer();
-		if (importCustomers.length <= 50)
-		{
+		if (importCustomers.length <= 50) {
 			int counter = 0;
 			this.customers = new Customer[50];
-			for (Customer oneCustomer : importCustomers){
+			for (Customer oneCustomer : importCustomers) {
 				this.customers[counter] = oneCustomer;
 				counter++;
 			}
+		} else {
+			System.out.println("Warning trying to import too many customers");
 		}
-		else
-		{System.out.println("Warning trying to import too many customers");}
-		}
+	}
 
 	/**
 	 * Export all customers using the default file location of the DataFile

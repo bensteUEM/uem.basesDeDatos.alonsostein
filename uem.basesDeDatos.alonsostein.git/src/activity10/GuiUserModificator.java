@@ -242,7 +242,12 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		} else if (e.getActionCommand() == "Change ID") {
 			this.onChangeId(e);
 		} else if (sourceName.contains("Import")) {
-			this.onImportCustomer(e);
+			try {
+				this.onImportCustomer(e);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		} else if (sourceName.contains("Export")) {
 			this.onExportCustomer(e);
 		}
@@ -292,20 +297,6 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	}
 
 	public void onImportCustomer(ActionEvent ae) {
-		/* @LUIS falty code not needed!
-		Customer[] customerToImport = new Customer[this.customer.getId()]; // set
-																			// the
-																			// number
-																			// of
-																			// elements
-																			// to
-																			// the
-																			// customer
-																			// you
-																			// wish
-																			// to
-																			// import
-																			 */
 		DataFile f = new DataFile();
 		this.parent.deleteCustomer(this.customer.getId()); //DELETE template user
 		this.customer = f.importCustomer()[0];

@@ -86,7 +86,8 @@ public class DataFile {
 		}
 	}
 
-	public Customer[] importCustomer() {
+	public Customer[] importCustomer(){
+
 		// 1. OPEN file
 		File path = new File("." + File.separator + File.separator + "src"
 				+ File.separator + "activity10" + File.separator
@@ -101,24 +102,21 @@ public class DataFile {
 
 			String line;
 			numberOfLines = 0; // reset number of lines
+			
 			while ((line = reader.readLine()) != null) {
-				// groupOfCustomers[numberOfLines].importText(line); // reads
-				// the
-				// actual
-				// customer
+				
 				numberOfLines++; // and increments the number of customers the
 									// file has till it gets to the end of the
-				// file
-				fileContent.append(line).append("-"); // add a symbol to split
-														// customers from that
-														// symbol
+				fileContent.append(line).append("-");
+				
 			}
 			String[] customerData = new String[numberOfLines]; // create a new
-																// array string
-																// to store all
-																// customers
-																// separated
+			// array string
+			// to store all
+			// customers
+			// separated
 			// @LUIS Syntax TYPE[] NAME = OBJECT
+			this.groupOfCustomers = new Customer[numberOfLines];
 			// TODO reset file object and loop directly instead of splitting and
 			// Modifying original content with a -
 			customerData = fileContent.toString().split("-"); // splits the
@@ -130,7 +128,7 @@ public class DataFile {
 																// customer in a
 																// position of
 																// the array
-			this.groupOfCustomers = new Customer[numberOfLines];
+			
 			// @LUIS - code not needed for import ...
 			// System.out.println(oneCustomerToWrite);
 			for (int i = 0; i <= (groupOfCustomers.length - 1); i++) { // @LUIS
