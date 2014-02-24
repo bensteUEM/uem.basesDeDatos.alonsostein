@@ -15,15 +15,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+/**
+ * Main Class for the activities 8 and 10 Start this program here, it will guide
+ * you through all steps grafically
+ * 
+ * @implements minimal definition from PbesAbstract
+ * @author benste & Luis
+ * 
+ */
 public class Pbes extends PbesAbstract implements ActionListener {
-
+	/* Some Initial Values */
 	private static final long serialVersionUID = 7954557041637449001L;
 	private JPanel contentPane;
 	JTextField txtSearch;
@@ -34,35 +39,37 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	final Color UEMCOLOR = new Color(143, 27, 39);
 
 	/**
-	 * Launch the application.
+	 * Launch the application
+	 * 
+	 * @author Maren
 	 */
 	public static void main(String[] args) { // Main Method that launches the
 												// application
 		Integer maxCustomers = 50;
 		/*
-		 * Starting from Activity 10 max number is fixed to 50 try { GuiFilter a
-		 * = new GuiFilter(0);
-		 * 
-		 * while (maxCustomers == 0) { maxCustomers = a.getNumber();
-		 * Thread.sleep(200); // waits a time in miliseconds
-		 * 
-		 * }
+		 * Starting from Activity 10 max number is fixed to 50 the following
+		 * code is deprecated try { GuiFilter a = new GuiFilter(0); while
+		 * (maxCustomers == 0) { maxCustomers = a.getNumber();
+		 * Thread.sleep(200); // waits a time in miliseconds }
 		 */
-		Pbes mainFrame = new Pbes(maxCustomers);
-		mainFrame.setVisible(true);
+		Pbes mainFrame = new Pbes(maxCustomers); // Create new Gui program
+													// instance
+		mainFrame.setVisible(true); // make Gui visible
 		/*
-		 * } catch (Exception e) { e.printStackTrace(); }
+		 * Also part of the old code ... } catch (Exception e) {
+		 * e.printStackTrace(); }
 		 */
-	}
+	}// end main method
 
 	/**
 	 * Create the frame.
+	 * 
+	 * @author Maren
 	 */
 	public Pbes(Integer numberOfCustomers) { // Constrcutor
-		super(numberOfCustomers);
-
-		customers = new Customer[numberOfCustomers];// initialize empty customer
-													// array
+		super(numberOfCustomers); // super constructor
+		customers = new Customer[numberOfCustomers];
+		// initialize empty customer array with predefined count
 		this.customerCount = 0; // initialize customer count
 
 		// Frame and GUI Setup
@@ -77,31 +84,30 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			} // end embedded function
 		});// end of window listener
 
-		setBounds(100, 100, 450, 500);
+		setBounds(100, 100, 450, 500); // set the bounds of the mainframe
 		contentPane = new JPanel(); // creation of content Pane
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); // set Borders
-		setContentPane(contentPane);
+		setContentPane(contentPane); // set the content pane
 
-		txtSearch = new JTextField(); // Creation fo Tetfield for Input
-		txtSearch.setToolTipText("enter the User ID here");
+		txtSearch = new JTextField(); // Creation of Textfield for Input
+		txtSearch.setToolTipText("enter the User ID here"); // set tooltip
 		txtSearch.setText("0"); // set Text to value of 0
 		txtSearch.setColumns(10); // Clums for Textfield
 
-		txtMoney = new JTextField();
-		txtMoney.setToolTipText("enter amount of Money in Cents");
-		txtMoney.setColumns(10);
+		txtMoney = new JTextField();// Creation of Textfield for Money
+		txtMoney.setToolTipText("enter amount of Money in Cents"); // set
+																	// tooltip
+		txtMoney.setColumns(10); // set width
 
 		// User Search Button by ID
-		JButton btnSearch = new JButton("Search User by ID"); // creation of new
-																// Button and
-																// its
-																// appearance
-		btnSearch.setMnemonic('s');
-		btnSearch.addActionListener(this);
-		btnSearch.setBackground(Color.DARK_GRAY);
-		btnSearch.setForeground(Color.WHITE);
+		JButton btnSearch = new JButton("Search User by ID");
+		// creation of new Button and its appearance
+		btnSearch.setMnemonic('s'); // set key shortcut
+		btnSearch.addActionListener(this); // link action
+		btnSearch.setBackground(Color.DARK_GRAY); // set BGcolor
+		btnSearch.setForeground(Color.WHITE); // set Font color
 
-		// Pay Button by ID
+		// Pay Button by ID - same implementation as Search
 		JButton btnPay = new JButton("Pay by User ID");
 		btnPay.setSize(40, 40);
 		btnPay.setEnabled(false); // Disable additional feature for evaluation
@@ -109,50 +115,50 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		btnPay.setBackground(Color.DARK_GRAY);
 		btnPay.setForeground(Color.WHITE);
 
-		// Button to add a new customer
+		// Button to add a new customer - same implementation as Search
 		JButton btnAddCustomer = new JButton("Add a new Customer");
 		btnAddCustomer.setEnabled(true);
 		btnAddCustomer.addActionListener(this);
 		btnAddCustomer.setBackground(UEMCOLOR);
 		btnAddCustomer.setForeground(Color.WHITE);
 
-		// Show all customer Button
+		// Show all customer Button - same implementation as Search
 		JButton btnAllCustomer = new JButton("Show all Customers");
 		btnAllCustomer.setEnabled(true);
 		btnAllCustomer.addActionListener(this);
 		btnAllCustomer.setBackground(UEMCOLOR);
 		btnAllCustomer.setForeground(Color.WHITE);
 
-		// Button that shows customer revenue
+		// Button that shows customer revenue - same implementation as Search
 		JButton btnCompanyRev = new JButton(
 				"Compute Balances & Show Company Revenue");
 		btnCompanyRev.addActionListener(this);
 		btnCompanyRev.setBackground(UEMCOLOR);
 		btnCompanyRev.setForeground(Color.WHITE);
 
-		// Button CustomerRev
+		// Button CustomersAboveRate - same implementation as Search
 		JButton btnCustomersAboveRate = new JButton("Show Customers Above Rate");
 		btnCustomersAboveRate.addActionListener(this);
 
-		// Button CustomerRev
+		// Button CalcBalance - same implementation as Search
 		JButton btnCalcBalance = new JButton("Calculate Balance");
 		btnCalcBalance.addActionListener(this);
 		btnCalcBalance.setBackground(UEMCOLOR);
 		btnCalcBalance.setForeground(Color.WHITE);
 
-		// Button CustomerRev
+		// Button CalcRev - same implementation as Search
 		JButton btnCalcRev = new JButton("Calculate Revenue");
 		btnCalcRev.addActionListener(this);
 		btnCalcRev.setBackground(UEMCOLOR);
 		btnCalcRev.setForeground(Color.WHITE);
 
-		// Import customer from text
+		// Import customer from text - same implementation as Search
 		JButton btnCustFromText = new JButton("Import customers");
 		btnCustFromText.addActionListener(this);
 		btnCustFromText.setBackground(UEMCOLOR);
 		btnCustFromText.setForeground(Color.WHITE);
 
-		// Export customer to text
+		// Export customer to text - same implementation as Search
 		JButton btnCustToText = new JButton("Export customers");
 		btnCustToText.addActionListener(this);
 		btnCustToText.setBackground(UEMCOLOR);
@@ -187,109 +193,81 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		pnlFunctions.add(btnCalcRev);
 		pnlFunctions.add(btnCustFromText);
 		pnlFunctions.add(btnCustToText);
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent ae) { // ActionList
-		String sourceName = ae.getActionCommand();
-		System.out.println("PBES - performing Action for: " + sourceName); // DEBUG
-																			// -
-																			// show
-																			// corect
-																			// button
-																			// name
-
-		// Ifs even if it's just caps
-		// TODO please SPLIT functions like in GuiUserModificator
-		if (sourceName.contains("Search User by ID")) { // Conditions for the
-														// button search by user
-														// ID
-			this.onSearchId(ae);
-		} else if (sourceName.contains("Add a new Customer")) { // condition to
-																// react on the
-																// add new
-																// customer
-																// button
-			// try to create an empty new customer and add it to our list of
-			// customers
-			this.onAddCustomer(ae);
-		}
-
-		// Conditions for Pay by User ID Button
-		else if (sourceName.contains("Pay by User ID")) {
-			this.onPayByUserId(ae);
-		}
-		// Conditions for Show all Customer Button
-		else if (sourceName.contains("Show all Customers")) {
-			this.onShowCustomer(ae);
-		}
-		// Conditions for show customers rate Button
-		else if (sourceName.contains("Show Customers Above Rate")) {
-			this.onCustomerAboveRate(ae);
-		}
-		// Conditions for Revenue Button and balances
-		else if (sourceName.contains("Company Revenue")) { // function that
-															// shows the revenue
-															// of each customer
-			this.onShowAndCalculateCompanyRevenue(ae);
-		}
-		// Conditions for Calculate Balance
-		else if (sourceName.contains("Calculate Balance")) { // function that
-																// shows the
-			// revenue of each customer
-			this.calculateAllBalances();
-		}
-		// Conditions for Revenue Button
-		else if (sourceName.contains("Calculate Revenue")) { // function that
-																// shows the
-																// company
-																// revenue
-			this.onRevenue(ae);
-		}
-		// Conditions for Revenue Button
-		else if (sourceName.contains("Import customers")) { // function
-															// that
-			// shows the
-			// company
-			// revenue
-			this.onImportText(ae);
-		}
-		// Conditions for Revenue Button
-		else if (sourceName.contains("Export customers")) { // function
-															// that
-			// shows the
-			// company
-			// revenue
-			this.onExportText(ae);
-		}
-	}
+	} // end of PBES Constructor
 
 	/**
-	 * Add a recently created to customer object to the next available position
-	 * in the array in case the ID does not exist yet
+	 * method for linking the buttons to actions
+	 */
+	@Override
+	public void actionPerformed(ActionEvent ae) { // ActionList
+		String sourceName = ae.getActionCommand(); // get Sender name
+		// DEBUG only
+		// System.out.println("PBES - performing Action for: " + sourceName);
+
+		// IF Cases for all Buttons which have actions
+		if (sourceName.contains("Search User by ID")) {
+			// Conditions for the button search by user ID
+			this.onSearchId(ae);
+		} else if (sourceName.contains("Add a new Customer")) {
+			// condition to react on the add new customer button try to
+			// create an empty new customer and add it to our list of customers
+			this.onAddCustomer(ae);
+		} else if (sourceName.contains("Pay by User ID")) {
+			// Conditions for Pay by User ID Button
+			this.onPayByUserId(ae);
+		} else if (sourceName.contains("Show all Customers")) {
+			// Conditions for Show all Customer Button
+			this.onShowCustomer(ae);
+		} else if (sourceName.contains("Show Customers Above Rate")) {
+			// Conditions for show customers rate Button
+			this.onCustomerAboveRate(ae);
+		} else if (sourceName.contains("Company Revenue")) {
+			// Conditions for Revenue Button and balances
+			this.onShowAndCalculateCompanyRevenue(ae);
+		} else if (sourceName.contains("Calculate Balance")) {
+			// Conditions for Calculate Balance
+			// function that shows the revenue of each customer
+			this.calculateAllBalances();
+		} else if (sourceName.contains("Calculate Revenue")) {
+			// Conditions for Revenue Button
+			// function that shows the company revenue
+			this.onRevenue(ae);
+		} else if (sourceName.contains("Import customers")) {
+			// Conditions for Revenue Button
+			// function that shows the company revenue
+			this.onImportText(ae);
+		} else if (sourceName.contains("Export customers")) {
+			// Conditions for Revenue Button
+			// function that shows the company revenue
+			this.onExportText(ae);
+		} // END if for all buttons as source
+	} // End actionPerformed
+
+	/**
+	 * handle the search ID Button
 	 * 
 	 * @author benste
 	 * @param new Customer Object
-	 * @return success of the operation
 	 */
-
 	public void onSearchId(ActionEvent ae) {
-
 		Integer searchId = Integer.parseInt(this.txtSearch.getText());
 		@SuppressWarnings("unused")
-		// interaction links back from other class
-		GuiUserModificator editor = null;
-		if (this.getCustomer(searchId) != null) {
+		GuiUserModificator editor = null; // init Modificator
+		if (this.getCustomer(searchId) != null) { // check that user exists
 			editor = new GuiUserModificator(this,
 					(Customer) this.getCustomer(searchId));
-		} else // user not found
-		{
+			// create a new editor with the user found
+		} else {// user not found
 			JOptionPane.showMessageDialog(this, "User with ID: " + searchId
-					+ " does not exist yet"); // message when customer does
-												// not exist
-		}
-	}
+					+ " does not exist yet"); 
+			// message when customer does not exist
+		} // end checking existance of user
+	} //end SearchId()
 
+	/**
+	 * 
+	 * @param Luis
+	 */
 	public void onAddCustomer(ActionEvent ae) {
 		Customer newCustomer = new Customer("", "",
 				Integer.parseInt(this.txtSearch.getText())); // function to
