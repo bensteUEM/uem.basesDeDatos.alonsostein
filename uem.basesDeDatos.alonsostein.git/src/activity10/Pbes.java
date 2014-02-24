@@ -36,7 +36,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	public static void main(String[] args) { // Main Method that launches the
 												// application
-		Integer maxCustomers = 0;
+		Integer maxCustomers = 50;
+		/* Starting from Activity 10 max number is fixed to 50
 		try {
 			GuiFilter a = new GuiFilter(0);
 
@@ -50,6 +51,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		*/
 	}
 
 	/**
@@ -228,7 +230,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		else if (sourceName.contains("Company Revenue")) { // function that
 															// shows the revenue
 															// of each customer
-			this.onCompanyRevenue(ae);
+			this.onShowAndCalculateCompanyRevenue(ae);
 		}
 		// Conditions for Calculate Balance
 		else if (sourceName.contains("Calculate Balance")) { // function that
@@ -349,7 +351,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 
 	}
 
-	public void onCompanyRevenue(ActionEvent ae) {
+	public void onShowAndCalculateCompanyRevenue(ActionEvent ae) {
 		// revenue of each customer
 		this.calculateAllBalances();
 		Integer revenue = this.getCompanyRevenue();
@@ -369,8 +371,19 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void onImportText(ActionEvent ae) {
 		DataFile export = new DataFile(); // create a new file without a
 											// customer object
-		this.customers = export.importCustomer();
-	}
+		Customer[] importCustomers = export.importCustomer();
+		if (importCustomers.length <= 50)
+		{
+			int counter = 0;
+			this.customers = new Customer[50];
+			for (Customer oneCustomer : importCustomers){
+				this.customers[counter] = oneCustomer;
+				counter++;
+			}
+		}
+		else
+		{System.out.println("Warning trying to import too many customers");}
+		}
 
 	/**
 	 * Export all customers using the default file location of the DataFile
