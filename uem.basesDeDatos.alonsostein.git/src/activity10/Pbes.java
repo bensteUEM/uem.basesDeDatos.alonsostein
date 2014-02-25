@@ -214,16 +214,20 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	public void setGuiStyles() {
 		UIManager.put("MenuBar.background", Color.DARK_GRAY);
+		
 		UIManager.put("Menu.foreground", Color.WHITE);
-
+		UIManager.put("Menu.border", new EmptyBorder(10, 10, 10, 10));
 		UIManager.put("Menu.selectionBackground", Color.BLACK);
 		UIManager.put("Menu.selectionForeground", Color.LIGHT_GRAY);
 
 		UIManager.put("MenuItem.selectionBackground", Color.WHITE);
 		UIManager.put("MenuItem.selectionForeground", UEMCOLOR);
+		UIManager.put("MenuItem.border", new EmptyBorder(10, 10, 10, 10));
 		
 		UIManager.put("Button.background", UEMCOLOR);
 		UIManager.put("Button.foreground", Color.WHITE);
+		UIManager.put("Button.select", Color.DARK_GRAY);
+		UIManager.put("Button.border", new EmptyBorder(10, 10, 10, 10));
 	}
 	
 	/**
