@@ -196,8 +196,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 * @param airtimeMinutes
 	 *            total minutes to be added into account
 	 */
-	@Override
-	public boolean setAirtimeMinutes(Integer airtimeMinutes) {// TODO simply set
+	public boolean addAirtimeMinutes(Integer airtimeMinutes) {// TODO simply set
 																// by default
 		if (this.airtimeMinutes != null) {// needed for importing first
 											// customers
