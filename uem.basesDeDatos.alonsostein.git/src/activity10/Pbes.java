@@ -101,6 +101,16 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		btnSearch.setBackground(Color.DARK_GRAY);
 		btnSearch.setForeground(Color.WHITE);
 
+		// User Delete button by ID
+		JButton btnDelete = new JButton("Delete User by ID"); // creation of new
+																// Button and
+																// its
+																// appearance
+		btnDelete.setMnemonic('d');
+		btnDelete.addActionListener(this);
+		btnDelete.setBackground(Color.DARK_GRAY);
+		btnDelete.setForeground(Color.WHITE);
+
 		// Pay Button by ID
 		JButton btnPay = new JButton("Pay by User ID");
 		btnPay.setSize(40, 40);
@@ -166,6 +176,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		pnlSearch.setLayout(new BorderLayout());
 		add(pnlSearch);
 		pnlSearch.add(btnSearch, BorderLayout.WEST);
+		pnlSearch.add(btnDelete, BorderLayout.EAST);
 		pnlSearch.add(txtSearch, BorderLayout.CENTER);
 
 		// Pay Panel
@@ -261,6 +272,9 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			// company
 			// revenue
 			this.onExportText(ae);
+		}
+		else if (sourceName.contains("Delete")) {
+			this.onDeleteByUserId(ae);
 		}
 	}
 
@@ -393,6 +407,11 @@ public class Pbes extends PbesAbstract implements ActionListener {
 											// customer object
 		export.exportCustomer(this.customers); // export the current set of
 												// customers
+	}
+	
+	public void onDeleteByUserId(ActionEvent ae) {
+		Integer searchId = Integer.parseInt(this.txtSearch.getText());
+		this.deleteCustomer(searchId);
 	}
 
 	@Override
