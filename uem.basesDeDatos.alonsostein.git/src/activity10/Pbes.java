@@ -92,40 +92,28 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		// creation of new Button and its appearance
 		btnSearch.setMnemonic('s'); // set key shortcut
 		btnSearch.addActionListener(this); // link action
-		btnSearch.setBackground(Color.DARK_GRAY); // set BGcolor
-		btnSearch.setForeground(Color.WHITE); // set Font color
 
 		JButton btnPay = new JButton("Pay by User ID");
 		btnPay.setSize(40, 40);
 		btnPay.setEnabled(false); // Disable additional feature for evaluation
 		btnPay.addActionListener(this);
-		btnPay.setBackground(Color.DARK_GRAY);
-		btnPay.setForeground(Color.WHITE);
 
 		// Button to add a new customer - same implementation as Search
 		JButton btnAddCustomer = new JButton("Add a new Customer");
 		btnAddCustomer.setEnabled(true);
 		btnAddCustomer.addActionListener(this);
-		btnAddCustomer.setBackground(UEMCOLOR);
-		btnAddCustomer.setForeground(Color.WHITE);
 
 		// Show all customer Button - same implementation as Search
 		JButton btnAllCustomer = new JButton("Show all Customers");
 		btnAllCustomer.addActionListener(this);
-		btnAllCustomer.setBackground(UEMCOLOR);
-		btnAllCustomer.setForeground(Color.WHITE);
 		// Added new Menu Item Style
 		JMenuItem menAllCustomer = new JMenuItem("Show all Customers");
 		menAllCustomer.addActionListener(this);
-		menAllCustomer.setBackground(Color.WHITE);
-		menAllCustomer.setForeground(Color.DARK_GRAY);
 
 		// Button that shows customer revenue - same implementation as Search
 		JButton btnCompanyRev = new JButton(
 				"Compute Balances & Show Company Revenue");
 		btnCompanyRev.addActionListener(this);
-		btnCompanyRev.setBackground(UEMCOLOR);
-		btnCompanyRev.setForeground(Color.WHITE);
 
 		// Button CustomersAboveRate - same implementation as Search
 		JButton btnCustomersAboveRate = new JButton("Show Customers Above Rate");
@@ -134,53 +122,35 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		// Button CalcBalance - same implementation as Search
 		JButton btnCalcBalance = new JButton("Calculate Balance");
 		btnCalcBalance.addActionListener(this);
-		btnCalcBalance.setBackground(UEMCOLOR);
-		btnCalcBalance.setForeground(Color.WHITE);
 		// Added new Menu Item Style //TODO
 		JMenuItem menCalcBalances = new JMenuItem("Calculate Balances");
 		menCalcBalances.addActionListener(this);
-		menCalcBalances.setBackground(Color.WHITE);
-		menCalcBalances.setForeground(Color.DARK_GRAY);
 
 		// Button CalcRev - same implementation as Search
 		JButton btnCalcRev = new JButton("Calculate Revenue");
 		btnCalcRev.addActionListener(this);
-		btnCalcRev.setBackground(UEMCOLOR);
-		btnCalcRev.setForeground(Color.WHITE);
 		// Added new Menu Item Style //TODO
 		JMenuItem menCalcRev = new JMenuItem("Calculate Revenue");
 		menCalcRev.addActionListener(this);
-		menCalcRev.setBackground(Color.WHITE);
-		menCalcRev.setForeground(Color.DARK_GRAY);
 
 		// Import customer from text - same implementation as Search
 		JButton btnCustFromText = new JButton("Import customers");
 		btnCustFromText.addActionListener(this);
-		btnCustFromText.setBackground(UEMCOLOR);
-		btnCustFromText.setForeground(Color.WHITE);
 		// Added new Menu Item Style
 		JMenuItem menImportCustomer = new JMenuItem("Import customers");
 		menImportCustomer.addActionListener(this);
-		menImportCustomer.setBackground(Color.WHITE);
-		menImportCustomer.setForeground(Color.DARK_GRAY);
 
 		// Export customer to text - same implementation as Search
 		JButton btnCustToText = new JButton("Export customers");
 		btnCustToText.addActionListener(this);
-		btnCustToText.setBackground(UEMCOLOR);
-		btnCustToText.setForeground(Color.WHITE);
 		// Added new Menu Item Style
 		JMenuItem menExportCustomer = new JMenuItem("Export customers");
 		menExportCustomer.addActionListener(this);
-		menExportCustomer.setBackground(Color.WHITE);
-		menExportCustomer.setForeground(Color.DARK_GRAY);
 
 		// User Delete button by ID - same implementation as Search
 		JButton btnDelete = new JButton("Delete User by ID");
 		btnDelete.setMnemonic('d');
 		btnDelete.addActionListener(this);
-		btnDelete.setBackground(Color.DARK_GRAY);
-		btnDelete.setForeground(Color.WHITE);
 
 		// Positioning of the Buttons
 		setLayout(new GridLayout(3, 1));
