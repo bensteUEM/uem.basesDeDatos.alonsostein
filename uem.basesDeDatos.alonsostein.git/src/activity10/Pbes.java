@@ -16,6 +16,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -156,12 +159,22 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		btnCustFromText.addActionListener(this);
 		btnCustFromText.setBackground(UEMCOLOR);
 		btnCustFromText.setForeground(Color.WHITE);
+		//Added new Menu Item Style
+		JMenuItem menImportCustomer = new JMenuItem("Import customers");
+		menImportCustomer.addActionListener(this);
+		menImportCustomer.setBackground(Color.DARK_GRAY);
+		menImportCustomer.setForeground(Color.WHITE);
 
 		// Export customer to text - same implementation as Search
 		JButton btnCustToText = new JButton("Export customers");
 		btnCustToText.addActionListener(this);
 		btnCustToText.setBackground(UEMCOLOR);
 		btnCustToText.setForeground(Color.WHITE);
+		//Added new Menu Item Style
+		JMenuItem menExportCustomer = new JMenuItem("Export customers");
+		menExportCustomer.addActionListener(this);
+		menExportCustomer.setBackground(Color.DARK_GRAY);
+		menExportCustomer.setForeground(Color.WHITE);
 		
 		// User Delete button by ID - same implementation as Search
 		JButton btnDelete = new JButton("Delete User by ID"); 
@@ -200,6 +213,21 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		pnlFunctions.add(btnCalcRev);
 		pnlFunctions.add(btnCustFromText);
 		pnlFunctions.add(btnCustToText);
+		
+		//Start of Menu Items Layout
+		
+		//Create the menu bar.
+		JMenuBar menuBar = new JMenuBar();
+		
+		JMenu menuData = new JMenu("Data"); // Create the Menu Data
+		menuData.add(menImportCustomer);
+		menuData.add(menExportCustomer);
+		menuBar.add(menuData); //Add menu to Main Menu
+		
+		JMenu menuRevenue = new JMenu("Revenue");
+		JMenu menuAbout = new JMenu("About");
+		
+		pnlFunctions.add(menuBar); //DEBUG just simply show the menu
 	} //End constructor
 
 	/**
