@@ -1,26 +1,10 @@
 package activity10;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import java.awt.GridLayout;
-
-import javax.swing.JButton;
-
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 /**
  * Main Class for the activities 8 and 10 Start this program here, it will guide
@@ -71,6 +55,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	public Pbes(Integer numberOfCustomers) { // Constrcutor
 		super(numberOfCustomers); // super constructor
+		setGuiStyles(); //use function for predefined GUI mods
 		customers = new Customer[numberOfCustomers];
 		// initialize empty customer array with predefined count
 		this.customerCount = 0; // initialize customer count
@@ -228,32 +213,49 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		pnlFunctions.add(btnCustFromText);
 		pnlFunctions.add(btnCustToText);
 
-		// Start of Menu Items Layout
-
 		// Create the menu bar.
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBackground(Color.DARK_GRAY);
+		// menuBar.setBackground(Color.DARK_GRAY);
 
 		JMenu menuData = new JMenu("Data"); // Create the Menu Data
-		menuData.setForeground(Color.WHITE);
 		menuData.add(menImportCustomer);
 		menuData.add(menExportCustomer);
 		menuBar.add(menuData); // Add menu to Main Menu
 
 		JMenu menuRevenue = new JMenu("Revenue");
-		menuRevenue.setForeground(Color.WHITE);
 		menuRevenue.add(menCalcBalances);
 		menuRevenue.add(menCalcRev);
 		menuBar.add(menuRevenue); // Add menu to Main Menu
 
 		JMenu menuAbout = new JMenu("About");
-		menuAbout.setForeground(Color.WHITE);
 		menuAbout.add(menAllCustomer);
 		menuBar.add(menuAbout); // Add menu to Main Menu
 
 		pnlFunctions.add(menuBar); // DEBUG just simply show the menu
 	} // End constructor
 
+
+	/**
+	 * Overwrite Styles of Items for GUI
+	 * 
+	 * This uses a procedure described here:
+	 * http://java-demos.blogspot.com.es/2013
+	 * /01/set-selection-background-foreground-for-jmenuitem.html
+	 */
+	public void setGuiStyles() {
+		UIManager.put("MenuBar.background", Color.DARK_GRAY);
+		UIManager.put("Menu.foreground", Color.WHITE);
+
+		UIManager.put("Menu.selectionBackground", Color.BLACK);
+		UIManager.put("Menu.selectionForeground", Color.LIGHT_GRAY);
+
+		UIManager.put("MenuItem.selectionBackground", Color.WHITE);
+		UIManager.put("MenuItem.selectionForeground", UEMCOLOR);
+		
+		UIManager.put("Button.background", UEMCOLOR);
+		UIManager.put("Button.foreground", Color.WHITE);
+	}
+	
 	/**
 	 * method for linking the buttons to actions
 	 */
@@ -648,5 +650,4 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		}// end of iterating through all customers
 		return (paid - outstanding);
 	}
-
 }
