@@ -1,5 +1,11 @@
 package activity10;
 
+/**
+ * Abstract of the Customer which was the minimal specification to task 8
+ * As this is an abstract methods are commented in the respective implementation
+ * @author benste
+ *
+ */
 public abstract class CustomerAbstract {
 	protected String name;
 	protected Integer id;
@@ -59,7 +65,7 @@ public abstract class CustomerAbstract {
 	 */
 	public void setBalance() {
 		// TODO this is using integer division and cutting of Cents !
-		this.balance = (-this.getRate()) * this.getAirtimeMinutes() /100; //costs are negative rates
+		this.balance = (this.getRate()) * this.getAirtimeMinutes() /100; //costs are negative rates
 		this.setAirtimeMinutes(0);
 	}
 	

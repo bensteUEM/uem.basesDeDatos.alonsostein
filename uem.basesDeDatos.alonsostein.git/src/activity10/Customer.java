@@ -2,8 +2,6 @@ package activity10;
 
 import java.util.Comparator; //needed for sorting 
 
-import javax.swing.JTextField;
-
 public class Customer extends CustomerAbstract implements Comparator<Customer> {
 
 	// Setup NUMBRES and LETTERS constants for validations
@@ -22,37 +20,38 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 * @author benste
 	 */
 	public Customer(String newName, String newCellPhoneNumber, Integer newId) {
+		// Call SuperConstructor
 		super(newName, newCellPhoneNumber, newId);
 		// SAVE all data assume it's already validated
 		this.id = newId;
 		this.name = newName;
 		this.cellPhoneNumber = newCellPhoneNumber;
 		this.landlinePhoneNumber = "";
-		this.airtimeMinutes = 0; // Amount of minutes consumed
-		this.balance = 0; // Balance of Account in Euros
-		this.rate = 0; // per minute in Cents
-	}
+		this.airtimeMinutes = 0;
+		this.balance = 0;
+		this.rate = 0;
+	} // end Customer()
 
 	/**
 	 * Constructor for a new Custoemr object based on an import from Text
 	 * 
 	 * @param a
-	 *            String representing a fully qualified Customer for Text import
+	 *            String representing fully qualified Customer for Text import
 	 * @author benste
 	 * @throws Exception
 	 *             - error when Customer can not be imported
 	 */
 	public Customer(String fullyQualifiedExportedCustomerString)
 			throws Exception {
-		super(fullyQualifiedExportedCustomerString); // run parent constructor
-		boolean success = this.importText(fullyQualifiedExportedCustomerString); // import
-																					// from
-																					// text
+		// run parent constructor
+		super(fullyQualifiedExportedCustomerString);
+		// import from text
+		boolean success = this.importText(fullyQualifiedExportedCustomerString);
 		if (!(success)) {
 			System.out
 					.println("Import returned false - check string import function");
-		}
-	}
+		} // END success check
+	} // END Customer()
 
 	/**
 	 * Additional payment functionality modifies the customers balance by the
@@ -74,14 +73,16 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		 */
 	}
 
-	// Comparators for sorting by different attributes
+	/*
+	 * BEGIN OF SECTION WITH COMPARATORS
+	 */
 	@Override
 	/**
 	 * compare by selected method
 	 */
 	public int compare(Customer arg0, Customer arg1) {
 		// Choose here the default operation for comparing
-		if ((arg0 != null) && (arg1 != null)) {
+		if ((arg0 != null) && (arg1 != null)) { // no object exists
 			return this.compareId(arg0, arg1);
 		} else if ((arg0 != null)) {// existing object 1 is smaller
 			return -1;
@@ -90,7 +91,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		} else // no object exist - they're even
 		{
 			return 0;
-		}
+		}// End compare()
 	}
 
 	/**
@@ -98,30 +99,36 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 */
 	public int compareBalance(Customer arg0, Customer arg1) {
 		return arg0.getBalance().compareTo(arg1.getBalance());
-	}
+	} // End compareBalance()
 
 	/**
 	 * compare by Name
 	 */
 	public int compareName(Customer arg0, Customer arg1) {
 		return arg0.getName().compareTo(arg1.getName()); //
-	}
+	} // End compareName()
 
 	/**
 	 * compare by Rate
 	 */
 	public int compareRate(Customer arg0, Customer arg1) {
 		return arg0.getRate().compareTo(arg1.getRate());
-	}
+	} // End compareRate()
 
 	/**
 	 * compare by ID
 	 */
 	public int compareId(Customer arg0, Customer arg1) {
 		return arg0.getId().compareTo(arg1.getId());
-	}
+	} // End compareId
 
-	// set and get Methods for attributes
+	/*
+	 * END OF SECTION WITH COMPARATORS
+	 */
+
+	/*
+	 * Set and Get Methods for Attributes
+	 */
 
 	@Override
 	/**
@@ -142,16 +149,16 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 			} else {
 				return false;
 				// if any character is wrong the landline can not be set
-			}
+			} // end of checking the integrity of the number characters
 		} // end for checking all signs
 		if (!(newPhoneNumber.length() <= 9)) { // check that number is not too
 												// long
 			System.out.println("Landline number is too long");// DEBUG warning
 			return false;
-		}
-		this.landlinePhoneNumber = newPhoneNumber;
-		return true;
-	}
+		} // end phone number length check
+		this.landlinePhoneNumber = newPhoneNumber; // save the number
+		return true; // acknowledge success
+	} // end setLandline...()
 
 	/**
 	 * Set a new Cell Phone number same as setLandlinePhonenumber - please check
@@ -163,24 +170,24 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 */
 	public boolean setCellPhoneNumber(String newPhoneNumber) {
 		for (int i = 0, n = newPhoneNumber.length(); i < n; i++) {
+			// get each character
 			String c = String.valueOf(newPhoneNumber.charAt(i));
 			if ((i == 0) && (NUMBERS.contains(c) || c.contains("+"))) {
 				// pass if first sign is a number or +
 			} else if (NUMBERS.contains(c)) {
 				// pass for all other letters if they are numbers only
 			} else {
-				return false; // if any character is wrong the landline can not
-								// be set
-			}
-		} // end for checking all signs
+				return false; // if any character is wrong
+			} // end cases for character checking
+		} // end FOR all characters
 			// check that number is not too long
 		if (!(newPhoneNumber.length() <= 9)) {
 			System.out.println("CellphoneNumber is too long");// DEBUG warning
 			return false;
-		}
-		this.cellPhoneNumber = newPhoneNumber;
-		return true;
-	}
+		} // end IF length check
+		this.cellPhoneNumber = newPhoneNumber; // save the number
+		return true; // acknowledge success
+	} // end setCellPhone...
 
 	/**
 	 * Adds the specified ammount of mintues to the existing airtime
@@ -190,38 +197,41 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 *            total minutes to be added into account
 	 */
 	@Override
-	public boolean setAirtimeMinutes(Integer airtimeMinutes) {
-		if (this.airtimeMinutes != null) {// needed for importing customers from
-											// 0
+	public boolean setAirtimeMinutes(Integer airtimeMinutes) {// TODO simply set
+																// by default
+		if (this.airtimeMinutes != null) {// needed for importing first
+											// customers
 			this.airtimeMinutes += airtimeMinutes;
 		} else {
 			this.airtimeMinutes = airtimeMinutes;
-		}
+		} // end null check
 		return true;
-	}
+	} // end setAirtime...
 
 	/**
 	 * set a new Rate for the customer cellphone contract in Cents per Minute
 	 * 
 	 * @author benste
 	 * @param new rate in cents
+	 * @return Success of operation
 	 */
 	@Override
 	public boolean setRate(Integer rate) {
 		this.rate = rate;
 		return true;
-	}
+	} // end setRate
 
 	/**
 	 * set a new Name for the customer
 	 * 
 	 * @author benste
 	 * @param new name
+	 * @return success of operation
 	 */
 	public boolean setName(String newName) {
 		this.name = newName;
 		return true;
-	}
+	} // end setName
 
 	/**
 	 * overwrite the ID of this item - use with great care and consideration
@@ -229,27 +239,29 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 * 
 	 * @author benste
 	 * @param new ID (please verfiy it's validity before!)
+	 * @return success of operation
 	 */
 	public boolean setId(Integer newId) {
 		// check that ID is a valid positve number with up to 8 characters
 		if ((newId < 100000000) && (newId >= 0)) {
 			this.id = newId;
 			return true;
-		}
+		} // end if - max ID
 		return false;
-	}
+	} // end setId()
 
 	/**
 	 * Method to make sure that the Customer is shown in a user readable format
 	 * in case it needs to get displayed
 	 * 
 	 * @author benste
+	 * @return a String for easy display of the Object
 	 */
 	public String toString() {
 		return "ID: " + this.id + " " + this.name + " Tel: "
 				+ this.cellPhoneNumber + " Current Rate: " + this.rate
 				+ " Current Minutes: " + this.airtimeMinutes;
-	}
+	} // End toString()
 
 	/**
 	 * Function which allows to overwrite an existing customer object with a
@@ -263,44 +275,42 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 * @author benste
 	 */
 	public boolean importText(String savedCustomer) {
-		boolean success = true;
-		System.out
-				.println("Import line for this cusotmer is: " + savedCustomer); // TODO
-																				// DEBUG
-
+		boolean success = true; // init success
+		// System.out.println("Import line for this customer is: " +
+		// savedCustomer); //DEBUG only
 		String[] parts = savedCustomer.split(","); // split by delimiter
-
 		if (parts.length != Customer.IMPLEMENTEDARGS) {
 			System.out.println("WARNING - wrong number of items: "
 					+ parts.length); // TODO check whether +1 is needed
-			success = false;
-		}
-		// check that first item is the ID with a <ID> formatting
+			return false;
+		} // end if numberofArgs Check
+			// check that first item is the ID with a <ID> formatting
 		else if (!(parts[0].startsWith("<") && parts[0].endsWith(">"))) {
 			System.out.println("WARNING - import has wrong formatting");
-			success = false;
+			return false;
 		} else // if checks succeeds
 		{
+			/*
+			 * This following few lines do save the recognized parts into the
+			 * respective fields
+			 */
 			String idText = parts[0];
 			idText = idText.substring(1, idText.length() - 1);
-			System.out.println("ID with removed outer <> is " + idText); // TODO
-																			// debugging
-																			// only
 			success = success && this.setId(Integer.parseInt(idText));
 			success = success && this.setName(parts[1]);
 			if (!(this.setCellPhoneNumber(parts[2]))) {
 				success = false;
-			}
+			} // end if
 			if (!(this.setLandlinePhoneNumber(parts[3]))) {
 				success = false;
-			}
+			} // end if
 			success = success
 					&& this.setAirtimeMinutes(Integer.parseInt(parts[4]));
 			success = success && this.setRate(Integer.parseInt(parts[5]));
 			this.balance = Integer.parseInt(parts[6]);
-		}
+		} // end if validated parts
 		return success;
-	}
+	} // end importText()
 
 	/**
 	 * Function which export an existing customer object with a String formated
@@ -311,8 +321,10 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 *         FieldBalance;
 	 * @author benste
 	 */
-	public String exportText() { // TODO
-		// Parse All Items into an Array
+	public String exportText() {
+		/*
+		 * The following section does create an array with the args of the class
+		 */
 		String[] parts = new String[Customer.IMPLEMENTEDARGS];
 		parts[0] = "<" + Integer.toString(this.getId()) + ">";
 		parts[1] = this.getName();
@@ -325,7 +337,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		String result = "";
 		for (String part : parts) {
 			result += part + ",";
-		}
+		} // end for all items
 		return result;
-	}
-}
+	} // end exportText()
+} // end class
