@@ -171,7 +171,14 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		btnDelete.setForeground(Color.WHITE);
 
 		// Positioning of the Buttons
-		setLayout(new GridLayout(3, 1));
+		//setLayout(new GridLayout(3, 1));
+		setLayout(new BorderLayout());
+		JPanel pnlSearch = new JPanel();
+		pnlSearch.setLayout(new GridLayout(2,2));
+		add(pnlSearch);
+
+		
+		/*
 
 		// Search Panel
 		JPanel pnlSearch = new JPanel();
@@ -200,6 +207,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		pnlFunctions.add(btnCalcRev);
 		pnlFunctions.add(btnCustFromText);
 		pnlFunctions.add(btnCustToText);
+	*/
 	} //End constructor
 
 	/**
