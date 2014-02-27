@@ -10,6 +10,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	public final static Integer IMPLEMENTEDARGS = 7; // number of arguments
 														// implemented for a
 														// customer
+	private Integer minBalance = 0;
 
 	/**
 	 * Constructor for a new Custoemr object
@@ -29,6 +30,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		this.landlinePhoneNumber = "";
 		this.airtimeMinutes = 0;
 		this.balance = 0;
+		this.setMinBalance(0);
 		this.rate = 0;
 	} // end Customer()
 
@@ -248,6 +250,32 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		} // end if - max ID
 		return false;
 	} // end setId()
+
+	/**
+	 * Get Balance in full €, NEW Version - taking into account the minimum
+	 * balance per customer
+	 */
+	public Integer getBalance() {
+		if (this.getMinBalance() < this.balance) {
+			return this.balance;
+		}
+		return minBalance;
+	}
+
+	/**
+	 * @return the minBalance
+	 */
+	public Integer getMinBalance() {
+		return minBalance;
+	}
+
+	/**
+	 * @param minBalance
+	 *            the minBalance to set
+	 */
+	public void setMinBalance(Integer minBalance) {
+		this.minBalance = minBalance;
+	}
 
 	/**
 	 * Method to make sure that the Customer is shown in a user readable format
