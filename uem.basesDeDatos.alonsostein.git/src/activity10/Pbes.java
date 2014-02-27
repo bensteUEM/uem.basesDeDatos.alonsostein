@@ -72,7 +72,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			} // end embedded function
 		});// end of window listener
 
-		setBounds(100, 100, 450, 500); // set the bounds of the mainframe
+		setBounds(100, 100, 1000, 500); // set the bounds of the mainframe
 		contentPane = new JPanel(); // creation of content Pane
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); // set Borders
 		setContentPane(contentPane); // set the content pane
@@ -143,45 +143,50 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		// Export customer to text - same implementation as Search
 		JButton btnCustToText = new JButton("Export customers");
 		btnCustToText.addActionListener(this);
+		
 		// Added new Menu Item Style
 		JMenuItem menExportCustomer = new JMenuItem("Export customers");
 		menExportCustomer.addActionListener(this);
+
 
 		// User Delete button by ID - same implementation as Search
 		JButton btnDelete = new JButton("Delete User by ID");
 		btnDelete.setMnemonic('d');
 		btnDelete.addActionListener(this);
 
-		// Positioning of the Buttons
+		// NEW GUI DISTRIBUTION
 		setLayout(new BorderLayout());
+		// main grid layout panel
+		JPanel pnlMain = new JPanel();
+		pnlMain.setLayout(new GridLayout(2, 2));
+		contentPane.add(pnlMain, BorderLayout.CENTER);
 
-		// Search Panel
-		JPanel pnlSearch = new JPanel();
-		pnlSearch.setLayout(new BorderLayout());
-		add(pnlSearch,BorderLayout.CENTER);
-		pnlSearch.add(btnSearch, BorderLayout.WEST);
-		pnlSearch.add(btnDelete, BorderLayout.EAST);
-		pnlSearch.add(txtSearch, BorderLayout.CENTER);
+		// subpanel top-left
+		JPanel pnlTopLeft = new JPanel();
+		pnlTopLeft.setLayout(new GridLayout(1, 1));
+		pnlTopLeft.add(txtSearch);
+		pnlMain.add(pnlTopLeft);
 
-		// Pay Panel
-		JPanel pnlPay = new JPanel();
-		pnlPay.setLayout(new BorderLayout());
-		add(pnlPay,BorderLayout.SOUTH);
-		pnlPay.add(btnPay, BorderLayout.WEST);
-		pnlPay.add(txtMoney, BorderLayout.CENTER);
-		pnlPay.add(btnCustomersAboveRate, BorderLayout.EAST);
+		// subpanel top-right
+		JPanel pnlTopRight = new JPanel();
+		pnlTopRight.setLayout(new GridLayout(1, 3));
+		pnlMain.add(pnlTopRight);
+		pnlTopRight.add(btnSearch);
+		pnlTopRight.add(btnDelete);
+		pnlTopRight.add(btnAddCustomer);
 
-		// Function Panel
-		JPanel pnlFunctions = new JPanel();
-		pnlFunctions.setLayout(new FlowLayout());
-		//add(pnlFunctions);
-		pnlFunctions.add(btnAddCustomer);
-		pnlFunctions.add(btnAllCustomer);
-		pnlFunctions.add(btnCompanyRev);
-		pnlFunctions.add(btnCalcBalance);
-		pnlFunctions.add(btnCalcRev);
-		pnlFunctions.add(btnCustFromText);
-		pnlFunctions.add(btnCustToText);
+		// subpanel bot-left
+		JPanel pnlBotLeft = new JPanel();
+		pnlBotLeft.setLayout(new GridLayout(1, 1));
+		pnlBotLeft.add(txtMoney);
+		pnlMain.add(pnlBotLeft);
+
+		// subpanel bot-right
+		JPanel pnlBotRight = new JPanel();
+		pnlBotRight.setLayout(new GridLayout(1, 3));
+		pnlMain.add(pnlBotRight);
+		pnlBotRight.add(btnCustomersAboveRate);
+		pnlBotRight.add(btnPay);
 
 		// Create the menu bar.
 		JMenuBar menuBar = new JMenuBar();
