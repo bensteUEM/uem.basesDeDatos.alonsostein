@@ -1,5 +1,6 @@
 package activity10;
 
+import java.util.ArrayList;
 import java.util.Comparator; //needed for sorting 
 
 public class Customer extends CustomerAbstract implements Comparator<Customer> {
@@ -11,6 +12,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 														// implemented for a
 														// customer
 	private Integer minBalance = 0;
+	private ArrayList<CustomerCall> calls = new ArrayList<CustomerCall>(0);
 
 	/**
 	 * Constructor for a new Custoemr object
@@ -275,6 +277,29 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 */
 	public void setMinBalance(Integer minBalance) {
 		this.minBalance = minBalance;
+	}
+
+	/**
+	 * @return the calls
+	 */
+	public ArrayList<CustomerCall> getCalls() {
+		return calls;
+	}
+
+	/**
+	 * @param the call to be appended to the List of Calls
+	 */
+	public void addCall(CustomerCall newCall) {
+		this.calls.add(newCall);
+	}
+	
+	/**
+	 * Read the Customers Call Log to calculate the minutes which were used
+	 */
+	public void addAirtimeMinutesFromCalls(){
+		for (CustomerCall call : this.calls){
+			this.airtimeMinutes += call.getDuration();
+		}
 	}
 
 	/**
