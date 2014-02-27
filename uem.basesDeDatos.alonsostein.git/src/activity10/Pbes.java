@@ -401,7 +401,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void onExportText(ActionEvent ae) {
 		DataFile export = new DataFile(); // create a new file without a
 											// customer object
-		export.exportCustomer((Customer[]) this.customers.toArray());
+		export.exportCustomer(this.customers);
 		// export the current set of customers
 	}
 
@@ -583,6 +583,6 @@ public class Pbes extends PbesAbstract implements ActionListener {
 				// add the outstanding balance to current balance
 			}// end if precondition customer exists
 		}// end of iterating through all customers
-		return (paid - outstanding);
+		return (paid + outstanding);
 	}// end getCompanyRevenue();
 } // end class

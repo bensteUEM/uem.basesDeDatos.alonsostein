@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DataFile {
@@ -201,6 +202,17 @@ public class DataFile {
 
 	public Integer getNumberOfLines() {
 		return numberOfLines;
+	}
+
+	/**
+	 * Wrapper to use existing import with new DataTypes
+	 * @param newCustomers
+	 */
+	public void exportCustomer(ArrayList<Customer> newCustomers) {
+		// TODO Auto-generated method stub
+		Customer[] custArray = new Customer[newCustomers.size()];
+		custArray = newCustomers.toArray(new Customer[0]);
+		this.exportCustomer(custArray);
 	}
 	
 
