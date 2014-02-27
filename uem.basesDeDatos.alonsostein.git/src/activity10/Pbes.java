@@ -153,12 +153,12 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		btnDelete.addActionListener(this);
 
 		// Positioning of the Buttons
-		setLayout(new GridLayout(3, 1));
+		setLayout(new BorderLayout());
 
 		// Search Panel
 		JPanel pnlSearch = new JPanel();
 		pnlSearch.setLayout(new BorderLayout());
-		add(pnlSearch);
+		add(pnlSearch,BorderLayout.CENTER);
 		pnlSearch.add(btnSearch, BorderLayout.WEST);
 		pnlSearch.add(btnDelete, BorderLayout.EAST);
 		pnlSearch.add(txtSearch, BorderLayout.CENTER);
@@ -166,7 +166,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		// Pay Panel
 		JPanel pnlPay = new JPanel();
 		pnlPay.setLayout(new BorderLayout());
-		add(pnlPay);
+		add(pnlPay,BorderLayout.SOUTH);
 		pnlPay.add(btnPay, BorderLayout.WEST);
 		pnlPay.add(txtMoney, BorderLayout.CENTER);
 		pnlPay.add(btnCustomersAboveRate, BorderLayout.EAST);
@@ -174,7 +174,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		// Function Panel
 		JPanel pnlFunctions = new JPanel();
 		pnlFunctions.setLayout(new FlowLayout());
-		add(pnlFunctions);
+		//add(pnlFunctions);
 		pnlFunctions.add(btnAddCustomer);
 		pnlFunctions.add(btnAllCustomer);
 		pnlFunctions.add(btnCompanyRev);
@@ -201,7 +201,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		menuAbout.add(menAllCustomer);
 		menuBar.add(menuAbout); // Add menu to Main Menu
 
-		pnlFunctions.add(menuBar); // DEBUG just simply show the menu
+		setJMenuBar(menuBar); // DEBUG just simply show the menu
 	} // End constructor
 
 
