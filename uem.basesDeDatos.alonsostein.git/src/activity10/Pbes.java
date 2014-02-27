@@ -21,7 +21,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	JTextField txtSearch;
 	private JTextField txtMoney;
 	private Integer customerCount;
-	private Customer[] customers;
+	private ArrayList<Customer> customers;
 	/* private Customer[] customerToImport; //@LUIS - not needed */
 	final Color UEMCOLOR = new Color(143, 27, 39);
 
@@ -55,8 +55,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	public Pbes(Integer numberOfCustomers) { // Constrcutor
 		super(numberOfCustomers); // super constructor
-		setGuiStyles(); //use function for predefined GUI mods
-		customers = new Customer[numberOfCustomers];
+		setGuiStyles(); // use function for predefined GUI mods
+		customers = new ArrayList<Customer>(numberOfCustomers);
 		// initialize empty customer array with predefined count
 		this.customerCount = 0; // initialize customer count
 
@@ -143,11 +143,10 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		// Export customer to text - same implementation as Search
 		JButton btnCustToText = new JButton("Export customers");
 		btnCustToText.addActionListener(this);
-		
+
 		// Added new Menu Item Style
 		JMenuItem menExportCustomer = new JMenuItem("Export customers");
 		menExportCustomer.addActionListener(this);
-
 
 		// User Delete button by ID - same implementation as Search
 		JButton btnDelete = new JButton("Delete User by ID");
@@ -209,7 +208,6 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		setJMenuBar(menuBar); // DEBUG just simply show the menu
 	} // End constructor
 
-
 	/**
 	 * Overwrite Styles of Items for GUI
 	 * 
@@ -219,7 +217,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	public void setGuiStyles() {
 		UIManager.put("MenuBar.background", Color.DARK_GRAY);
-		
+
 		UIManager.put("Menu.foreground", Color.WHITE);
 		UIManager.put("Menu.border", new EmptyBorder(10, 10, 10, 10));
 		UIManager.put("Menu.selectionBackground", Color.BLACK);
@@ -228,13 +226,13 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		UIManager.put("MenuItem.selectionBackground", Color.WHITE);
 		UIManager.put("MenuItem.selectionForeground", UEMCOLOR);
 		UIManager.put("MenuItem.border", new EmptyBorder(10, 10, 10, 10));
-		
+
 		UIManager.put("Button.background", UEMCOLOR);
 		UIManager.put("Button.foreground", Color.WHITE);
 		UIManager.put("Button.select", Color.DARK_GRAY);
 		UIManager.put("Button.border", new EmptyBorder(10, 10, 10, 10));
 	}
-	
+
 	/**
 	 * method for linking the buttons to actions
 	 */
@@ -392,18 +390,10 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void onImportText(ActionEvent ae) {
 		DataFile export = new DataFile(); // create a new file without a
 											// customer object
-		Customer[] importCustomers = export.importCustomer();
-		if (importCustomers.length <= 50) {
-			int counter = 0;
-			this.customers = new Customer[50];
-			for (Customer oneCustomer : importCustomers) {
-				this.customers[counter] = oneCustomer;
-				counter++;
-			}
-		} else {
-			System.out.println("Warning trying to import too many customers");
-		}
-	}
+		for (Customer oneCustomer : export.importCustomer()) {
+			this.customers.add(oneCustomer);
+		} // end for addin customer
+	}// end onImportText()
 
 	/**
 	 * Export all customers using the default file location of the DataFile
@@ -411,26 +401,21 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void onExportText(ActionEvent ae) {
 		DataFile export = new DataFile(); // create a new file without a
 											// customer object
-		export.exportCustomer(this.customers); // export the current set of
-												// customers
+		export.exportCustomer((Customer[]) this.customers.toArray());
+		// export the current set of customers
 	}
 
 	public void onDeleteByUserId(ActionEvent ae) {
 		Integer searchId = Integer.parseInt(this.txtSearch.getText());
 		this.deleteCustomer(searchId);
-	}
+	} // end onDeleteByUserId
 
 	@Override
 	public boolean addCustomer(CustomerAbstract customer) {
 		Integer position = 0;
 		Integer newId;
-		while (null != this.getCustomer(customer.getId())) { // as long as the
-																// current
-																// customer has
-																// an id that
-																// already
-																// exists
-
+		while (null != this.getCustomer(customer.getId())) {
+			// as long as the current customer has an id that already exists
 			try { // try to ask user for alternative ID
 				newId = Integer
 						.parseInt(JOptionPane
@@ -441,28 +426,11 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			}
 			((Customer) customer).setId(newId); // set a new ID
 		}
-		for (Customer compareCustomer : this.customers) { // iterate through all
-			// customers
-			if ((compareCustomer == null) && (position < this.customers.length)) // unused
-																					// position
-																					// within
-																					// array
-																					// size
-																					// found
-			{
-				this.customers[position] = (Customer) customer; // save
-																// customer
-																// to empty
-																// spot
-				this.customerCount++;
-				return true;
-			} else {
-				position++; // check next spot
-			}
-		} // end for
-		return false; // no more space for more customers
-
-	}
+		this.customers.add((Customer) customer);
+		// save customer to empty spot
+		this.customerCount++;
+		return true;
+	} // end addCustomer()
 
 	/**
 	 * save a Customer based on it's existing ID do overwrite existing, no
@@ -482,18 +450,16 @@ public class Pbes extends PbesAbstract implements ActionListener {
 				// skip empty customers
 			} else if (compareCustomer.getId().equals(currentCustomer.getId())) // customer
 			{
-				this.customers[position] = (Customer) currentCustomer; // overwrite
-																		// customer
-																		// at
-																		// this
-																		// index
+				this.customers.set(position, (Customer) currentCustomer);
+				// overwrite customer at this index
 				return true; // stop iterating for more
 			} else { // go to next customer if this one didn't match
 				position++;
-			}
+			} // end IF of save or seek for customer
 		} // end for
+		System.out.println("WARNING: Customer was not found when saving");
 		return false; // no more space for more customers
-	}
+	} // end saveCustomer()
 
 	/**
 	 * get a specific customer based on its ID
@@ -508,8 +474,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		for (Customer compareCustomer : this.customers) { // iterate through all
 			// customers
 			if (compareCustomer != null) {
-				if (compareCustomer.getId().equals(searchId)) // customer is the
-																// one
+				if (compareCustomer.getId().equals(searchId))
+				// customer is the one
 				{
 					return compareCustomer;
 
@@ -517,7 +483,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			}// end null checking
 		} // end for
 		return null;
-	}
+	} // end getCustomer()
 
 	/**
 	 * Delete a Customer based on his ID
@@ -539,15 +505,15 @@ public class Pbes extends PbesAbstract implements ActionListener {
 						+ " and will delete " + searchId + " at position "
 						+ position);
 				System.out.println("Deleting this user: " + compareCustomer);
-				this.customers[position] = null; // delete customer
+				this.customers.remove(position); // delete customer
 				this.customerCount--;
 				return true; // stop procedure
 			} else {
 				position++; // increase to get next index
-			}
+			}// end IF of customer found or not
 		}// end of iterating through all customers
 		return false; // ID was not found not successfull deleted
-	}
+	} // end deleteCustomer()
 
 	/**
 	 * This function will return the cumulative total of all customer balances
@@ -566,7 +532,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			}// end if precondition customer exists
 		}// end of iterating through all customers
 		return result;
-	}
+	} // end getAllCustomerBalance()
 
 	@Override
 	/**
@@ -575,18 +541,17 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	public ArrayList<Customer> getCustomersAboveRate(Integer maxRate) {
 		ArrayList<Customer> results = new ArrayList<Customer>();
-		results.clear();
 		for (Customer compareCustomer : this.customers) {
 			if (compareCustomer != null) // customer exists
 			{
 				if (compareCustomer.getRate() > maxRate)// customer exceeds rate
 				{
 					results.add(compareCustomer);// add customer to list
-				}
+				}// end if
 			}// end if precondition customer exists
 		}// end of iterating through all customers
 		return results;
-	}
+	} // End getCustomersAboveRate()
 
 	/**
 	 * Calculate all customers balances
@@ -601,11 +566,9 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			{
 				compareCustomer.setBalance(); // calculate Balance for all
 												// customers
-				System.out.println(compareCustomer + " has a new balance of "
-						+ compareCustomer.getBalance());// TODO Debug
 			}// end if precondition customer exists
 		}// end of iterating through all customers
-	}
+	} // end calculate Balance
 
 	/**
 	 * get the total company revenue currently outstanding balances only
@@ -628,5 +591,5 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			}// end if precondition customer exists
 		}// end of iterating through all customers
 		return (paid - outstanding);
-	}
-}
+	}// end getCompanyRevenue();
+} // end class
