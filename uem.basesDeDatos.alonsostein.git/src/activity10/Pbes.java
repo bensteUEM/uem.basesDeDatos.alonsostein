@@ -495,22 +495,15 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * @author benste
 	 */
 	public boolean deleteCustomer(Integer searchId) {
-		Integer position = 0;
-		for (Customer compareCustomer : this.customers) { // iterate through all
-															// customers
-			if (compareCustomer.getId().equals(searchId)) // customer is the one
-															// we
-			{ // search
-				System.out.println("Found customer" + compareCustomer.getId()
-						+ " and will delete " + searchId + " at position "
-						+ position);
-				System.out.println("Deleting this user: " + compareCustomer);
-				this.customers.remove(position); // delete customer
-				this.customerCount--;
-				return true; // stop procedure
-			} else {
-				position++; // increase to get next index
-			}// end IF of customer found or not
+		for (Customer compareCustomer : this.customers) { 
+			// iterate through all customers
+			if (compareCustomer.getId().equals(searchId)) 
+				// customer is the one we
+			{
+				JOptionPane.showMessageDialog(this, "This user has been deleted: "+compareCustomer);
+				return this.customers.remove(compareCustomer); 
+				// delete customer
+			} // end IF of customer found or not
 		}// end of iterating through all customers
 		return false; // ID was not found not successfull deleted
 	} // end deleteCustomer()
