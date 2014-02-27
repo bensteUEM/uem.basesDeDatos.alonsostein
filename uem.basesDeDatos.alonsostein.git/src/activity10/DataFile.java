@@ -11,6 +11,21 @@ import java.util.Arrays;
 public class DataFile {
 	private Customer[] groupOfCustomers;
 	private int numberOfLines = 0;
+	private String fileName;
+
+	/**
+	 * @return the fileName
+	 */
+	public String getFileName() {
+		return fileName;
+	}
+
+	/**
+	 * @param fileName the fileName to set
+	 */
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
 
 	/*
 	 * public static void main(String[] args) { DataFile w = new DataFile();
@@ -47,9 +62,7 @@ public class DataFile {
 		Integer maxCustomers = customers.length;
 
 		// 1. OPEN
-		File path = new File("." + File.separator + File.separator + "src"
-				+ File.separator + "activity10" + File.separator
-				+ "data_customers.txt");
+		File path = new File(this.fileName);
 		String fileName = path.getPath();
 		try {
 			// 2. WRITE
@@ -87,9 +100,7 @@ public class DataFile {
 	public Customer[] importCustomer(){
 
 		// 1. OPEN file
-		File path = new File("." + File.separator + File.separator + "src"
-				+ File.separator + "activity10" + File.separator
-				+ "data_customers.txt");
+		File path = new File(this.fileName);
 		String fileName = path.getPath();
 
 		StringBuffer fileContent = new StringBuffer();
@@ -172,6 +183,9 @@ public class DataFile {
 
 	public DataFile(Customer[] customers) {
 		this.groupOfCustomers = customers;
+		this.fileName = "." + File.separator + File.separator + "src"
+				+ File.separator + "activity10" + File.separator
+				+ "data_customers.txt";
 	}
 
 	/**
@@ -180,10 +194,14 @@ public class DataFile {
 	 */
 	public DataFile() {
 		this.groupOfCustomers = null;
+		this.fileName = "." + File.separator + File.separator + "src"
+				+ File.separator + "activity10" + File.separator
+				+ "data_customers.txt";
 	}
 
 	public Integer getNumberOfLines() {
 		return numberOfLines;
 	}
+	
 
 }
