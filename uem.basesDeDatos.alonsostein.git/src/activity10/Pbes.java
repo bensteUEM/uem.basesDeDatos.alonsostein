@@ -1,23 +1,10 @@
 package activity10;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import java.awt.GridLayout;
-
-import javax.swing.JButton;
-
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 /**
  * Main Class for the activities 8 and 10 Start this program here, it will guide
@@ -68,6 +55,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	public Pbes(Integer numberOfCustomers) { // Constrcutor
 		super(numberOfCustomers); // super constructor
+		setGuiStyles(); //use function for predefined GUI mods
 		customers = new Customer[numberOfCustomers];
 		// initialize empty customer array with predefined count
 		this.customerCount = 0; // initialize customer count
@@ -84,7 +72,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			} // end embedded function
 		});// end of window listener
 
-		setBounds(100, 100, 450, 500); // set the bounds of the mainframe
+		setBounds(100, 100, 1000, 500); // set the bounds of the mainframe
 		contentPane = new JPanel(); // creation of content Pane
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); // set Borders
 		setContentPane(contentPane); // set the content pane
@@ -104,36 +92,28 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		// creation of new Button and its appearance
 		btnSearch.setMnemonic('s'); // set key shortcut
 		btnSearch.addActionListener(this); // link action
-		btnSearch.setBackground(Color.DARK_GRAY); // set BGcolor
-		btnSearch.setForeground(Color.WHITE); // set Font color
 
 		JButton btnPay = new JButton("Pay by User ID");
 		btnPay.setSize(40, 40);
 		btnPay.setEnabled(false); // Disable additional feature for evaluation
 		btnPay.addActionListener(this);
-		btnPay.setBackground(Color.DARK_GRAY);
-		btnPay.setForeground(Color.WHITE);
 
 		// Button to add a new customer - same implementation as Search
 		JButton btnAddCustomer = new JButton("Add a new Customer");
 		btnAddCustomer.setEnabled(true);
 		btnAddCustomer.addActionListener(this);
-		btnAddCustomer.setBackground(UEMCOLOR);
-		btnAddCustomer.setForeground(Color.WHITE);
 
 		// Show all customer Button - same implementation as Search
 		JButton btnAllCustomer = new JButton("Show all Customers");
-		btnAllCustomer.setEnabled(true);
 		btnAllCustomer.addActionListener(this);
-		btnAllCustomer.setBackground(UEMCOLOR);
-		btnAllCustomer.setForeground(Color.WHITE);
+		// Added new Menu Item Style
+		JMenuItem menAllCustomer = new JMenuItem("Show all Customers");
+		menAllCustomer.addActionListener(this);
 
 		// Button that shows customer revenue - same implementation as Search
 		JButton btnCompanyRev = new JButton(
 				"Compute Balances & Show Company Revenue");
 		btnCompanyRev.addActionListener(this);
-		btnCompanyRev.setBackground(UEMCOLOR);
-		btnCompanyRev.setForeground(Color.WHITE);
 
 		// Button CustomersAboveRate - same implementation as Search
 		JButton btnCustomersAboveRate = new JButton("Show Customers Above Rate");
@@ -142,66 +122,119 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		// Button CalcBalance - same implementation as Search
 		JButton btnCalcBalance = new JButton("Calculate Balance");
 		btnCalcBalance.addActionListener(this);
-		btnCalcBalance.setBackground(UEMCOLOR);
-		btnCalcBalance.setForeground(Color.WHITE);
+		// Added new Menu Item Style //TODO
+		JMenuItem menCalcBalances = new JMenuItem("Calculate Balances");
+		menCalcBalances.addActionListener(this);
 
 		// Button CalcRev - same implementation as Search
 		JButton btnCalcRev = new JButton("Calculate Revenue");
 		btnCalcRev.addActionListener(this);
-		btnCalcRev.setBackground(UEMCOLOR);
-		btnCalcRev.setForeground(Color.WHITE);
+		// Added new Menu Item Style //TODO
+		JMenuItem menCalcRev = new JMenuItem("Calculate Revenue");
+		menCalcRev.addActionListener(this);
 
 		// Import customer from text - same implementation as Search
 		JButton btnCustFromText = new JButton("Import customers");
 		btnCustFromText.addActionListener(this);
-		btnCustFromText.setBackground(UEMCOLOR);
-		btnCustFromText.setForeground(Color.WHITE);
+		// Added new Menu Item Style
+		JMenuItem menImportCustomer = new JMenuItem("Import customers");
+		menImportCustomer.addActionListener(this);
 
 		// Export customer to text - same implementation as Search
 		JButton btnCustToText = new JButton("Export customers");
 		btnCustToText.addActionListener(this);
-		btnCustToText.setBackground(UEMCOLOR);
-		btnCustToText.setForeground(Color.WHITE);
 		
+		// Added new Menu Item Style
+		JMenuItem menExportCustomer = new JMenuItem("Export customers");
+		menExportCustomer.addActionListener(this);
+
+
 		// User Delete button by ID - same implementation as Search
-		JButton btnDelete = new JButton("Delete User by ID"); 
+		JButton btnDelete = new JButton("Delete User by ID");
 		btnDelete.setMnemonic('d');
 		btnDelete.addActionListener(this);
-		btnDelete.setBackground(Color.DARK_GRAY);
-		btnDelete.setForeground(Color.WHITE);
 
-		// Positioning of the Buttons
-		setLayout(new GridLayout(3, 1));
+		// NEW GUI DISTRIBUTION
+		setLayout(new BorderLayout());
+		// main grid layout panel
+		JPanel pnlMain = new JPanel();
+		pnlMain.setLayout(new GridLayout(2, 2));
+		contentPane.add(pnlMain, BorderLayout.CENTER);
 
-		// Search Panel
-		JPanel pnlSearch = new JPanel();
-		pnlSearch.setLayout(new BorderLayout());
-		add(pnlSearch);
-		pnlSearch.add(btnSearch, BorderLayout.WEST);
-		pnlSearch.add(btnDelete, BorderLayout.EAST);
-		pnlSearch.add(txtSearch, BorderLayout.CENTER);
+		// subpanel top-left
+		JPanel pnlTopLeft = new JPanel();
+		pnlTopLeft.setLayout(new GridLayout(1, 1));
+		pnlTopLeft.add(txtSearch);
+		pnlMain.add(pnlTopLeft);
 
-		// Pay Panel
-		JPanel pnlPay = new JPanel();
-		pnlPay.setLayout(new BorderLayout());
-		add(pnlPay);
-		pnlPay.add(btnPay, BorderLayout.WEST);
-		pnlPay.add(txtMoney, BorderLayout.CENTER);
-		pnlPay.add(btnCustomersAboveRate, BorderLayout.EAST);
+		// subpanel top-right
+		JPanel pnlTopRight = new JPanel();
+		pnlTopRight.setLayout(new GridLayout(1, 3));
+		pnlMain.add(pnlTopRight);
+		pnlTopRight.add(btnSearch);
+		pnlTopRight.add(btnDelete);
+		pnlTopRight.add(btnAddCustomer);
 
-		// Function Panel
-		JPanel pnlFunctions = new JPanel();
-		pnlFunctions.setLayout(new FlowLayout());
-		add(pnlFunctions);
-		pnlFunctions.add(btnAddCustomer);
-		pnlFunctions.add(btnAllCustomer);
-		pnlFunctions.add(btnCompanyRev);
-		pnlFunctions.add(btnCalcBalance);
-		pnlFunctions.add(btnCalcRev);
-		pnlFunctions.add(btnCustFromText);
-		pnlFunctions.add(btnCustToText);
-	} //End constructor
+		// subpanel bot-left
+		JPanel pnlBotLeft = new JPanel();
+		pnlBotLeft.setLayout(new GridLayout(1, 1));
+		pnlBotLeft.add(txtMoney);
+		pnlMain.add(pnlBotLeft);
 
+		// subpanel bot-right
+		JPanel pnlBotRight = new JPanel();
+		pnlBotRight.setLayout(new GridLayout(1, 3));
+		pnlMain.add(pnlBotRight);
+		pnlBotRight.add(btnCustomersAboveRate);
+		pnlBotRight.add(btnPay);
+
+		// Create the menu bar.
+		JMenuBar menuBar = new JMenuBar();
+		// menuBar.setBackground(Color.DARK_GRAY);
+
+		JMenu menuData = new JMenu("Data"); // Create the Menu Data
+		menuData.add(menImportCustomer);
+		menuData.add(menExportCustomer);
+		menuBar.add(menuData); // Add menu to Main Menu
+
+		JMenu menuRevenue = new JMenu("Revenue");
+		menuRevenue.add(menCalcBalances);
+		menuRevenue.add(menCalcRev);
+		menuBar.add(menuRevenue); // Add menu to Main Menu
+
+		JMenu menuAbout = new JMenu("About");
+		menuAbout.add(menAllCustomer);
+		menuBar.add(menuAbout); // Add menu to Main Menu
+
+		setJMenuBar(menuBar); // DEBUG just simply show the menu
+	} // End constructor
+
+
+	/**
+	 * Overwrite Styles of Items for GUI
+	 * 
+	 * This uses a procedure described here:
+	 * http://java-demos.blogspot.com.es/2013
+	 * /01/set-selection-background-foreground-for-jmenuitem.html
+	 */
+	public void setGuiStyles() {
+		UIManager.put("MenuBar.background", Color.DARK_GRAY);
+		
+		UIManager.put("Menu.foreground", Color.WHITE);
+		UIManager.put("Menu.border", new EmptyBorder(10, 10, 10, 10));
+		UIManager.put("Menu.selectionBackground", Color.BLACK);
+		UIManager.put("Menu.selectionForeground", Color.LIGHT_GRAY);
+
+		UIManager.put("MenuItem.selectionBackground", Color.WHITE);
+		UIManager.put("MenuItem.selectionForeground", UEMCOLOR);
+		UIManager.put("MenuItem.border", new EmptyBorder(10, 10, 10, 10));
+		
+		UIManager.put("Button.background", UEMCOLOR);
+		UIManager.put("Button.foreground", Color.WHITE);
+		UIManager.put("Button.select", Color.DARK_GRAY);
+		UIManager.put("Button.border", new EmptyBorder(10, 10, 10, 10));
+	}
+	
 	/**
 	 * method for linking the buttons to actions
 	 */
@@ -247,8 +280,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			// Conditions for Revenue Button
 			// function that shows the company revenue
 			this.onExportText(ae);
-		}else if (sourceName.contains("Delete")) {
-				this.onDeleteByUserId(ae);
+		} else if (sourceName.contains("Delete")) {
+			this.onDeleteByUserId(ae);
 		} // END if for all buttons as source
 	} // End actionPerformed
 
@@ -268,10 +301,10 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			// create a new editor with the user found
 		} else {// user not found
 			JOptionPane.showMessageDialog(this, "User with ID: " + searchId
-					+ " does not exist yet"); 
+					+ " does not exist yet");
 			// message when customer does not exist
 		} // end checking existance of user
-	} //end SearchId()
+	} // end SearchId()
 
 	/**
 	 * 
@@ -381,7 +414,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		export.exportCustomer(this.customers); // export the current set of
 												// customers
 	}
-	
+
 	public void onDeleteByUserId(ActionEvent ae) {
 		Integer searchId = Integer.parseInt(this.txtSearch.getText());
 		this.deleteCustomer(searchId);
@@ -596,5 +629,4 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		}// end of iterating through all customers
 		return (paid - outstanding);
 	}
-
 }
