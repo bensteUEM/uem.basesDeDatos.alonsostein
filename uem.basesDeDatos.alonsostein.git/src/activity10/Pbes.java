@@ -84,7 +84,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			} // end embedded function
 		});// end of window listener
 
-		setBounds(100, 100, 450, 500); // set the bounds of the mainframe
+		setBounds(100, 100, 1000, 500); // set the bounds of the mainframe
 		contentPane = new JPanel(); // creation of content Pane
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); // set Borders
 		setContentPane(contentPane); // set the content pane
@@ -162,53 +162,68 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		btnCustToText.addActionListener(this);
 		btnCustToText.setBackground(UEMCOLOR);
 		btnCustToText.setForeground(Color.WHITE);
-		
+
 		// User Delete button by ID - same implementation as Search
-		JButton btnDelete = new JButton("Delete User by ID"); 
+		JButton btnDelete = new JButton("Delete User by ID");
 		btnDelete.setMnemonic('d');
 		btnDelete.addActionListener(this);
 		btnDelete.setBackground(Color.DARK_GRAY);
 		btnDelete.setForeground(Color.WHITE);
 
-		// Positioning of the Buttons
-		//setLayout(new GridLayout(3, 1));
+		// NEW GUI DISTRIBUTION
 		setLayout(new BorderLayout());
-		JPanel pnlSearch = new JPanel();
-		pnlSearch.setLayout(new GridLayout(2,2));
-		add(pnlSearch);
+		// main grid layout panel
+		JPanel pnlMain = new JPanel();
+		pnlMain.setLayout(new GridLayout(2, 2));
+		contentPane.add(pnlMain, BorderLayout.CENTER);
 
-		
+		// subpanel top-left
+		JPanel pnlTopLeft = new JPanel();
+		pnlTopLeft.setLayout(new GridLayout(1, 1));
+		pnlTopLeft.add(txtSearch);
+		pnlMain.add(pnlTopLeft);
+
+		// subpanel top-right
+		JPanel pnlTopRight = new JPanel();
+		pnlTopRight.setLayout(new GridLayout(1, 3));
+		pnlMain.add(pnlTopRight);
+		pnlTopRight.add(btnSearch);
+		pnlTopRight.add(btnDelete);
+		pnlTopRight.add(btnAddCustomer);
+
+		// subpanel bot-left
+		JPanel pnlBotLeft = new JPanel();
+		pnlBotLeft.setLayout(new GridLayout(1, 1));
+		pnlBotLeft.add(txtMoney);
+		pnlMain.add(pnlBotLeft);
+
+		// subpanel bot-right
+		JPanel pnlBotRight = new JPanel();
+		pnlBotRight.setLayout(new GridLayout(1, 3));
+		pnlMain.add(pnlBotRight);
+		pnlBotRight.add(btnCustomersAboveRate);
+		pnlBotRight.add(btnPay);
+
 		/*
-
-		// Search Panel
-		JPanel pnlSearch = new JPanel();
-		pnlSearch.setLayout(new BorderLayout());
-		add(pnlSearch);
-		pnlSearch.add(btnSearch, BorderLayout.WEST);
-		pnlSearch.add(btnDelete, BorderLayout.EAST);
-		pnlSearch.add(txtSearch, BorderLayout.CENTER);
-
-		// Pay Panel
-		JPanel pnlPay = new JPanel();
-		pnlPay.setLayout(new BorderLayout());
-		add(pnlPay);
-		pnlPay.add(btnPay, BorderLayout.WEST);
-		pnlPay.add(txtMoney, BorderLayout.CENTER);
-		pnlPay.add(btnCustomersAboveRate, BorderLayout.EAST);
-
-		// Function Panel
-		JPanel pnlFunctions = new JPanel();
-		pnlFunctions.setLayout(new FlowLayout());
-		add(pnlFunctions);
-		pnlFunctions.add(btnAddCustomer);
-		pnlFunctions.add(btnAllCustomer);
-		pnlFunctions.add(btnCompanyRev);
-		pnlFunctions.add(btnCalcBalance);
-		pnlFunctions.add(btnCalcRev);
-		pnlFunctions.add(btnCustFromText);
-		pnlFunctions.add(btnCustToText);
-	*/
-	} //End constructor
+		 * 
+		 * // Search Panel JPanel pnlSearch = new JPanel();
+		 * pnlSearch.setLayout(new BorderLayout()); add(pnlSearch);
+		 * pnlSearch.add(btnSearch, BorderLayout.WEST); pnlSearch.add(btnDelete,
+		 * BorderLayout.EAST); pnlSearch.add(txtSearch, BorderLayout.CENTER);
+		 * 
+		 * // Pay Panel JPanel pnlPay = new JPanel(); pnlPay.setLayout(new
+		 * BorderLayout()); add(pnlPay); pnlPay.add(btnPay, BorderLayout.WEST);
+		 * pnlPay.add(txtMoney, BorderLayout.CENTER);
+		 * pnlPay.add(btnCustomersAboveRate, BorderLayout.EAST);
+		 * 
+		 * // Function Panel JPanel pnlFunctions = new JPanel();
+		 * pnlFunctions.setLayout(new FlowLayout()); add(pnlFunctions);
+		 * pnlFunctions.add(btnAddCustomer); pnlFunctions.add(btnAllCustomer);
+		 * pnlFunctions.add(btnCompanyRev); pnlFunctions.add(btnCalcBalance);
+		 * pnlFunctions.add(btnCalcRev); pnlFunctions.add(btnCustFromText);
+		 * pnlFunctions.add(btnCustToText);
+		 */
+	} // End constructor
 
 	/**
 	 * method for linking the buttons to actions
@@ -255,8 +270,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			// Conditions for Revenue Button
 			// function that shows the company revenue
 			this.onExportText(ae);
-		}else if (sourceName.contains("Delete")) {
-				this.onDeleteByUserId(ae);
+		} else if (sourceName.contains("Delete")) {
+			this.onDeleteByUserId(ae);
 		} // END if for all buttons as source
 	} // End actionPerformed
 
@@ -276,10 +291,10 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			// create a new editor with the user found
 		} else {// user not found
 			JOptionPane.showMessageDialog(this, "User with ID: " + searchId
-					+ " does not exist yet"); 
+					+ " does not exist yet");
 			// message when customer does not exist
 		} // end checking existance of user
-	} //end SearchId()
+	} // end SearchId()
 
 	/**
 	 * 
@@ -389,7 +404,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		export.exportCustomer(this.customers); // export the current set of
 												// customers
 	}
-	
+
 	public void onDeleteByUserId(ActionEvent ae) {
 		Integer searchId = Integer.parseInt(this.txtSearch.getText());
 		this.deleteCustomer(searchId);
