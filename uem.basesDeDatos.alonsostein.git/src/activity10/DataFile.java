@@ -3,16 +3,27 @@ package activity10;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class DataFile {
 	private Customer[] groupOfCustomers;
 	private int numberOfLines = 0;
-	private String fileName;
+	private String fileName = "";
 
 	/**
 	 * @return the fileName
@@ -63,8 +74,10 @@ public class DataFile {
 		Integer maxCustomers = customers.length;
 
 		// 1. OPEN
-		File path = new File(this.fileName);
+		File path = new File(this.fileName+".csv");
 		String fileName = path.getPath();
+
+		System.out.println(path); //TODO debug
 		try {
 			// 2. WRITE
 			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
@@ -97,13 +110,48 @@ public class DataFile {
 									// errors with file handling
 		}
 	}
+	
+	public void exportCustomerExcel(ArrayList<Customer> customers){
+		System.out.println("Experimental Excel Export Function of DataFile"); //TODO debug
+		XSSFWorkbook workbook = new XSSFWorkbook();
+		XSSFSheet sheet = workbook.createSheet("Full Customer Export");
+		
+		int rownum = 0;
+		for (Customer currentCustomer : customers) {
+			Row row = sheet.createRow(rownum++);	
+			int cellnum = 0;
+			for (Object obj : currentCustomer.exportText().split(",")) {
+				Cell cell = row.createCell(cellnum++);
+				if (obj instanceof Date)
+					cell.setCellValue((Date) obj);
+				else if (obj instanceof Boolean)
+					cell.setCellValue((Boolean) obj);
+				else if (obj instanceof String)
+					cell.setCellValue((String) obj);
+				else if (obj instanceof Double)
+					cell.setCellValue((Double) obj);
+			}
+		}
+
+		try {
+			FileOutputStream out = new FileOutputStream(new File(this.fileName+".xlsx"));
+			workbook.write(out);
+			out.close();
+			System.out.println("Excel written successfully..");
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public Customer[] importCustomer(){
 
 		// 1. OPEN file
-		File path = new File(this.fileName);
+		File path = new File(this.fileName+".csv");
 		String fileName = path.getPath();
-
+		
 		StringBuffer fileContent = new StringBuffer();
 
 		try {
@@ -177,16 +225,13 @@ public class DataFile {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		return groupOfCustomers;
 
 	}
 
 	public DataFile(Customer[] customers) {
 		this.groupOfCustomers = customers;
-		this.fileName = "." + File.separator + File.separator + "src"
-				+ File.separator + "activity10" + File.separator
-				+ "data_customers.txt";
+		this.fileName = "data_customers";
 	}
 
 	/**
@@ -195,9 +240,7 @@ public class DataFile {
 	 */
 	public DataFile() {
 		this.groupOfCustomers = null;
-		this.fileName = "." + File.separator + File.separator + "src"
-				+ File.separator + "activity10" + File.separator
-				+ "data_customers.txt";
+		this.fileName = "data_customers";
 	}
 
 	public Integer getNumberOfLines() {

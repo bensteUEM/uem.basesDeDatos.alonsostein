@@ -129,7 +129,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		// Button CalcRev - same implementation as Search
 		JButton btnCalcRev = new JButton("Calculate Revenue");
 		btnCalcRev.addActionListener(this);
-		// Added new Menu Item Style //TODO
+		// Added new Menu Item Style
 		JMenuItem menCalcRev = new JMenuItem("Calculate Revenue");
 		menCalcRev.addActionListener(this);
 
@@ -137,16 +137,19 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		JButton btnCustFromText = new JButton("Import customers");
 		btnCustFromText.addActionListener(this);
 		// Added new Menu Item Style
-		JMenuItem menImportCustomer = new JMenuItem("Import customers");
+		JMenuItem menImportCustomer = new JMenuItem("Import customers from CSV");
 		menImportCustomer.addActionListener(this);
 
 		// Export customer to text - same implementation as Search
-		JButton btnCustToText = new JButton("Export customers");
+		JButton btnCustToText = new JButton("Export customers to CSV");
 		btnCustToText.addActionListener(this);
 
 		// Added new Menu Item Style
-		JMenuItem menExportCustomer = new JMenuItem("Export customers");
+		JMenuItem menExportCustomer = new JMenuItem("Export customers to CSV");
 		menExportCustomer.addActionListener(this);
+		// Added new Menu Item Style
+		JMenuItem menExportCustomerExcel = new JMenuItem("Export customers to Excel2013");
+		menExportCustomerExcel.addActionListener(this);
 
 		// User Delete button by ID - same implementation as Search
 		JButton btnDelete = new JButton("Delete User by ID");
@@ -194,6 +197,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		JMenu menuData = new JMenu("Data"); // Create the Menu Data
 		menuData.add(menImportCustomer);
 		menuData.add(menExportCustomer);
+		menuData.add(menExportCustomerExcel);
 		menuBar.add(menuData); // Add menu to Main Menu
 
 		JMenu menuRevenue = new JMenu("Revenue");
@@ -240,7 +244,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void actionPerformed(ActionEvent ae) { // ActionList
 		String sourceName = ae.getActionCommand(); // get Sender name
 		// DEBUG only
-		// System.out.println("PBES - performing Action for: " + sourceName);
+		 System.out.println("PBES - performing Action for: " + sourceName);
 
 		// IF Cases for all Buttons which have actions
 		if (sourceName.contains("Search User by ID")) {
@@ -270,13 +274,11 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			// Conditions for Revenue Button
 			// function that shows the company revenue
 			this.onRevenue(ae);
-		} else if (sourceName.contains("Import customers")) {
-			// Conditions for Revenue Button
-			// function that shows the company revenue
+		} else if (sourceName.contains("Import customers from CSV")) {
 			this.onImportText(ae);
-		} else if (sourceName.contains("Export customers")) {
-			// Conditions for Revenue Button
-			// function that shows the company revenue
+		} else if (sourceName.contains("Export customers to Excel2013")) {
+			this.onExportExcel(ae);
+		} else if (sourceName.contains("Export customers to CSV")) {
 			this.onExportText(ae);
 		} else if (sourceName.contains("Delete")) {
 			this.onDeleteByUserId(ae);
@@ -402,6 +404,16 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		DataFile export = new DataFile(); // create a new file without a
 											// customer object
 		export.exportCustomer(this.customers);
+		// export the current set of customers
+	}
+	
+	/**
+	 * Export all customers using the default file location of the DataFile
+	 */
+	public void onExportExcel(ActionEvent ae) {
+		DataFile export = new DataFile(); // create a new file without a
+											// customer object
+		export.exportCustomerExcel(this.customers);
 		// export the current set of customers
 	}
 
