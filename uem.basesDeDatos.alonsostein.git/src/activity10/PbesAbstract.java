@@ -1,5 +1,6 @@
 package activity10;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -16,11 +17,11 @@ public abstract class PbesAbstract  extends JFrame{
 	//public abstract CustomerAbstract getCustomer(String searchCellPhoneNumber);
 	//public abstract CustomerAbstract getCustomer(String searchName, String landLineNumber);
 	
-	public abstract Integer getAllCustomerBalance();
+	public abstract BigDecimal getAllCustomerBalance();
 	public abstract ArrayList<Customer> getCustomersAboveRate(Integer maxRate); //List of CustomerAbstract
 	public abstract void calculateAllBalances();
 	
-	public abstract Integer getCompanyRevenue();
+	public abstract BigDecimal getCompanyRevenue();
 	
 	@SuppressWarnings("unused") //use to block default constructor
 	private PbesAbstract() {

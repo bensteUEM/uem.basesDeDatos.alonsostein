@@ -3,6 +3,8 @@ package activity10;
 import java.awt.*;
 import java.awt.event.*;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -385,13 +387,13 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void onShowAndCalculateCompanyRevenue(ActionEvent ae) {
 		// revenue of each customer
 		this.calculateAllBalances();
-		Integer revenue = this.getCompanyRevenue();
+		String revenue = this.getCompanyRevenue().toString();
 		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
 				+ " € not taking into accounts Cents");
 	}
 
 	public void onRevenue(ActionEvent ae) {
-		Integer revenue = this.getCompanyRevenue();
+		String revenue = this.getCompanyRevenue().toString();
 		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
 				+ " € not taking into accounts Cents");
 	}
@@ -539,13 +541,14 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * @return Total Balance of all customers
 	 */
 	@Override
-	public Integer getAllCustomerBalance() {
-		Integer result = 0; // initialize result variable
+	public BigDecimal getAllCustomerBalance() {
+		BigDecimal result = new BigDecimal(0, new MathContext(3,
+				RoundingMode.HALF_UP)); // initialize result variable
 		for (Customer compareCustomer : this.customers) { // iterate through all
 															// customers
 			if (compareCustomer != null) // customer exists
 			{
-				result += compareCustomer.getBalance();
+				result.add(compareCustomer.getBalance());
 			}// end if precondition customer exists
 		}// end of iterating through all customers
 		return result;
@@ -594,19 +597,21 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * @return Total Revenue in Cents
 	 */
 	@Override
-	public Integer getCompanyRevenue() {
+	public BigDecimal getCompanyRevenue() {
 		// TODO Include money that has been paid by customer
-		Integer paid = 0; // temporary var only - needs to be class var once
+		BigDecimal paid = new BigDecimal(0, new MathContext(3,
+				RoundingMode.HALF_UP)); // temporary var only - needs to be class var once
 							// payment is implemented
-		Integer outstanding = 0; // initialize outstanding
+		BigDecimal outstanding = new BigDecimal(0, new MathContext(3,
+				RoundingMode.HALF_UP)); // initialize outstanding
 		for (Customer compareCustomer : this.customers) { // iterate through all
 			// customers
 			if (compareCustomer != null) // customer exists
 			{
-				outstanding += compareCustomer.getBalance();
+				outstanding.add(compareCustomer.getBalance());
 				// add the outstanding balance to current balance
 			}// end if precondition customer exists
 		}// end of iterating through all customers
-		return (paid + outstanding);
+		return (paid.add(outstanding));
 	}// end getCompanyRevenue();
 } // end class

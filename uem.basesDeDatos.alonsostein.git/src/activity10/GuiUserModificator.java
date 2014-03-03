@@ -105,8 +105,8 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		contentPane.add(lblBalance);
 
 		// Balance field
-		textFieldBalance = new JTextField(Integer.toString(currentCustomer
-				.getBalance()));
+		textFieldBalance = new JTextField(currentCustomer
+				.getBalance().toString());
 		textFieldBalance.setEditable(false);
 		textFieldBalance.setColumns(10);
 		contentPane.add(textFieldBalance);
@@ -200,8 +200,8 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		contentPane.add(lblBalance);
 
 		// Balance field
-		textFieldBalance = new JTextField(Integer.toString(currentCustomer
-				.getBalance()));
+		textFieldBalance = new JTextField(currentCustomer
+				.getBalance().toString());
 		textFieldBalance.setEditable(false);
 		textFieldBalance.setColumns(10);
 		contentPane.add(textFieldBalance);

@@ -1,5 +1,9 @@
 package activity10;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+
 /**
  * Abstract of the Customer which was the minimal specification to task 8
  * As this is an abstract methods are commented in the respective implementation
@@ -12,7 +16,7 @@ public abstract class CustomerAbstract {
 	protected String cellPhoneNumber;
 	protected String landlinePhoneNumber;
 	protected Integer airtimeMinutes; // Amount of minutes consumed
-	protected Integer balance; // Balance of Account in Euros
+	protected BigDecimal balance; // Balance of Account in Euros
 	protected Integer rate; // per minute
 
 	@SuppressWarnings("unused")
@@ -55,7 +59,7 @@ public abstract class CustomerAbstract {
 	/**
 	 * Get Balance in full €
 	 */
-	public Integer getBalance(){
+	public BigDecimal getBalance(){
 		return this.balance;
 	}
 
@@ -65,7 +69,9 @@ public abstract class CustomerAbstract {
 	 */
 	public void setBalance() {
 		// TODO this is using integer division and cutting of Cents !
-		this.balance = (this.getRate()) * this.getAirtimeMinutes() /100; //costs are negative rates
+		this.balance = 
+				new BigDecimal((this.getRate()) * this.getAirtimeMinutes() /100.0, new MathContext(3,
+						RoundingMode.HALF_UP)); //costs are negative rates
 		this.setAirtimeMinutes(0);
 	}
 	

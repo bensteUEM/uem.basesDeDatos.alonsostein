@@ -35,7 +35,8 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		this.cellPhoneNumber = newCellPhoneNumber;
 		this.landlinePhoneNumber = "";
 		this.airtimeMinutes = 0;
-		this.balance = 0;
+		this.balance = new BigDecimal(0, new MathContext(3,
+				RoundingMode.HALF_UP));
 		this.minBalance = new BigDecimal(0, new MathContext(3,
 				RoundingMode.HALF_UP));
 		this.rate = 0;
@@ -262,8 +263,9 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 * Get Balance in full €, NEW Version - taking into account the minimum
 	 * balance per customer
 	 */
-	public Integer getBalance() {
-		if (this.getMinBalance() < this.balance) {
+	public BigDecimal getBalance() {
+		BigDecimal minBalance = this.getMinBalance(); // get customer min Balance
+		if (this.balance.compareTo(minBalance)== 1) {
 			return this.balance;
 		}
 		return minBalance;
@@ -364,7 +366,8 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 			success = success
 					&& this.setAirtimeMinutes(Integer.parseInt(parts[4]));
 			success = success && this.setRate(Integer.parseInt(parts[5]));
-			this.balance = Integer.parseInt(parts[6]);
+			this.balance = new BigDecimal(parts[6], new MathContext(3,
+					RoundingMode.HALF_UP));
 		} // end if validated parts
 		return success;
 	} // end importText()
@@ -389,7 +392,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		parts[3] = this.getLandlinePhoneNumer();
 		parts[4] = Integer.toString(this.getAirtimeMinutes());
 		parts[5] = Integer.toString(this.getRate());
-		parts[6] = Integer.toString(this.getBalance());
+		parts[6] = this.getBalance().toString();
 		// Parse the Array into a String
 		String result = "";
 		for (String part : parts) {
