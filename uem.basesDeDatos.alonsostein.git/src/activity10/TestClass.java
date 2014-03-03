@@ -6,7 +6,7 @@ public class TestClass {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		/*
 		Customer a = new Customer("", "", 0);
 		System.out.println("empty customer: " + a);
 		
@@ -27,6 +27,10 @@ public class TestClass {
 		else {
 			System.out.println("the test finished with problematic import");
 		}
+		*/
+		System.out.println("Excel Min Balance import test");
+		DataFile d = new DataFile("MinimumBalance");
+		d.importMinimumBalanceExcel2013();
 	}
 
 }

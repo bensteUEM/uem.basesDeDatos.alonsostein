@@ -37,7 +37,8 @@ public class DataFile {
 	}
 
 	/**
-	 * @param fileName the fileName to set
+	 * @param fileName
+	 *            the fileName to set
 	 */
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
@@ -68,20 +69,19 @@ public class DataFile {
 	 */
 	public void exportCustomer(Customer[] customers) { // Export customer/s to
 														// file
-		 //SORTING Addon - ref comparator to empty customer object
-		Arrays.sort(customers,new Customer("","",-1));
-		
+		// SORTING Addon - ref comparator to empty customer object
+		Arrays.sort(customers, new Customer("", "", -1));
+
 		this.groupOfCustomers = customers;
-		//optional Addon - sort customers by ID
-		
-		
+		// optional Addon - sort customers by ID
+
 		Integer maxCustomers = customers.length;
 
 		// 1. OPEN
-		File path = new File(this.fileName+".csv");
+		File path = new File(this.fileName + ".csv");
 		String fileName = path.getPath();
 
-		System.out.println(path); //TODO debug
+		System.out.println(path); // TODO debug
 		try {
 			// 2. WRITE
 			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
@@ -114,15 +114,16 @@ public class DataFile {
 									// errors with file handling
 		}
 	}
-	
-	public void exportCustomerExcel2013(ArrayList<Customer> customers){
-		System.out.println("Experimental Excel Export Function of DataFile"); //TODO debug
+
+	public void exportCustomerExcel2013(ArrayList<Customer> customers) {
+		System.out.println("Experimental Excel Export Function of DataFile"); // TODO
+																				// debug
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet = workbook.createSheet("Full Customer Export");
-		
+
 		int rownum = 0;
 		for (Customer currentCustomer : customers) {
-			Row row = sheet.createRow(rownum++);	
+			Row row = sheet.createRow(rownum++);
 			int cellnum = 0;
 			for (Object obj : currentCustomer.exportText().split(",")) {
 				Cell cell = row.createCell(cellnum++);
@@ -138,7 +139,8 @@ public class DataFile {
 		}
 
 		try {
-			FileOutputStream out = new FileOutputStream(new File(this.fileName+".xlsx"));
+			FileOutputStream out = new FileOutputStream(new File(this.fileName
+					+ ".xlsx"));
 			workbook.write(out);
 			out.close();
 			System.out.println("Excel written successfully..");
@@ -150,12 +152,12 @@ public class DataFile {
 		}
 	}
 
-	public Customer[] importCustomer(){
+	public Customer[] importCustomer() {
 
 		// 1. OPEN file
-		File path = new File(this.fileName+".csv");
+		File path = new File(this.fileName + ".csv");
 		String fileName = path.getPath();
-		
+
 		StringBuffer fileContent = new StringBuffer();
 
 		try {
@@ -164,13 +166,13 @@ public class DataFile {
 
 			String line;
 			numberOfLines = 0; // reset number of lines
-			
+
 			while ((line = reader.readLine()) != null) {
-				
+
 				numberOfLines++; // and increments the number of customers the
 									// file has till it gets to the end of the
 				fileContent.append(line).append("-");
-				
+
 			}
 			String[] customerData = new String[numberOfLines]; // create a new
 			// array string
@@ -190,7 +192,7 @@ public class DataFile {
 																// customer in a
 																// position of
 																// the array
-			
+
 			// @LUIS - code not needed for import ...
 			// System.out.println(oneCustomerToWrite);
 			for (int i = 0; i <= (groupOfCustomers.length - 1); i++) { // @LUIS
@@ -235,39 +237,40 @@ public class DataFile {
 
 	/**
 	 * Import the minimum Balance in Cents from an Excel 2013 sheet
+	 * 
 	 * @return
 	 */
-	public BigDecimal importMinimumBalanceExcel2013(){
+	public BigDecimal importMinimumBalanceExcel2013() {
 		FileInputStream file;
 		try {
-			file = new FileInputStream(new File(this.fileName+".xlsx"));
-			//Get the workbook instance for XLS file 
+			file = new FileInputStream(new File(this.fileName + ".xlsx"));
+			// Get the workbook instance for XLS file
 			XSSFWorkbook workbook = new XSSFWorkbook(file);
-			//Get first sheet from the workbook
+			// Get first sheet from the workbook
 			XSSFSheet sheet = workbook.getSheetAt(0);
-			 
-			//Get iterator to all the rows in current sheet
-			Row row1 = sheet.getRow(0);
-			Cell cellA1 = row1.getCell(0); 
-			Double cellValue = cellA1.getNumericCellValue();
-			System.out.println("Number: "+cellValue); //TODO DEBUG
-			BigDecimal b = new BigDecimal(cellValue, new MathContext(2,RoundingMode.HALF_UP));
-			System.out.println("Number as BigDecimal with 2 decimals: "+b);//TODO DEBUG
-			
-			return b;
+
+			Row row1 = sheet.getRow(0); // Get first item from row
+			Cell cellA1 = row1.getCell(0); // Get first cell from row
+			Double cellValue = cellA1.getNumericCellValue(); // REad value
+			System.out.println("Number: " + cellValue); // TODO DEBUG
+			BigDecimal b = new BigDecimal(cellValue, new MathContext(3,
+					RoundingMode.HALF_UP)); // Convert Value into correct
+											// datatype
+			System.out.println("Number as BigDecimal with 2 decimals: " + b);// TODO
+			return b; // return result
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return null;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
-		}  		
-	}
-	
+		} // end of try
+	}// end of import minimum Balance
+
 	public DataFile(Customer[] customers) {
 		this.groupOfCustomers = customers;
 		this.fileName = "data_customers";
-	}
+	} // end of constructor
 
 	/**
 	 * Another constructor to avoid duplicated passing of the Customer to export
@@ -276,14 +279,26 @@ public class DataFile {
 	public DataFile() {
 		this.groupOfCustomers = null;
 		this.fileName = "data_customers";
-	}
+	} // end of constructor
+
+	/**
+	 * Constructor for simple filename import only
+	 * 
+	 * @author benste
+	 * @param newFileName
+	 */
+	public DataFile(String newFileName) {
+		this.groupOfCustomers = null;
+		this.fileName = newFileName;
+	} // end of constructor
 
 	public Integer getNumberOfLines() {
 		return numberOfLines;
-	}
+	} // end of getNumberofLines
 
 	/**
 	 * Wrapper to use existing import with new DataTypes
+	 * 
 	 * @param newCustomers
 	 */
 	public void exportCustomer(ArrayList<Customer> newCustomers) {
@@ -292,6 +307,5 @@ public class DataFile {
 		custArray = newCustomers.toArray(new Customer[0]);
 		this.exportCustomer(custArray);
 	}
-	
 
 }
