@@ -1,5 +1,8 @@
 package activity10;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator; //needed for sorting 
 
@@ -11,7 +14,8 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	public final static Integer IMPLEMENTEDARGS = 7; // number of arguments
 														// implemented for a
 														// customer
-	private Integer minBalance = 0; //in full € cutting of Cents
+	private BigDecimal minBalance = new BigDecimal(0, new MathContext(3,
+			RoundingMode.HALF_UP)); //in full € cutting of Cents
 	private ArrayList<CustomerCall> calls = new ArrayList<CustomerCall>(0);
 
 	/**
@@ -32,7 +36,8 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		this.landlinePhoneNumber = "";
 		this.airtimeMinutes = 0;
 		this.balance = 0;
-		this.minBalance = 0;
+		this.minBalance = new BigDecimal(0, new MathContext(3,
+				RoundingMode.HALF_UP));
 		this.rate = 0;
 	} // end Customer()
 
@@ -267,7 +272,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	/**
 	 * @return the minBalance
 	 */
-	public Integer getMinBalance() {
+	public BigDecimal getMinBalance() {
 		return minBalance;
 	}
 
@@ -275,7 +280,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 * @param minBalance
 	 *            the minBalance to set
 	 */
-	public void setMinBalance(Integer minBalance) {
+	public void setMinBalance(BigDecimal minBalance) {
 		this.minBalance = minBalance;
 	}
 

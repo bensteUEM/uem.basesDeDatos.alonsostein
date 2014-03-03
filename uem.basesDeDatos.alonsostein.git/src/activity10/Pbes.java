@@ -2,6 +2,7 @@ package activity10;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -315,6 +316,10 @@ public class Pbes extends PbesAbstract implements ActionListener {
 				Integer.parseInt(this.txtSearch.getText())); // function to
 																// add new
 																// customer
+		//Read minimum Balance and Save to Customer
+		DataFile d = new DataFile("MinimumBalance");
+		this.setMinBalance(d.importMinimumBalanceExcel2013());
+		
 		if (!(this.addCustomer(newCustomer))) {
 			JOptionPane
 					.showMessageDialog(
@@ -328,6 +333,11 @@ public class Pbes extends PbesAbstract implements ActionListener {
 														// action was
 														// successful
 		}
+	}
+
+	private void setMinBalance(BigDecimal importMinimumBalanceExcel2013) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	public void onPayByUserId(ActionEvent ae) {
@@ -393,7 +403,9 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		DataFile export = new DataFile(); // create a new file without a
 											// customer object
 		for (Customer oneCustomer : export.importCustomer()) {
-			this.customers.add(oneCustomer);
+			if (addCustomer(oneCustomer)){
+				System.out.println("Following Customer added: "+oneCustomer);
+			};
 		} // end for addin customer
 	}// end onImportText()
 
