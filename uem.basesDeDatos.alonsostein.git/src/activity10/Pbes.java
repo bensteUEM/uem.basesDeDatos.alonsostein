@@ -6,8 +6,11 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import activity12.GuiCallPlacement;
 
 /**
  * Main Class for the activities 8 and 10 Start this program here, it will guide
@@ -96,6 +99,12 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		btnSearch.setMnemonic('s'); // set key shortcut
 		btnSearch.addActionListener(this); // link action
 
+		// User Call Button by ID
+		JButton btnCall = new JButton("Call");
+		// creation of new Button and its appearance
+		btnCall.setMnemonic('c'); // set key shortcut
+		btnCall.addActionListener(this); // link action
+
 		JButton btnPay = new JButton("Pay by User ID");
 		btnPay.setSize(40, 40);
 		btnPay.setEnabled(false); // Disable additional feature for evaluation
@@ -151,7 +160,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		JMenuItem menExportCustomer = new JMenuItem("Export customers to CSV");
 		menExportCustomer.addActionListener(this);
 		// Added new Menu Item Style
-		JMenuItem menExportCustomerExcel = new JMenuItem("Export customers to Excel2013");
+		JMenuItem menExportCustomerExcel = new JMenuItem(
+				"Export customers to Excel2013");
 		menExportCustomerExcel.addActionListener(this);
 
 		// User Delete button by ID - same implementation as Search
@@ -179,6 +189,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		pnlTopRight.add(btnSearch);
 		pnlTopRight.add(btnDelete);
 		pnlTopRight.add(btnAddCustomer);
+		pnlTopRight.add(btnCall);
 
 		// subpanel bot-left
 		JPanel pnlBotLeft = new JPanel();
@@ -247,7 +258,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void actionPerformed(ActionEvent ae) { // ActionList
 		String sourceName = ae.getActionCommand(); // get Sender name
 		// DEBUG only
-		 System.out.println("PBES - performing Action for: " + sourceName);
+		System.out.println("PBES - performing Action for: " + sourceName);
 
 		// IF Cases for all Buttons which have actions
 		if (sourceName.contains("Search User by ID")) {
@@ -285,7 +296,9 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			this.onExportText(ae);
 		} else if (sourceName.contains("Delete")) {
 			this.onDeleteByUserId(ae);
-		} // END if for all buttons as source
+		} else if (sourceName.contains("Call")) {
+			this.onCall(ae);
+		}// END if for all buttons as source
 	} // End actionPerformed
 
 	/**
@@ -318,10 +331,10 @@ public class Pbes extends PbesAbstract implements ActionListener {
 				Integer.parseInt(this.txtSearch.getText())); // function to
 																// add new
 																// customer
-		//Read minimum Balance and Save to Customer
+		// Read minimum Balance and Save to Customer
 		DataFile d = new DataFile("MinimumBalance");
 		this.setMinBalance(d.importMinimumBalanceExcel2013());
-		
+
 		if (!(this.addCustomer(newCustomer))) {
 			JOptionPane
 					.showMessageDialog(
@@ -339,7 +352,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 
 	private void setMinBalance(BigDecimal importMinimumBalanceExcel2013) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void onPayByUserId(ActionEvent ae) {
@@ -405,9 +418,10 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		DataFile export = new DataFile(); // create a new file without a
 											// customer object
 		for (Customer oneCustomer : export.importCustomer()) {
-			if (addCustomer(oneCustomer)){
-				System.out.println("Following Customer added: "+oneCustomer);
-			};
+			if (addCustomer(oneCustomer)) {
+				System.out.println("Following Customer added: " + oneCustomer);
+			}
+			;
 		} // end for addin customer
 	}// end onImportText()
 
@@ -420,7 +434,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		export.exportCustomer(this.customers);
 		// export the current set of customers
 	}
-	
+
 	/**
 	 * Export all customers using the default file location of the DataFile
 	 */
@@ -435,6 +449,22 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		Integer searchId = Integer.parseInt(this.txtSearch.getText());
 		this.deleteCustomer(searchId);
 	} // end onDeleteByUserId
+	
+	public void onCall(ActionEvent ae) {
+		Integer searchId = Integer.parseInt(this.txtSearch.getText());
+		@SuppressWarnings("unused")
+		GuiCallPlacement editor = null; // init Modificator
+		if (this.getCustomer(searchId) != null) { // check that user exists
+			editor = new GuiCallPlacement(this,
+					(Customer) this.getCustomer(searchId));
+			// create a new editor with the user found
+		} else {// user not found
+			JOptionPane.showMessageDialog(this, "User with ID: " + searchId
+					+ " does not exist yet");
+			// message when customer does not exist
+		} // end checking existance of user
+	}
+
 
 	@Override
 	public boolean addCustomer(CustomerAbstract customer) {
@@ -521,13 +551,14 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * @author benste
 	 */
 	public boolean deleteCustomer(Integer searchId) {
-		for (Customer compareCustomer : this.customers) { 
+		for (Customer compareCustomer : this.customers) {
 			// iterate through all customers
-			if (compareCustomer.getId().equals(searchId)) 
-				// customer is the one we
+			if (compareCustomer.getId().equals(searchId))
+			// customer is the one we
 			{
-				JOptionPane.showMessageDialog(this, "This user has been deleted: "+compareCustomer);
-				return this.customers.remove(compareCustomer); 
+				JOptionPane.showMessageDialog(this,
+						"This user has been deleted: " + compareCustomer);
+				return this.customers.remove(compareCustomer);
 				// delete customer
 			} // end IF of customer found or not
 		}// end of iterating through all customers
@@ -600,8 +631,9 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public BigDecimal getCompanyRevenue() {
 		// TODO Include money that has been paid by customer
 		BigDecimal paid = new BigDecimal(0, new MathContext(3,
-				RoundingMode.HALF_UP)); // temporary var only - needs to be class var once
-							// payment is implemented
+				RoundingMode.HALF_UP)); // temporary var only - needs to be
+										// class var once
+		// payment is implemented
 		BigDecimal outstanding = new BigDecimal(0, new MathContext(3,
 				RoundingMode.HALF_UP)); // initialize outstanding
 		for (Customer compareCustomer : this.customers) { // iterate through all
