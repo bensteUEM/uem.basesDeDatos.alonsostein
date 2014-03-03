@@ -11,7 +11,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	public final static Integer IMPLEMENTEDARGS = 7; // number of arguments
 														// implemented for a
 														// customer
-	private Integer minBalance = 0;
+	private Integer minBalance = 0; //in full € cutting of Cents
 	private ArrayList<CustomerCall> calls = new ArrayList<CustomerCall>(0);
 
 	/**
@@ -32,12 +32,12 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		this.landlinePhoneNumber = "";
 		this.airtimeMinutes = 0;
 		this.balance = 0;
-		this.setMinBalance(0);
+		this.minBalance = 0;
 		this.rate = 0;
 	} // end Customer()
 
 	/**
-	 * Constructor for a new Custoemr object based on an import from Text
+	 * Constructor for a new Customer object based on an import from Text
 	 * 
 	 * @param a
 	 *            String representing fully qualified Customer for Text import

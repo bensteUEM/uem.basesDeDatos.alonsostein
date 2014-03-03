@@ -3,11 +3,15 @@ package activity10;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -111,7 +115,7 @@ public class DataFile {
 		}
 	}
 	
-	public void exportCustomerExcel(ArrayList<Customer> customers){
+	public void exportCustomerExcel2013(ArrayList<Customer> customers){
 		System.out.println("Experimental Excel Export Function of DataFile"); //TODO debug
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet = workbook.createSheet("Full Customer Export");
@@ -229,6 +233,37 @@ public class DataFile {
 
 	}
 
+	/**
+	 * Import the minimum Balance in Cents from an Excel 2013 sheet
+	 * @return
+	 */
+	public BigDecimal importMinimumBalanceExcel2013(){
+		FileInputStream file;
+		try {
+			file = new FileInputStream(new File(this.fileName+".xlsx"));
+			//Get the workbook instance for XLS file 
+			XSSFWorkbook workbook = new XSSFWorkbook(file);
+			//Get first sheet from the workbook
+			XSSFSheet sheet = workbook.getSheetAt(0);
+			 
+			//Get iterator to all the rows in current sheet
+			Row row1 = sheet.getRow(0);
+			Cell cellA1 = row1.getCell(0); 
+			Double cellValue = cellA1.getNumericCellValue();
+			System.out.println("Number: "+cellValue); //TODO DEBUG
+			BigDecimal b = new BigDecimal(cellValue, new MathContext(2,RoundingMode.HALF_UP));
+			System.out.println("Number as BigDecimal with 2 decimals: "+b);//TODO DEBUG
+			
+			return b;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}  		
+	}
+	
 	public DataFile(Customer[] customers) {
 		this.groupOfCustomers = customers;
 		this.fileName = "data_customers";

@@ -413,7 +413,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void onExportExcel(ActionEvent ae) {
 		DataFile export = new DataFile(); // create a new file without a
 											// customer object
-		export.exportCustomerExcel(this.customers);
+		export.exportCustomerExcel2013(this.customers);
 		// export the current set of customers
 	}
 
