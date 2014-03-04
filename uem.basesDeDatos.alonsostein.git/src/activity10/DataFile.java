@@ -68,7 +68,7 @@ public class DataFile {
 		    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			
 			// 1. OPEN
-			File path = new File(this.fileName + ".csv");
+			File path = new File(this.fileName + ".txt");
 			String fileName = path.getPath();
 			// 2. Create Writer
 			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
@@ -87,7 +87,7 @@ public class DataFile {
 			writer.newLine();
 			writer.write("====");
 			writer.newLine();
-			writer.write("Total outstanding Balance is: "+customer.getBalance()+ "€");
+			writer.write("Total outstanding Balance is: "+customer.getBalance()+ "ï¿½");
 			writer.write("====");
 			writer.newLine();
 
