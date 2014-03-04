@@ -27,12 +27,12 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 	private Customer customer;
 	private String numberToCall;
 	private Pbes parent;
-	private Calendar startCall;
-	private Integer callTimeStart;
-	private Calendar endCall;
-	private Integer callTimeEnd;
-	private Integer callDurationMillis;
-	private Integer callDurationSeconds;
+	// CALL Classprivate Calendar startCall;
+	// private Integer callTimeStart;
+	// LOCAL private Calendar endCall;
+	//private Integer callTimeEnd;
+	//private Integer callDurationMillis;
+	//private Integer callDurationSeconds;
 	private JTextArea textAreaInfo;
 
 	public GuiCallPlacement(Pbes sourceParent, Customer currentCustomer) {

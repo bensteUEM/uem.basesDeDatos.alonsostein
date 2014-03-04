@@ -477,8 +477,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	
 	public void onCalculateMonthlyBill(ActionEvent ae) {
 		Integer searchId = Integer.parseInt(this.txtSearch.getText());
-		this.deleteCustomer(searchId);
-	} // end onDeleteByUserId
+		/*//TODO Luis*/
+	} // end onCalculateMonthlyBill
 
 	@Override
 	public boolean addCustomer(CustomerAbstract customer) {
