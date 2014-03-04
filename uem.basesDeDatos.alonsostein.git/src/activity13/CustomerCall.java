@@ -45,7 +45,7 @@ public class CustomerCall {
 	 * Calculate the Call Time in Seconds based on the End Time of the Call
 	 */
 	public Integer calculateDuration(Calendar endTime) {
-		this.duration = (int) ((this.startTime.getTimeInMillis() -endTime.getTimeInMillis()) / 100);
+		this.duration = (int) ( (endTime.getTimeInMillis()-this.startTime.getTimeInMillis()) / 100);
 		return duration;
 	}
 	
