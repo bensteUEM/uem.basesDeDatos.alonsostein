@@ -57,9 +57,9 @@ public class DataFile {
 	}
 
 	/**
-	 * By default export this objects customers
+	 * Export the customers Bill to a textfile
 	 */
-	public void exportCustomer(Customer customer) {
+	public void exportCustomerBill(Customer customer) {
 		try {
 			//0. Calculate Customer Balance
 			customer.addAirtimeMinutesFromCalls();
