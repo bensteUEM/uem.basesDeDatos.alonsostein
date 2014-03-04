@@ -475,8 +475,18 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		} // end checking existance of user
 	}
 	
-	public void onCalculateMonthlyBill(ActionEvent ae) {
+	public void onCalculateMonthlyBill(ActionEvent ae) {	
 		Integer searchId = Integer.parseInt(this.txtSearch.getText());
+		if (this.getCustomer(searchId) != null) { // check that user exists
+			DataFile bill = new DataFile();
+			bill.setFileName("Billing_info");
+			bill.exportCustomerBill((Customer) this.getCustomer(searchId));
+		} else {// user not found
+			JOptionPane.showMessageDialog(this, "User with ID: " + searchId
+					+ " does not exist yet");
+			// message when customer does not exist
+		} // end checking existance of user
+		
 		/*//TODO Luis*/
 	} // end onCalculateMonthlyBill
 
