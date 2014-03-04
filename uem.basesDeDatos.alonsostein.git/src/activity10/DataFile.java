@@ -50,13 +50,6 @@ public class DataFile {
 	}
 
 	/**
-	 * Create a bill for the customer
-	 */
-	public void billCustomer() {
-
-	}
-
-	/**
 	 * Export the customers Bill to a textfile
 	 */
 	public void exportCustomerBill(Customer customer) {
@@ -105,10 +98,10 @@ public class DataFile {
 			
 			//same order - CONTENT
 			for (CustomerCall call : customer.getCalls()){
-				writer.write(call.getDestination()+",");
-				writer.write(sdf.format(call.getStartTime()));
-				writer.write(call.getDestination()+",");
-				writer.write(call.getTotal()+",");
+				writer.write(call.getDestination()+" , ");
+				writer.write(sdf.format(call.getStartTime())+" , ");
+				writer.write(call.getDuration()+" , ");
+				writer.write(call.getTotal()+" , ");
 				writer.newLine();
 			}
 			writer.write("====");
