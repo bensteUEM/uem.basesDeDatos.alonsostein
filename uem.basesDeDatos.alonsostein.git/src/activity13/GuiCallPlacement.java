@@ -133,6 +133,7 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 		textAreaInfo.append("Destination: " + this.call.getDestination() + "\n"
 				+ "Duration: " + this.call.getDuration() + " seconds" + "\n"
 				+ "Cost: " + call.getTotal());
+		customer.addCall(call);
 		this.btnCall.setVisible(true);
 		this.btnHangUp.setVisible(false);
 		this.textAreaInfo.setVisible(true);
