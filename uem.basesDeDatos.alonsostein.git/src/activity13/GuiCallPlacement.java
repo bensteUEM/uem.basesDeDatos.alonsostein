@@ -31,7 +31,6 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 	private Customer customer;
 	private String numberToCall;
 	private Pbes parent;
-	private JFrame mainFrame;
 	CustomerCall call;
 	// CALL Classprivate Calendar startCall;
 	// private Integer callTimeStart;
@@ -45,10 +44,8 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 		this.parent = sourceParent;
 		this.parent.setVisible(false);
 		this.setVisible(true);
-		mainFrame = new JFrame("Call placement");
 		setBounds(100, 100, 450, 335);
 		contentPane = new JPanel();
-		mainFrame.add(contentPane);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -114,7 +111,7 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 	}
 
 	public void onExit() {
-		mainFrame.setVisible(false);
+		this.setVisible(false);
 		parent.setVisible(true);
 	}
 
