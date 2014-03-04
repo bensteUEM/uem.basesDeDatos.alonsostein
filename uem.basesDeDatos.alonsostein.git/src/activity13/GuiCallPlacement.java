@@ -89,6 +89,7 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 		textAreaInfo = new JTextArea(15, 20);
 		textAreaInfo.setEditable(false);
 		contentPane.add(textAreaInfo);
+		textAreaInfo.setVisible(false);
 
 		customer = currentCustomer;
 
@@ -118,6 +119,8 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 	}
 
 	public void onCall(ActionEvent e) {
+		this.textAreaInfo.setText("");
+		this.textAreaInfo.setVisible(false);
 		this.call = new CustomerCall(this.customer,
 				textFieldNumberToCall.getText(), Calendar.getInstance());
 		this.btnCall.setVisible(false);
@@ -132,5 +135,6 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 				+ "Cost: " + call.getTotal());
 		this.btnCall.setVisible(true);
 		this.btnHangUp.setVisible(false);
+		this.textAreaInfo.setVisible(true);
 	}
 }
