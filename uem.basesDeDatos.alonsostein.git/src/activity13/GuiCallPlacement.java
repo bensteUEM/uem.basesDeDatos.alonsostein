@@ -3,6 +3,7 @@ package activity13;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
 import java.util.Calendar;
 
 import javax.swing.JButton;
@@ -40,7 +41,6 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 		this.parent = sourceParent;
 		this.parent.setVisible(false);
 		this.setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 335);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -77,6 +77,7 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 		btnHangUp = new JButton("Hang up");
 		contentPane.add(btnHangUp);
 		btnHangUp.addActionListener(this);
+		btnHangUp.setVisible(false);
 
 		textAreaInfo = new JTextArea(15, 20);
 		textAreaInfo.setEditable(false);
@@ -101,13 +102,17 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 	public void onCall(ActionEvent e) {
 		this.call = new CustomerCall(this.customer,
 				textFieldNumberToCall.getText(), Calendar.getInstance());
+		this.btnCall.setVisible(false);
+		this.btnHangUp.setVisible(true);
 	}
 
 	public void onHangUp(ActionEvent e) {
 		this.call.calculateDuration(Calendar.getInstance());
-		
+
 		textAreaInfo.append("Destination: " + this.call.getDestination() + "\n"
 				+ "Duration: " + this.call.getDuration() + " seconds" + "\n"
 				+ "Cost: " + call.getTotal());
+		this.btnCall.setVisible(true);
+		this.btnHangUp.setVisible(false);
 	}
 }
