@@ -6,6 +6,8 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator; //needed for sorting 
 
+import activity13.CustomerCall;
+
 public class Customer extends CustomerAbstract implements Comparator<Customer> {
 
 	// Setup NUMBRES and LETTERS constants for validations

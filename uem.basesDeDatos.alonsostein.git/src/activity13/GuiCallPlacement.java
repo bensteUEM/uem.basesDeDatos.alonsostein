@@ -1,4 +1,4 @@
-package activity12;
+package activity13;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -15,10 +15,10 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import activity10.Customer;
-import activity10.CustomerCall;
 import activity10.Pbes;
 
 public class GuiCallPlacement extends JFrame implements ActionListener {
+	private static final long serialVersionUID = -6100529901132049016L;
 	private JPanel contentPane;
 	private JTextField textFieldCellPhoneNumber;
 	private JTextField textFieldNumberToCall;
