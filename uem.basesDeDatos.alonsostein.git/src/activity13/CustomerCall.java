@@ -1,12 +1,15 @@
 package activity13;
 
+import java.util.Calendar;
+
 import activity10.Customer;
 
 public class CustomerCall {
 
 	private Customer origin;
 	private String destination;
-	private Integer duration;
+	private Integer duration; // in seconds
+	private Calendar startTime;
 
 	private CustomerCall() {
 	}
@@ -21,7 +24,7 @@ public class CustomerCall {
 	 *            String identiying the destination of the Call
 	 * @author benste
 	 */
-	public CustomerCall(Customer newOrigin, String newDestination) {
+	public CustomerCall(Customer newOrigin, String newDestination, Calendar startTime) {
 		// Save params
 		this.origin = newOrigin;
 		this.destination = newDestination;
@@ -37,6 +40,14 @@ public class CustomerCall {
 		return destination;
 	}
 
+	/**
+	 * Calculate the Call Time in Seconds based on the End Time of the Call
+	 */
+	public Integer calculateDuration(Calendar endTime) {
+		this.duration = (int) ((this.startTime.getTimeInMillis() -endTime.getTimeInMillis()) / 100);
+		return duration;
+	}
+	
 	/**
 	 * @return the duration
 	 */
