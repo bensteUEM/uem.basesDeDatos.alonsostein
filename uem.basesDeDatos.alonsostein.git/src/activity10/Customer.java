@@ -17,7 +17,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 														// implemented for a
 														// customer
 	private BigDecimal minBalance = new BigDecimal(0, new MathContext(3,
-			RoundingMode.HALF_UP)); //in full € cutting of Cents
+			RoundingMode.HALF_UP)); //in full ï¿½ cutting of Cents
 	private ArrayList<CustomerCall> calls = new ArrayList<CustomerCall>(0);
 
 	/**
@@ -262,13 +262,14 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	} // end setId()
 
 	/**
-	 * Get Balance in full €, NEW Version - taking into account the minimum
+	 * Get Balance in full ï¿½, NEW Version - taking into account the minimum
 	 * balance per customer
 	 */
 	public BigDecimal getBalance() {
 		BigDecimal minBalance = this.getMinBalance(); // get customer min Balance
-		if (this.balance.compareTo(minBalance)== 1) {
+		if (this.balance.compareTo(minBalance)== -1) {
 			return this.balance;
+			
 		}
 		return minBalance;
 	}

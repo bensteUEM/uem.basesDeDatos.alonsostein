@@ -55,8 +55,10 @@ public class DataFile {
 	public void exportCustomerBill(Customer customer) {
 		try {
 			//0. Calculate Customer Balance
+			
 			customer.addAirtimeMinutesFromCalls();
 			customer.setBalance();
+			
 			// precondition Date Format
 		    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			
@@ -80,7 +82,7 @@ public class DataFile {
 			writer.newLine();
 			writer.write("====");
 			writer.newLine();
-			writer.write("Total outstanding Balance is: "+customer.getBalance()+ "�");
+			writer.write("Total outstanding Balance is: "+customer.getBalance()+ "EURO");
 			writer.write("====");
 			writer.newLine();
 
