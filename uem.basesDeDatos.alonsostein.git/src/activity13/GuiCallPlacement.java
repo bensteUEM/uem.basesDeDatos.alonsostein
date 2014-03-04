@@ -3,12 +3,15 @@ package activity13;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -28,6 +31,7 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 	private Customer customer;
 	private String numberToCall;
 	private Pbes parent;
+	private JFrame mainFrame;
 	CustomerCall call;
 	// CALL Classprivate Calendar startCall;
 	// private Integer callTimeStart;
@@ -41,8 +45,11 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 		this.parent = sourceParent;
 		this.parent.setVisible(false);
 		this.setVisible(true);
+		mainFrame = new JFrame("Call placement");
 		setBounds(100, 100, 450, 335);
 		contentPane = new JPanel();
+		mainFrame.add(contentPane);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridLayout(5, 2, 0, 0));
@@ -84,6 +91,12 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 		contentPane.add(textAreaInfo);
 
 		customer = currentCustomer;
+
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent evt) {
+				onExit();
+			}
+		});
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -97,6 +110,11 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 			this.onHangUp(e);
 		}
 
+	}
+
+	public void onExit() {
+		mainFrame.setVisible(false);
+		parent.setVisible(true);
 	}
 
 	public void onCall(ActionEvent e) {
