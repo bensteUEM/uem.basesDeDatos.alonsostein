@@ -28,6 +28,7 @@ public class CustomerCall {
 		// Save params
 		this.origin = newOrigin;
 		this.destination = newDestination;
+		this.startTime = startTime;
 
 		// Initialize other values
 		this.duration = 0;
