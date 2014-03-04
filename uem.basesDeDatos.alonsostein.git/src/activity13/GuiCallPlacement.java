@@ -27,12 +27,13 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 	private Customer customer;
 	private String numberToCall;
 	private Pbes parent;
+	CustomerCall call;
 	// CALL Classprivate Calendar startCall;
 	// private Integer callTimeStart;
 	// LOCAL private Calendar endCall;
-	//private Integer callTimeEnd;
-	//private Integer callDurationMillis;
-	//private Integer callDurationSeconds;
+	// private Integer callTimeEnd;
+	// private Integer callDurationMillis;
+	// private Integer callDurationSeconds;
 	private JTextArea textAreaInfo;
 
 	public GuiCallPlacement(Pbes sourceParent, Customer currentCustomer) {
@@ -80,7 +81,7 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 		textAreaInfo = new JTextArea(15, 20);
 		textAreaInfo.setEditable(false);
 		contentPane.add(textAreaInfo);
-		
+
 		customer = currentCustomer;
 	}
 
@@ -98,23 +99,15 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 	}
 
 	public void onCall(ActionEvent e) {
-		this.startCall = Calendar.getInstance();
-		this.callTimeStart = (int) startCall.getTimeInMillis();
-
+		this.call = new CustomerCall(this.customer,
+				textFieldNumberToCall.getText(), Calendar.getInstance());
 	}
 
 	public void onHangUp(ActionEvent e) {
-		this.endCall = Calendar.getInstance();
-		this.callTimeEnd = (int) endCall.getTimeInMillis();
-		this.callDurationMillis = this.callTimeEnd - this.callTimeStart;
-		this.callDurationSeconds = callDurationMillis / 1000;
-		System.out.println(callDurationSeconds);
-		CustomerCall call = new CustomerCall(this.customer,
-				textFieldNumberToCall.getText());
-		call.setDuration(callDurationSeconds);
-		textAreaInfo.append("Destination: " + textFieldNumberToCall.getText()
-				+ "\n" + "Duration: " + callDurationSeconds + " seconds" + "\n"
+		this.call.calculateDuration(Calendar.getInstance());
+		
+		textAreaInfo.append("Destination: " + this.call.getDestination() + "\n"
+				+ "Duration: " + this.call.getDuration() + " seconds" + "\n"
 				+ "Cost: " + call.getTotal());
-
 	}
 }
