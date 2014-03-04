@@ -148,13 +148,9 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 		BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
 				true));
 		writer.write(customer.getName());
-		writer.newLine();
 		writer.write(customer.getCellPhoneNumber());
-		writer.newLine();
 		writer.write(textFieldNumberToCall.getText());
-		writer.newLine();
 		writer.write(callDurationSeconds);
-		writer.newLine();
 		writer.write(call.getTotal());
 		
 		writer.flush(); // make sure the buffer writes everything
