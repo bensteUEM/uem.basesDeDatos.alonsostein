@@ -105,6 +105,12 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		btnCall.setMnemonic('c'); // set key shortcut
 		btnCall.addActionListener(this); // link action
 
+		// User Monthly bill Button by ID
+		JButton btnMonthlyBill = new JButton("Monthly bill");
+		// creation of new Button and its appearance
+		btnMonthlyBill.setMnemonic('m'); // set key shortcut
+		btnMonthlyBill.addActionListener(this); // link action
+
 		JButton btnPay = new JButton("Pay by User ID");
 		btnPay.setSize(40, 40);
 		btnPay.setEnabled(false); // Disable additional feature for evaluation
@@ -190,6 +196,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		pnlTopRight.add(btnDelete);
 		pnlTopRight.add(btnAddCustomer);
 		pnlTopRight.add(btnCall);
+		pnlTopRight.add(btnMonthlyBill);
 
 		// subpanel bot-left
 		JPanel pnlBotLeft = new JPanel();
@@ -298,6 +305,9 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			this.onDeleteByUserId(ae);
 		} else if (sourceName.contains("Call")) {
 			this.onCall(ae);
+		}
+		else if (sourceName.contains("Monthly bill")) {
+			this.onCalculateMonthlyBill(ae);
 		}// END if for all buttons as source
 	} // End actionPerformed
 
@@ -449,7 +459,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		Integer searchId = Integer.parseInt(this.txtSearch.getText());
 		this.deleteCustomer(searchId);
 	} // end onDeleteByUserId
-	
+
 	public void onCall(ActionEvent ae) {
 		Integer searchId = Integer.parseInt(this.txtSearch.getText());
 		@SuppressWarnings("unused")
@@ -464,7 +474,11 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			// message when customer does not exist
 		} // end checking existance of user
 	}
-
+	
+	public void onCalculateMonthlyBill(ActionEvent ae) {
+		Integer searchId = Integer.parseInt(this.txtSearch.getText());
+		this.deleteCustomer(searchId);
+	} // end onDeleteByUserId
 
 	@Override
 	public boolean addCustomer(CustomerAbstract customer) {
