@@ -65,7 +65,7 @@ public class DataFile {
 			String fileName = path.getPath();
 			// 2. Create Writer
 			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
-					true));
+					false));
 			
 			// Creates a buffered character-output stream of a class for writing
 			// character files
@@ -146,7 +146,7 @@ public class DataFile {
 		try {
 			// 2. WRITE
 			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
-					true)); // Creates a buffered character-output
+					false)); // Creates a buffered character-output
 							// stream of a
 							// class for writing character files
 
