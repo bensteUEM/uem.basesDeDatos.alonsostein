@@ -480,6 +480,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			DataFile bill = new DataFile();
 			bill.setFileName("Billing_info");
 			bill.exportCustomerBill((Customer) this.getCustomer(searchId));
+			System.out.println("User Bill has been saved on the Filesystem");
 		} else {// user not found
 			JOptionPane.showMessageDialog(this, "User with ID: " + searchId
 					+ " does not exist yet");
