@@ -264,8 +264,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent ae) { // ActionList
 		String sourceName = ae.getActionCommand(); // get Sender name
-		// DEBUG only
-		System.out.println("PBES - performing Action for: " + sourceName);
+		//System.out.println("PBES - performing Action for: " + sourceName); //DEBUG only
 
 		// IF Cases for all Buttons which have actions
 		if (sourceName.contains("Search User by ID")) {
@@ -412,13 +411,13 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		this.calculateAllBalances();
 		String revenue = this.getCompanyRevenue().toString();
 		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
-				+ " € not taking into accounts Cents");
+				+ " ï¿½ not taking into accounts Cents");
 	}
 
 	public void onRevenue(ActionEvent ae) {
 		String revenue = this.getCompanyRevenue().toString();
 		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
-				+ " € not taking into accounts Cents");
+				+ " ï¿½ not taking into accounts Cents");
 	}
 
 	/**

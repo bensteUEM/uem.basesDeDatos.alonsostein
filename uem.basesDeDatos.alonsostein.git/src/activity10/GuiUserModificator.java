@@ -236,7 +236,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// if the source is the button "next"
 		String sourceName = e.getActionCommand();
-		System.out.println("The following button was pressed: "+ sourceName); //TODO DEBUG
+		//System.out.println("The following button was pressed: "+ sourceName); //TODO DEBUG
 		if (sourceName.contains("Save")) {
 			this.onSave(e);
 		} else if (e.getActionCommand() == "Change ID") {
@@ -286,10 +286,10 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 			if (this.parent.saveCustomer(this.customer)) {
 				this.parent.setVisible(true);
 				this.setVisible(false);
-				System.out.println("onSave of User modificator visibiility changes applied");
+				//System.out.println("onSave of User modificator visibiility changes applied");
 			}
 			else { //if there is a problem saving the user
-				System.out.println("Something went wrong in PBES when saving the user");
+				System.out.println("WARNING Something went wrong in PBES when saving the user");
 			}
 		} else {
 			error();

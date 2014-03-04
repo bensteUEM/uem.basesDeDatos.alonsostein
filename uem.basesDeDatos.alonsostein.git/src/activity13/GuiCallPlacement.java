@@ -92,16 +92,14 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		// if the source is the button "next"
 		String sourceName = e.getActionCommand();
-		System.out.println("The following button was pressed: " + sourceName); // TODO
-																				// DEBUG
+		// System.out.println("The following button was pressed: " +
+		// sourceName); // DEBUG
 		if (sourceName.contains("Call")) {
 			this.onCall(e);
 		} else if (sourceName.contains("Hang up")) {
 			this.onHangUp(e);
 		}
-
 	}
 
 	public void onExit() {
