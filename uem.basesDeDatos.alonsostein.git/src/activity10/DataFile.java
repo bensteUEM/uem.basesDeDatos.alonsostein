@@ -12,8 +12,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Currency;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -23,6 +26,8 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import activity13.CustomerCall;
 
 public class DataFile {
 	private Customer[] groupOfCustomers;
@@ -44,22 +49,86 @@ public class DataFile {
 		this.fileName = fileName;
 	}
 
-	/*
-	 * public static void main(String[] args) { DataFile w = new DataFile();
-	 * w.write();
-	 * 
-	 * JFrame frame = new JFrame("R/W Files");
-	 * frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); JLabel label = new
-	 * JLabel(w.readFile()); frame.getContentPane().add(label); frame.pack();
-	 * frame.setVisible(true);
-	 * 
-	 * }
+	/**
+	 * Create a bill for the customer
 	 */
+	public void billCustomer() {
+
+	}
+
 	/**
 	 * By default export this objects customers
 	 */
-	public void exportCustomer() {
-		exportCustomer(this.groupOfCustomers);
+	public void exportCustomer(Customer customer) {
+		try {
+			//0. Calculate Customer Balance
+			customer.addAirtimeMinutesFromCalls();
+			customer.setBalance();
+			// precondition Date Format
+		    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			
+			// 1. OPEN
+			File path = new File(this.fileName + ".csv");
+			String fileName = path.getPath();
+			// 2. Create Writer
+			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
+					true));
+			
+			// Creates a buffered character-output stream of a class for writing
+			// character files
+			// 3. Write Heading
+			writer.write("Monthly Bill for "+customer.getName());
+			writer.newLine();
+			writer.write("Phone Number "+customer.getCellPhoneNumber());
+			writer.newLine();
+			
+			// 4. Write Some General Information
+			writer.write("Current Rate: "+customer.getRate());
+			writer.newLine();
+			writer.write("====");
+			writer.newLine();
+			writer.write("Total outstanding Balance is: "+customer.getBalance()+ "€");
+			writer.write("====");
+			writer.newLine();
+
+			// 5. Write Call Log
+			writer.write("====");
+			writer.newLine();
+			//Destination, Date, Duration, Cost - HEADER ROW
+			writer.write("Destination,");
+			writer.write("Date,");
+			writer.write("Duration,");
+			writer.write("Cost,");
+			writer.newLine();
+			writer.write("====");
+			writer.newLine();
+			
+			//same order - CONTENT
+			for (CustomerCall call : customer.getCalls()){
+				writer.write(call.getDestination()+",");
+				writer.write(sdf.format(call.getStartTime()));
+				writer.write(call.getDestination()+",");
+				writer.write(call.getTotal()+",");
+				writer.newLine();
+			}
+			writer.write("====");
+			writer.newLine();
+			//5b - minimum Consumption Advice //TODO
+			if (customer.getBalance() == customer.getMinBalance()){
+				writer.write("Please be adviced that you are paying the minimum Balance required for your contract!");
+				writer.newLine();
+			}
+			
+			// 6. Finish File
+			Date currentDate = Calendar.getInstance().getTime();
+			writer.write("Last updated:"+sdf.format(currentDate));
+			
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace(); // throws a standard error when there are
+									// errors with file handling
+		}
 	}
 
 	/**
@@ -81,7 +150,6 @@ public class DataFile {
 		File path = new File(this.fileName + ".csv");
 		String fileName = path.getPath();
 
-		System.out.println(path); // TODO debug
 		try {
 			// 2. WRITE
 			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,

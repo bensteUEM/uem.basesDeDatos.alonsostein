@@ -1,6 +1,8 @@
 package activity13;
 
+import java.sql.Time;
 import java.util.Calendar;
+import java.util.Date;
 
 import activity10.Customer;
 
@@ -12,7 +14,7 @@ public class CustomerCall {
 	private Calendar startTime;
 
 	private CustomerCall() {
-	}
+	} // End Customer Call forbidden constructor
 
 	/**
 	 * Constructor for a new CustomerCall Object, will be initialized with cost
@@ -24,7 +26,8 @@ public class CustomerCall {
 	 *            String identiying the destination of the Call
 	 * @author benste
 	 */
-	public CustomerCall(Customer newOrigin, String newDestination, Calendar startTime) {
+	public CustomerCall(Customer newOrigin, String newDestination,
+			Calendar startTime) {
 		// Save params
 		this.origin = newOrigin;
 		this.destination = newDestination;
@@ -32,29 +35,30 @@ public class CustomerCall {
 
 		// Initialize other values
 		this.duration = 0;
-	}
+	}// End Customer Call default constructor
 
 	/**
 	 * @return the destination
 	 */
 	public String getDestination() {
 		return destination;
-	}
+	} // end getDestination
 
 	/**
 	 * Calculate the Call Time in Seconds based on the End Time of the Call
 	 */
 	public Integer calculateDuration(Calendar endTime) {
-		this.duration = (int) ( (endTime.getTimeInMillis()-this.startTime.getTimeInMillis()) / 1000);
+		this.duration = (int) ((endTime.getTimeInMillis() - this.startTime
+				.getTimeInMillis()) / 1000);
 		return duration;
-	}
-	
+	} // end calculateDuration
+
 	/**
 	 * @return the duration
 	 */
 	public Integer getDuration() {
 		return duration;
-	}
+	} // end getDuration
 
 	/**
 	 * @param duration
@@ -62,7 +66,7 @@ public class CustomerCall {
 	 */
 	public void setDuration(Integer duration) {
 		this.duration = duration;
-	}
+	} // end setDuration
 
 	/**
 	 * This method does calculate the total costs in Cent of the Call
@@ -72,5 +76,13 @@ public class CustomerCall {
 	 */
 	public Integer getTotal() {
 		return duration * origin.getRate();
+	} // end getTotal
+
+	/**
+	 * @return startTime
+	 *            the time the call started
+	 */
+	public Date getStartTime() {
+		return this.startTime.getTime();
 	}
 }
