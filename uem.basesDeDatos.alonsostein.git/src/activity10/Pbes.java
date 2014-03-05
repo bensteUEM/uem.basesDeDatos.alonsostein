@@ -655,13 +655,12 @@ public class Pbes extends PbesAbstract implements ActionListener {
 				RoundingMode.HALF_UP)); // temporary var only - needs to be
 										// class var once
 		// payment is implemented
-		BigDecimal outstanding = new BigDecimal(0, new MathContext(3,
-				RoundingMode.HALF_UP)); // initialize outstanding
+		BigDecimal outstanding = new BigDecimal(0.00, new MathContext(3)); // initialize outstanding
 		for (Customer compareCustomer : this.customers) { // iterate through all
 			// customers
 			if (compareCustomer != null) // customer exists
 			{
-				outstanding.add(compareCustomer.getBalance());
+				outstanding = outstanding.add(compareCustomer.getBalance());				
 				// add the outstanding balance to current balance
 			}// end if precondition customer exists
 		}// end of iterating through all customers
