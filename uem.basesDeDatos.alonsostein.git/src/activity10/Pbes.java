@@ -264,7 +264,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent ae) { // ActionList
 		String sourceName = ae.getActionCommand(); // get Sender name
-		//System.out.println("PBES - performing Action for: " + sourceName); //DEBUG only
+		// System.out.println("PBES - performing Action for: " + sourceName);
+		// //DEBUG only
 
 		// IF Cases for all Buttons which have actions
 		if (sourceName.contains("Search User by ID")) {
@@ -304,8 +305,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			this.onDeleteByUserId(ae);
 		} else if (sourceName.contains("Call")) {
 			this.onCall(ae);
-		}
-		else if (sourceName.contains("Monthly bill")) {
+		} else if (sourceName.contains("Monthly bill")) {
 			this.onCalculateMonthlyBill(ae);
 		}// END if for all buttons as source
 	} // End actionPerformed
@@ -380,35 +380,31 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void onCustomerAboveRate(ActionEvent ae) {
 		Integer rate;
 		try {
-			rate = Integer.parseInt(txtMoney.getText()); // get the input
-															// text
+			rate = Integer.parseInt(txtMoney.getText());
+			// get the input text
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this,
 					"No Valid minimum rate specified , using 0 instead");
 			rate = 0;
-		}
-
+		} // end try
 		GuiCustomerList list = new GuiCustomerList(
 				this.getCustomersAboveRate(rate),
-				"List of all customers above rate: " + rate); // shows list
-																// of all
-																// customers
-																// and rates
+				"List of all customers above rate: " + rate);
+		// shows list of all customers and rates
 		list.setVisible(true);
-
-	}
+	}// end onCustomerAboveRate
 
 	public void onShowAndCalculateCompanyRevenue(ActionEvent ae) {
 		// revenue of each customer
 		this.calculateAllBalances();
 		this.onRevenue(ae);
-	}
+	} // end onShowAndCalcCompRev
 
 	public void onRevenue(ActionEvent ae) {
 		String revenue = this.getCompanyRevenue().toString();
 		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
 				+ " EURO");
-	}
+	} // end OnRevenue
 
 	/**
 	 * Import all customers using the default file location of the DataFile
@@ -418,9 +414,9 @@ public class Pbes extends PbesAbstract implements ActionListener {
 											// customer object
 		for (Customer oneCustomer : export.importCustomer()) {
 			if (addCustomer(oneCustomer)) {
-				//System.out.println("Following Customer added: " + oneCustomer);
-			}
-			;
+				// System.out.println("Following Customer added: " +
+				// oneCustomer);
+			} // end if
 		} // end for addin customer
 	}// end onImportText()
 
@@ -432,7 +428,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 											// customer object
 		export.exportCustomer(this.customers);
 		// export the current set of customers
-	}
+	} // end onExportText
 
 	/**
 	 * Export all customers using the default file location of the DataFile
@@ -442,15 +438,16 @@ public class Pbes extends PbesAbstract implements ActionListener {
 											// customer object
 		export.exportCustomerExcel2013(this.customers);
 		// export the current set of customers
-	}
+	} // end onExportExcel
 
 	public void onDeleteByUserId(ActionEvent ae) {
-		Integer searchId = Integer.parseInt(this.txtSearch.getText());
-		this.deleteCustomer(searchId);
+		Integer searchId = Integer.parseInt(this.txtSearch.getText()); // get
+																		// userID
+		this.deleteCustomer(searchId); // delete user
 	} // end onDeleteByUserId
 
 	public void onCall(ActionEvent ae) {
-		Integer searchId = Integer.parseInt(this.txtSearch.getText());
+		Integer searchId = Integer.parseInt(this.txtSearch.getText()); // getuserID
 		@SuppressWarnings("unused")
 		GuiCallPlacement editor = null; // init Modificator
 		if (this.getCustomer(searchId) != null) { // check that user exists
@@ -462,37 +459,38 @@ public class Pbes extends PbesAbstract implements ActionListener {
 					+ " does not exist yet");
 			// message when customer does not exist
 		} // end checking existance of user
-	}
-	
-	public void onCalculateMonthlyBill(ActionEvent ae) {	
+	} // end onCall
+
+	public void onCalculateMonthlyBill(ActionEvent ae) {
 		Integer searchId = Integer.parseInt(this.txtSearch.getText());
 		if (this.getCustomer(searchId) != null) { // check that user exists
 			DataFile bill = new DataFile();
 			bill.setFileName("Billing_info");
 			bill.exportCustomerBill((Customer) this.getCustomer(searchId));
-			JOptionPane.showMessageDialog(this, "User Bill has been saved on the Filesystem");
+			JOptionPane.showMessageDialog(this,
+					"User Bill has been saved on the Filesystem");
 		} else {// user not found
 			JOptionPane.showMessageDialog(this, "User with ID: " + searchId
 					+ " does not exist yet");
 			// message when customer does not exist
 		} // end checking existance of user
-		
-		/*//TODO Luis*/
 	} // end onCalculateMonthlyBill
 
 	/**
-	 * Method which adds a Customer into the local data storage and also sets its minimum Balance
+	 * Method which adds a Customer into the local data storage and also sets
+	 * its minimum Balance
+	 * 
 	 * @param customer
 	 * @return
 	 */
 	public boolean addCustomer(Customer customer) {
 		Integer newId;
-		
+
 		// Read minimum Balance and Save to Customer
 		DataFile d = new DataFile("MinimumBalance");
 		customer.setMinBalance(d.importMinimumBalanceExcel2013());
-		//System.out.println("User added to DataStore with min balance "+customer.getMinBalance());
-		
+		// System.out.println("User added to DataStore with min balance "+customer.getMinBalance());
+
 		// as long as the current customer has an id that already exists
 		while (null != this.getCustomer(customer.getId())) {
 			try { // try to ask user for alternative ID
@@ -557,7 +555,6 @@ public class Pbes extends PbesAbstract implements ActionListener {
 				// customer is the one
 				{
 					return compareCustomer;
-
 				} // delete customer
 			}// end null checking
 		} // end for
