@@ -418,7 +418,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 											// customer object
 		for (Customer oneCustomer : export.importCustomer()) {
 			if (addCustomer(oneCustomer)) {
-				//System.out.println("Following Customer added: " + oneCustomer); //TODO DEBUG
+				//System.out.println("Following Customer added: " + oneCustomer);
 			}
 			;
 		} // end for addin customer
