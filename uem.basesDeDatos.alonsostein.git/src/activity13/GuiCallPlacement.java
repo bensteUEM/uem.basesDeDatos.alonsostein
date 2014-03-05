@@ -115,6 +115,7 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 				textFieldNumberToCall.getText(), Calendar.getInstance());
 		this.btnCall.setVisible(false);
 		this.btnHangUp.setVisible(true);
+		this.textFieldNumberToCall.setEnabled(false);
 	}
 
 	public void onHangUp(ActionEvent e) {
@@ -127,5 +128,7 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 		this.btnCall.setVisible(true);
 		this.btnHangUp.setVisible(false);
 		this.textAreaInfo.setVisible(true);
+		this.textFieldNumberToCall.setText("");
+		this.textFieldNumberToCall.setEnabled(true);
 	}
 }
