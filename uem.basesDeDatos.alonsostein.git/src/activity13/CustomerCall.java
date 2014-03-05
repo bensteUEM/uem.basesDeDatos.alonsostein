@@ -80,7 +80,7 @@ public class CustomerCall {
 	public BigDecimal getTotal() {
 		BigDecimal total = new BigDecimal((duration * origin.getRate())/100.00, new MathContext(3
 			));
-		System.out.println(total); //TODO DEBUG
+		//System.out.println(total); //TODO DEBUG
 		return total;
 	} // end getTotal
 

@@ -394,17 +394,18 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		list.setVisible(true);
 	}// end onCustomerAboveRate
 
+	public void onRevenue(ActionEvent ae) {
+		String revenue = this.getCompanyRevenue().toString();
+		System.out.println("Company reveneu big decimal in on revenue is = "+this.getCompanyRevenue());
+		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
+				+ " EURO");
+	} // end OnRevenue
+	
 	public void onShowAndCalculateCompanyRevenue(ActionEvent ae) {
 		// revenue of each customer
 		this.calculateAllBalances();
 		this.onRevenue(ae);
 	} // end onShowAndCalcCompRev
-
-	public void onRevenue(ActionEvent ae) {
-		String revenue = this.getCompanyRevenue().toString();
-		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
-				+ " EURO");
-	} // end OnRevenue
 
 	/**
 	 * Import all customers using the default file location of the DataFile
