@@ -340,9 +340,6 @@ public class Pbes extends PbesAbstract implements ActionListener {
 				Integer.parseInt(this.txtSearch.getText())); // function to
 																// add new
 																// customer
-		// Read minimum Balance and Save to Customer
-		DataFile d = new DataFile("MinimumBalance");
-		this.setMinBalance(d.importMinimumBalanceExcel2013());
 
 		if (!(this.addCustomer(newCustomer))) {
 			JOptionPane
@@ -357,11 +354,6 @@ public class Pbes extends PbesAbstract implements ActionListener {
 														// action was
 														// successful
 		}
-	}
-
-	private void setMinBalance(BigDecimal importMinimumBalanceExcel2013) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void onPayByUserId(ActionEvent ae) {
@@ -409,15 +401,13 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void onShowAndCalculateCompanyRevenue(ActionEvent ae) {
 		// revenue of each customer
 		this.calculateAllBalances();
-		String revenue = this.getCompanyRevenue().toString();
-		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
-				+ " � not taking into accounts Cents");
+		this.onRevenue(ae);
 	}
 
 	public void onRevenue(ActionEvent ae) {
 		String revenue = this.getCompanyRevenue().toString();
 		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
-				+ " � not taking into accounts Cents");
+				+ " EURO");
 	}
 
 	/**
@@ -490,12 +480,21 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		/*//TODO Luis*/
 	} // end onCalculateMonthlyBill
 
-	@Override
-	public boolean addCustomer(CustomerAbstract customer) {
-		Integer position = 0;
+	/**
+	 * Method which adds a Customer into the local data storage and also sets its minimum Balance
+	 * @param customer
+	 * @return
+	 */
+	public boolean addCustomer(Customer customer) {
 		Integer newId;
+		
+		// Read minimum Balance and Save to Customer
+		DataFile d = new DataFile("MinimumBalance");
+		customer.setMinBalance(d.importMinimumBalanceExcel2013());
+		//System.out.println("User added to DataStore with min balance "+customer.getMinBalance());
+		
+		// as long as the current customer has an id that already exists
 		while (null != this.getCustomer(customer.getId())) {
-			// as long as the current customer has an id that already exists
 			try { // try to ask user for alternative ID
 				newId = Integer
 						.parseInt(JOptionPane

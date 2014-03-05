@@ -10,7 +10,6 @@ public abstract class PbesAbstract  extends JFrame{
 	@SuppressWarnings("unused") //implemented later
 	private CustomerAbstract[] customers;
 	
-	public abstract boolean addCustomer(CustomerAbstract customer);
 	public abstract boolean saveCustomer(CustomerAbstract currentCustomer);
 	public abstract CustomerAbstract getCustomer(Integer searchId);
 	// Optional Future Optimisation

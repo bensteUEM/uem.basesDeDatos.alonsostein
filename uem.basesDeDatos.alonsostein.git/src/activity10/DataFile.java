@@ -54,42 +54,50 @@ public class DataFile {
 	 */
 	public void exportCustomerBill(Customer customer) {
 		try {
-			//0. Calculate Customer Balance
-			
+
+			// 0. Calculate Customer Balance
+			Integer previousMinutes = customer.getAirtimeMinutes();
 			customer.addAirtimeMinutesFromCalls();
 			customer.setBalance();
-			
+
 			// precondition Date Format
-		    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 			// 1. OPEN
 			File path = new File(this.fileName + ".txt");
 			String fileName = path.getPath();
 			// 2. Create Writer
 			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
 					false));
-			
+
 			// Creates a buffered character-output stream of a class for writing
 			// character files
 			// 3. Write Heading
-			writer.write("Monthly Bill for "+customer.getName());
+			writer.write("Monthly Bill for " + customer.getName());
 			writer.newLine();
-			writer.write("Phone Number "+customer.getCellPhoneNumber());
+			writer.write("Phone Number " + customer.getCellPhoneNumber());
 			writer.newLine();
-			
+
 			// 4. Write Some General Information
-			writer.write("Current Rate: "+customer.getRate());
+			writer.write("Current Rate: " + customer.getRate());
 			writer.newLine();
 			writer.write("====");
 			writer.newLine();
-			writer.write("Total outstanding Balance is: "+customer.getBalance()+ "EURO");
+			writer.write("Total outstanding Balance is: "
+					+ customer.getBalance() + "EURO");
 			writer.write("====");
 			writer.newLine();
 
-			// 5. Write Call Log
-			writer.write("====");
-			writer.newLine();
-			//Destination, Date, Duration, Cost - HEADER ROW
+			// 5. Write Call Log A) previous minutes
+			if (previousMinutes > 0) { //
+				writer.write("====");
+				writer.newLine();
+				writer.write("There were " + previousMinutes
+						+ " minutes outstanding from previous bills");
+				writer.newLine();
+			}// end if previous minutes
+				// 5B)
+				// Destination, Date, Duration, Cost - HEADER ROW
 			writer.write("Destination,");
 			writer.write("Date,");
 			writer.write("Duration,");
@@ -97,27 +105,27 @@ public class DataFile {
 			writer.newLine();
 			writer.write("====");
 			writer.newLine();
-			
-			//same order - CONTENT
-			for (CustomerCall call : customer.getCalls()){
-				writer.write(call.getDestination()+" , ");
-				writer.write(sdf.format(call.getStartTime())+" , ");
-				writer.write(call.getDuration()+" , ");
-				writer.write(call.getTotal()+" , ");
+
+			// same order - CONTENT
+			for (CustomerCall call : customer.getCalls()) {
+				writer.write(call.getDestination() + " , ");
+				writer.write(sdf.format(call.getStartTime()) + " , ");
+				writer.write(call.getDuration() + " , ");
+				writer.write(call.getTotal() + " , ");
 				writer.newLine();
 			}
 			writer.write("====");
 			writer.newLine();
-			//5b - minimum Consumption Advice //TODO
-			if (customer.getBalance() == customer.getMinBalance()){
+			// 5b - minimum Consumption Advice //TODO
+			if (customer.getBalance() == customer.getMinBalance()) {
 				writer.write("Please be adviced that you are paying the minimum Balance required for your contract!");
 				writer.newLine();
 			}
-			
+
 			// 6. Finish File
 			Date currentDate = Calendar.getInstance().getTime();
-			writer.write("Last updated:"+sdf.format(currentDate));
-			
+			writer.write("Last updated:" + sdf.format(currentDate));
+
 			writer.flush();
 			writer.close();
 		} catch (IOException e) {
@@ -149,8 +157,8 @@ public class DataFile {
 			// 2. WRITE
 			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
 					false)); // Creates a buffered character-output
-							// stream of a
-							// class for writing character files
+								// stream of a
+								// class for writing character files
 
 			for (int i = 0; i < maxCustomers; i++) { // Covers the array of
 														// customers to export
@@ -246,18 +254,10 @@ public class DataFile {
 			this.groupOfCustomers = new Customer[numberOfLines];
 			// TODO reset file object and loop directly instead of splitting and
 			// Modifying original content with a -
-			customerData = fileContent.toString().split("-"); // splits the
-																// StringBuffer
-																// every time it
-																// finds an "-"
-																// to store
-																// every
-																// customer in a
-																// position of
-																// the array
+			customerData = fileContent.toString().split("-");
+			// splits the StringBuffer every time it finds an "-" to store every
+			// customer in a position of the array
 
-			// @LUIS - code not needed for import ...
-			// System.out.println(oneCustomerToWrite);
 			for (int i = 0; i <= (groupOfCustomers.length - 1); i++) { // @LUIS
 																		// index
 																		// of
@@ -315,11 +315,12 @@ public class DataFile {
 			Row row1 = sheet.getRow(0); // Get first item from row
 			Cell cellA1 = row1.getCell(0); // Get first cell from row
 			Double cellValue = cellA1.getNumericCellValue(); // REad value
-			System.out.println("Number: " + cellValue); // TODO DEBUG
 			BigDecimal b = new BigDecimal(cellValue, new MathContext(3,
 					RoundingMode.HALF_UP)); // Convert Value into correct
 											// datatype
-			System.out.println("Number as BigDecimal with 2 decimals: " + b);// TODO
+			file.close();
+			// System.out.println("MinBalance as BigDecimal with 2 decimals will be returned: "+
+			// b);// TODO DEBUG
 			return b; // return result
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -365,7 +366,6 @@ public class DataFile {
 	 * @param newCustomers
 	 */
 	public void exportCustomer(ArrayList<Customer> newCustomers) {
-		// TODO Auto-generated method stub
 		Customer[] custArray = new Customer[newCustomers.size()];
 		custArray = newCustomers.toArray(new Customer[0]);
 		this.exportCustomer(custArray);

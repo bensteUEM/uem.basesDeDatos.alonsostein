@@ -262,17 +262,33 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	} // end setId()
 
 	/**
-	 * Get Balance in full ï¿½, NEW Version - taking into account the minimum
+	 * Get Balance in full EURO, NEW Version - taking into account the minimum
 	 * balance per customer
 	 */
 	public BigDecimal getBalance() {
 		BigDecimal minBalance = this.getMinBalance(); // get customer min Balance
-		if (this.balance.compareTo(minBalance)== -1) {
+		if (this.balance.compareTo(minBalance)== 1) {
 			return this.balance;
-			
-		}
+		} //end if
 		return minBalance;
-	}
+	} //end getBalance
+	
+	/**
+	 * calculate Balance in € based on given formula
+	 * and reset the Minutes used as they have been billed to balance
+	 */
+	public void setBalance() {
+		System.out.println("Rate= "+this.getRate());//TODO debug
+		System.out.println("Airtime= "+this.getAirtimeMinutes());//TODO debug
+		System.out.println("Rate*Airtime= "+this.getRate()*this.getAirtimeMinutes());//TODO debug
+		System.out.println("Rate*Airtime/100= "+(this.getRate())*this.getAirtimeMinutes()/100.0);//TODO debug
+		this.balance = 
+				new BigDecimal((this.getRate() * this.getAirtimeMinutes()) /100.00,new MathContext(4,
+						RoundingMode.HALF_UP)); //costs are negative rates
+		System.out.println("saved balance="+this.balance);
+		this.setAirtimeMinutes(0);
+	} //end setBalance
+	
 
 	/**
 	 * @return the minBalance
@@ -287,6 +303,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 */
 	public void setMinBalance(BigDecimal minBalance) {
 		this.minBalance = minBalance;
+		//System.out.println("Set Min Balance excecuted with value "+ minBalance ); //TODO DEBUG
 	}
 
 	/**
@@ -320,9 +337,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 * @return a String for easy display of the Object
 	 */
 	public String toString() {
-		return "ID: " + this.id + " " + this.name + " Tel: "
-				+ this.cellPhoneNumber + " Current Rate: " + this.rate
-				+ " Current Minutes: " + this.airtimeMinutes;
+		return exportText();
 	} // End toString()
 
 	/**

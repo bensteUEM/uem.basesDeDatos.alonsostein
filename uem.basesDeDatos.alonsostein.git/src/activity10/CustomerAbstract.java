@@ -63,18 +63,6 @@ public abstract class CustomerAbstract {
 		return this.balance;
 	}
 
-	/**
-	 * calculate Balance in full € based on given formula
-	 * and reset the Minutes used as they have been billed to balance
-	 */
-	public void setBalance() {
-		// TODO this is using integer division and cutting of Cents !
-		this.balance = 
-				new BigDecimal((this.getRate()) * this.getAirtimeMinutes() /100.0, new MathContext(3,
-						RoundingMode.HALF_UP)); //costs are negative rates
-		this.setAirtimeMinutes(0);
-	}
-	
 	public abstract Integer payBalance(Integer cashAmount);
 
 	/**
