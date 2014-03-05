@@ -45,7 +45,8 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridLayout(5, 2, 0, 0));
 
-		JLabel lblCustomerInformation = new JLabel("CALL PLACEMENT");
+		this.setTitle("CALL PLACEMENT");
+		JLabel lblCustomerInformation = new JLabel("Welcome "+currentCustomer.getName());
 		lblCustomerInformation.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblCustomerInformation);
 
