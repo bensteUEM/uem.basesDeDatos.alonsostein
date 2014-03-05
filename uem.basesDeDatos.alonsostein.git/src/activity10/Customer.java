@@ -278,10 +278,12 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 * and reset the Minutes used as they have been billed to balance
 	 */
 	public void setBalance() {
-		System.out.println("Rate= "+this.getRate());//TODO debug
-		System.out.println("Airtime= "+this.getAirtimeMinutes());//TODO debug
-		System.out.println("Rate*Airtime= "+this.getRate()*this.getAirtimeMinutes());//TODO debug
-		System.out.println("Rate*Airtime/100= "+(this.getRate())*this.getAirtimeMinutes()/100.0);//TODO debug
+		/* DEBUGGING Part for Balance Calculation //TODO
+		System.out.println("Rate= "+this.getRate());
+		System.out.println("Airtime= "+this.getAirtimeMinutes());
+		System.out.println("Rate*Airtime= "+this.getRate()*this.getAirtimeMinutes());
+		System.out.println("Rate*Airtime/100= "+(this.getRate())*this.getAirtimeMinutes()/100.0);
+		*/
 		this.balance = 
 				new BigDecimal((this.getRate() * this.getAirtimeMinutes()) /100.00,new MathContext(4,
 						RoundingMode.HALF_UP)); //costs are negative rates
@@ -303,7 +305,6 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 */
 	public void setMinBalance(BigDecimal minBalance) {
 		this.minBalance = minBalance;
-		//System.out.println("Set Min Balance excecuted with value "+ minBalance ); //TODO DEBUG
 	}
 
 	/**
@@ -358,7 +359,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		String[] parts = savedCustomer.split(","); // split by delimiter
 		if (parts.length != Customer.IMPLEMENTEDARGS) {
 			System.out.println("WARNING - wrong number of items: "
-					+ parts.length); // TODO check whether +1 is needed
+					+ parts.length);
 			return false;
 		} // end if numberofArgs Check
 			// check that first item is the ID with a <ID> formatting

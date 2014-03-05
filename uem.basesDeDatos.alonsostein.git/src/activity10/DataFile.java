@@ -22,6 +22,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -177,14 +179,13 @@ public class DataFile {
 
 			// 3. CLOSE
 			writer.flush(); // make sure the buffer writes everything
-			System.out.println("Following file has been written" + fileName); // TODO
-																				// debug
+			System.out.println("Following file has been written" + fileName);
 			writer.close(); // close the file
 		} catch (IOException e) {
 			e.printStackTrace(); // throws a standard error when there are
 									// errors with file handling
-		}
-	}
+		}//end catch
+	}//end exportcustomer
 
 	public void exportCustomerExcel2013(ArrayList<Customer> customers) {
 		System.out.println("Experimental Excel Export Function of DataFile"); // TODO
@@ -319,8 +320,6 @@ public class DataFile {
 					RoundingMode.HALF_UP)); // Convert Value into correct
 											// datatype
 			file.close();
-			// System.out.println("MinBalance as BigDecimal with 2 decimals will be returned: "+
-			// b);// TODO DEBUG
 			return b; // return result
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
