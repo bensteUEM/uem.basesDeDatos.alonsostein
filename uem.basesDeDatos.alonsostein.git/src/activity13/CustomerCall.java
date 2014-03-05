@@ -1,5 +1,8 @@
 package activity13;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
@@ -74,8 +77,11 @@ public class CustomerCall {
 	 * @return costs in Cents
 	 * @author benste
 	 */
-	public Integer getTotal() {
-		return duration * origin.getRate();
+	public BigDecimal getTotal() {
+		BigDecimal total = new BigDecimal((duration * origin.getRate())/100.00, new MathContext(3,
+				RoundingMode.HALF_UP));
+		System.out.println(total); //TODO DEBUG
+		return total;
 	} // end getTotal
 
 	/**

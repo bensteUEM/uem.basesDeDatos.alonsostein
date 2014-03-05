@@ -385,7 +385,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 			success = success
 					&& this.setAirtimeMinutes(Integer.parseInt(parts[4]));
 			success = success && this.setRate(Integer.parseInt(parts[5]));
-			this.balance = new BigDecimal(parts[6], new MathContext(3,
+			this.balance = new BigDecimal(parts[6], new MathContext(4,
 					RoundingMode.HALF_UP));
 		} // end if validated parts
 		return success;
