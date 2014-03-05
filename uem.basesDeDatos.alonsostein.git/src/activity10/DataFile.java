@@ -86,7 +86,7 @@ public class DataFile {
 			writer.write("====");
 			writer.newLine();
 			writer.write("Total outstanding Balance is: "
-					+ customer.getBalance() + "EURO");
+					+ customer.getBalance() + " EURO");
 			writer.write("====");
 			writer.newLine();
 
@@ -118,7 +118,7 @@ public class DataFile {
 			}
 			writer.write("====");
 			writer.newLine();
-			// 5b - minimum Consumption Advice //TODO
+			// 5b - minimum Consumption Advice
 			if (customer.getBalance() == customer.getMinBalance()) {
 				writer.write("Please be adviced that you are paying the minimum Balance required for your contract!");
 				writer.newLine();
