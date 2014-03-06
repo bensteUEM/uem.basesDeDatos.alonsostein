@@ -27,8 +27,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	JTextField txtSearch;
 	private JTextField txtMoney;
 	private Integer customerCount;
-	private ArrayList<Customer> customers;
-	/* private Customer[] customerToImport; //@LUIS - not needed */
+	private ArrayList<Customer> customers; //TODO THIS IS IMPORTANT to SHOW FOR EVALUATION
+	/* private Customer[] customerToImport; //@LUIS - not needed anymore*/
 	final Color UEMCOLOR = new Color(143, 27, 39);
 
 	/**

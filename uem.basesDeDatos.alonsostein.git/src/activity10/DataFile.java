@@ -41,7 +41,7 @@ public class DataFile {
 	 */
 	public String getFileName() {
 		return fileName;
-	}
+	} //end getFile
 
 	/**
 	 * @param fileName
@@ -49,7 +49,7 @@ public class DataFile {
 	 */
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
-	}
+	} //end set file
 
 	/**
 	 * Export the customers Bill to a textfile
@@ -115,7 +115,7 @@ public class DataFile {
 				writer.write(call.getDuration() + " , ");
 				writer.write(call.getTotal() + " , ");
 				writer.newLine();
-			}
+			} // end for
 			writer.write("====");
 			writer.newLine();
 			// 5b - minimum Consumption Advice
@@ -133,8 +133,8 @@ public class DataFile {
 		} catch (IOException e) {
 			e.printStackTrace(); // throws a standard error when there are
 									// errors with file handling
-		}
-	}
+		} // end try
+	} // end export customer bill
 
 	/**
 	 * Use this class to export any list of customers
@@ -184,8 +184,8 @@ public class DataFile {
 		} catch (IOException e) {
 			e.printStackTrace(); // throws a standard error when there are
 									// errors with file handling
-		}//end catch
-	}//end exportcustomer
+		}// end catch
+	}// end exportcustomer
 
 	public void exportCustomerExcel2013(ArrayList<Customer> customers) {
 		System.out.println("Experimental Excel Export Function of DataFile"); // TODO
