@@ -41,7 +41,7 @@ public class DataFile {
 	 */
 	public String getFileName() {
 		return fileName;
-	} //end getFile
+	} // end getFile
 
 	/**
 	 * @param fileName
@@ -49,7 +49,7 @@ public class DataFile {
 	 */
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
-	} //end set file
+	} // end set file
 
 	/**
 	 * Export the customers Bill to a textfile
