@@ -34,8 +34,7 @@ public class CustomerSQL extends Customer {
 	 *         
 	 * @author benste
 	 */
-	@Override
-	public String exportText(String owner) {
+	public String exportSQLText(String owner) {
 		/*
 		 * The following section does create an array with the args of the class
 		 */
