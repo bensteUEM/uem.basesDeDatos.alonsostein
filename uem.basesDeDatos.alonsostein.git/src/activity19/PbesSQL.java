@@ -62,7 +62,7 @@ public class PbesSQL extends Pbes {
 		sqlcustomer.setMinBalance(b);
 		Integer newId;
 
-		String query = "SELECT Count(ID) From Customers with ID="
+		String query = "SELECT Count(ID) FROM Customers WHERE ID="
 				+ sqlcustomer.getId() + ";";
 		// as long as the current customer has an id that already exists
 		while ((Integer) db.ownSQLCommand(query, null) == 0) {
