@@ -47,6 +47,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		this.parent = sourceParent;
 		this.parent.setVisible(false);
 		this.setVisible(true);
+		this.setTitle("CUSTOMER INFORMATION");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500, 500); // set the bounds of the mainframe
 		contentPane = new JPanel(); // creation of content Pane
@@ -127,14 +128,8 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		setLayout(new BorderLayout());
 		// main grid layout panel
 		JPanel pnlMain = new JPanel();
-		pnlMain.setLayout(new GridLayout(4, 1));
+		pnlMain.setLayout(new GridLayout(3, 1));
 		contentPane.add(pnlMain, BorderLayout.CENTER);
-
-		// subpanel top1
-		JPanel pnlTop1 = new JPanel();
-		pnlTop1.setLayout(new GridLayout(1, 1));
-		pnlTop1.add(lblCustomerInformation);
-		pnlMain.add(pnlTop1);
 
 		// subpanel top2
 		JPanel pnlTop2 = new JPanel();
@@ -157,7 +152,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 
 		// subpanel bot1
 		JPanel pnlBot1 = new JPanel();
-		pnlBot1.setLayout(new GridLayout(2, 1));
+		pnlBot1.setLayout(new GridLayout(1, 2));
 		pnlBot1.add(lblBilling);
 		pnlBot1.add(callList);
 		pnlMain.add(pnlBot1);
