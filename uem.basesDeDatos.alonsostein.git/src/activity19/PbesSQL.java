@@ -17,9 +17,10 @@ import activity10.Pbes;
  * 
  */
 public class PbesSQL extends Pbes {
-
+	SQLiteStorage db;
 	public PbesSQL(Integer numberOfCustomers) {
-		super(numberOfCustomers);
+		super(numberOfCustomers); // TODO remove number of custoemrs in constructor
+		db = new SQLiteStorage("activity19");
 		// TODO Auto-generated constructor stub
 	}
 
@@ -35,6 +36,9 @@ public class PbesSQL extends Pbes {
 
 	@Override
 	public CustomerAbstract getCustomer(Integer searchId) {
+		String query = "SELECT * FROM Customers WHERE ID=" + searchId;
+		CustomerSQL customer = (CustomerSQL) db.ownSQLCommand(query,"CustomerSQL");
+		return customer;
 	}
 
 	@Override

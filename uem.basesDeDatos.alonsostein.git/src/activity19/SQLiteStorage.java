@@ -3,6 +3,7 @@ package activity19;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.FileHandler;
@@ -11,10 +12,11 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 /**
- * SQLiteStorage Class for use with PBES Project
- * check http://www.tutorialspoint.com/sqlite/sqlite_java.htm
+ * SQLiteStorage Class for use with PBES Project check
+ * http://www.tutorialspoint.com/sqlite/sqlite_java.htm
+ * 
  * @author benste
- *
+ * 
  */
 public class SQLiteStorage {
 	private String name;
@@ -77,7 +79,7 @@ public class SQLiteStorage {
 	public void init() {
 		LOG.entering("SQLiteStorage", "init");
 		if (openDB(this.name)) {
-			
+
 			LOG.fine("DELETE ALL Existing Tables");
 			String sql0 = "DROP TABLE IF EXISTS OWNER;";
 			ownSQLCommand(sql0);
@@ -89,7 +91,7 @@ public class SQLiteStorage {
 			ownSQLCommand(sql0);
 
 			LOG.fine("DELETE ALL Existing Tables finished");
-			
+
 			String sql1 = "CREATE TABLE OWNER "
 					+ "(CIF 					INT 	PRIMARY KEY    	NOT NULL,"
 					+ " MinimumConsumption 		REAL, "
@@ -171,16 +173,33 @@ public class SQLiteStorage {
 	 * locally;
 	 * 
 	 * @param sql
-	 * @return
+	 * @param args
+	 *            - arguments e.g. expected return class
+	 * @return value depending on args
 	 */
-	public int ownSQLCommand(String sql) {
+	public Object ownSQLCommand(String sql, String args) {
 		LOG.entering("SQLiteStorage", "ownSQLCommand");
 		LOG.fine("Attempting to execute following SQL Statement: " + sql);
-		int result = 0;
+		Object result = null;
 		try {
 			this.stmt = c.createStatement();
 			LOG.finest("Statement created: " + this.stmt.toString());
-			result = stmt.executeUpdate(sql);
+			if (args == null) {
+				LOG.fine("Executing an SQL querry which is not expected to return a result");
+				result = stmt.executeUpdate(sql);
+			} else if (args.equals("CustomerSQL")) {
+				LOG.fine("Executing an SQL querry which is expected to return ONE CustomerSQL Object");
+				ResultSet rs = stmt.executeQuery(sql);
+				CustomerSQL customer = new CustomerSQL(rs.getString("Name"),
+						rs.getString("CellPhoneNumber"), rs.getInt("ID"));
+				customer.setLandlinePhoneNumber(rs
+						.getString("LandlinePhoneNumber"));
+				customer.setRate(rs.getInt("Rate"));
+				customer.setAirtimeMinutes(rs.getInt("AirTimeMinutes"));
+				// rs.getString("Owner"); // available but only used in the SQL DB
+				result = customer;
+			}
+
 			LOG.fine("SQL Statement returned following result: " + result);
 			stmt.close();
 			LOG.finest("Statement closed");
