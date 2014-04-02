@@ -206,7 +206,6 @@ public class SQLiteStorage {
 			} else if 	(args.equals("Double")) {
 				LOG.fine("Executing an SQL querry which is expected to return a Double - Balance for one or more than one customer");
 				ResultSet rs = stmt.executeQuery(sql);
-				ArrayList<CustomerSQL> customers = new ArrayList<CustomerSQL>();
 				Double money = 0.0;
 				while (rs.next()){
 					money += (rs.getInt("AirtimeMinutes")*rs.getInt("Rate")/60);
