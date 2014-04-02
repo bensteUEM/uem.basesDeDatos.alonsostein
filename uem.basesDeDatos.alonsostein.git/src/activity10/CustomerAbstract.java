@@ -22,7 +22,7 @@ public abstract class CustomerAbstract {
 	protected BigDecimal balance; // Balance of Account in Euros
 	protected Integer rate; // per minute
 	
-	protected abstract void setMinBalance(BigDecimal value);
+	public abstract void setMinBalance(BigDecimal value);
 
 	@SuppressWarnings("unused")
 	private CustomerAbstract() {

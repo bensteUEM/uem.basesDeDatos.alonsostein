@@ -89,7 +89,7 @@ public class SQLiteStorage {
 			LOG.fine("DELETE ALL Existing Tables");
 			String sql0 = "DROP TABLE IF EXISTS Owner;";
 			ownSQLCommand(sql0,null);
-			sql0 = "DROP TABLE IF EXISTS Customer;";
+			sql0 = "DROP TABLE IF EXISTS Customers;";
 			ownSQLCommand(sql0,null);
 			sql0 = "DROP TABLE IF EXISTS CustomerBill;";
 			ownSQLCommand(sql0,null);
@@ -105,7 +105,7 @@ public class SQLiteStorage {
 			ownSQLCommand(sql1,null);
 			LOG.finest("Defined table Owner");
 
-			String sql2 = "CREATE TABLE Customer "
+			String sql2 = "CREATE TABLE Customers "
 					+ "(ID 						INT		PRIMARY KEY		NOT NULL,"
 					+ " Owner       			INT					 	NOT NULL, "
 					+ " Rate        			INT	    				NOT NULL, "
@@ -116,7 +116,7 @@ public class SQLiteStorage {
 					// Reference to Owner Table enforced
 					+ " FOREIGN KEY(Owner) REFERENCES Owner(CIF));";
 			ownSQLCommand(sql2,null);
-			LOG.finest("Defined table Customer");
+			LOG.finest("Defined table Customers");
 
 			String sql3 = "CREATE TABLE CustomerBill "
 					+ "(ID 						INT 	PRIMARY KEY     NOT NULL,"
@@ -125,7 +125,7 @@ public class SQLiteStorage {
 					+ " DateCreated    			char(50),"
 					+ " BalanceDue      		REAL,"
 					// Reference to Owner Table enforced
-					+ " FOREIGN KEY(CustomerId) REFERENCES Customer(ID));";
+					+ " FOREIGN KEY(CustomerId) REFERENCES Customers(ID));";
 			ownSQLCommand(sql3,null);
 			LOG.finest("Defined table CustomerBill");
 
@@ -137,7 +137,7 @@ public class SQLiteStorage {
 					+ " Duration 				INT     				NOT NULL,"
 					// Reference to Customer and Bill Table enforced
 					+ " FOREIGN KEY(Bill) REFERENCES CustomerBill(ID), "
-					+ " FOREIGN KEY(Origin) REFERENCES Customer(ID));";
+					+ " FOREIGN KEY(Origin) REFERENCES Customers(ID));";
 			ownSQLCommand(sql4,null);
 			LOG.finest("Defined table CustomerCall");
 
@@ -196,7 +196,9 @@ public class SQLiteStorage {
 			} else if (args.equals("CustomerSQL")) {
 				LOG.fine("Executing an SQL querry which is expected to return ONE CustomerSQL Object");
 				ResultSet rs = stmt.executeQuery(sql);
+				LOG.fine("Statement Excecuted");
 				CustomerSQL customer = new CustomerSQL(rs,rs.getInt("ID"),rs.getString("Name"), rs.getString("CellPhoneNumber"),LOG);
+				LOG.fine("CustomerSQL item created with: "+rs.getInt("ID"+"//"+rs.getString("Name")+"//"+rs.getString("CellPhoneNumber")));
 				result = customer;
 			} else if 	(args.equals("ArrayList<Customer>")) {
 				LOG.fine("Executing an SQL querry which is expected to return an ArrayList of CustomerSQL Objects");
