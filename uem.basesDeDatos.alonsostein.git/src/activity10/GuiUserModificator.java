@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -20,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import activity10.Pbes;
+import activity13.CustomerCall;
 
 public class GuiUserModificator extends JFrame implements ActionListener {
 
@@ -38,7 +40,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	private JButton btnExport;
 	private Customer customer;
 	private Pbes parent;
-	private String dataCall[] = { "" };
+	private CustomerAbstract dataCall;
 
 	/**
 	 * Create the frame.
@@ -102,7 +104,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		JLabel lblBilling = new JLabel("Billing information: ");
 
 		// JList for listing calls
-		JList callList = new JList(dataCall); // data has type Object[]
+		JList<CustomerCall> callList = new JList<CustomerCall>(); // data has type Object[]
 		JScrollPane listScroller = new JScrollPane(callList);
 
 		btnChangeId = new JButton("Change ID");
@@ -239,11 +241,17 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		textFieldBalance.setColumns(10);
 		contentPane.add(textFieldBalance);
 
+		Container callList;
+		// Billing information
+		for (CustomerCall call : currentCustomer.getCalls()) {
+			callList.addElement(call);
+		}
+		// Buttons
+
 		btnChangeId = new JButton("Change ID");
 		contentPane.add(btnChangeId);
 		btnChangeId.addActionListener(this);
-		// disable button until 100% works - currently issue after 2nd change -
-		// most likely insert / delete
+
 		btnChangeId.setEnabled(true);
 
 		btnSave = new JButton("Save");
