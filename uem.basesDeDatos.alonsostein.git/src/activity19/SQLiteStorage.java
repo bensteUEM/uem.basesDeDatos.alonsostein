@@ -216,6 +216,7 @@ public class SQLiteStorage {
 				}
 				result = money;
 			}
+			
 
 			LOG.fine("SQL Statement returned following result: " + result);
 			stmt.close();
