@@ -23,8 +23,7 @@ public abstract class PbesAbstract  extends JFrame{
 	public abstract BigDecimal getCompanyRevenue();
 	
 	@SuppressWarnings("unused") //use to block default constructor
-	private PbesAbstract() {
+	protected PbesAbstract() {
 	}
-	public PbesAbstract(Integer numberOfCustomers) {
-	}
+	
 }

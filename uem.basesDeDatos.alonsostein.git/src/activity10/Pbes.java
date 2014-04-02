@@ -26,7 +26,6 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	private JPanel contentPane;
 	JTextField txtSearch;
 	private JTextField txtMoney;
-	private Integer customerCount;
 	private ArrayList<Customer> customers; //TODO THIS IS IMPORTANT to SHOW FOR EVALUATION
 	/* private Customer[] customerToImport; //@LUIS - not needed anymore*/
 	final Color UEMCOLOR = new Color(143, 27, 39);
@@ -38,14 +37,14 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	public static void main(String[] args) { // Main Method that launches the
 												// application
-		Integer maxCustomers = 50;
+		Integer maxCustomers = 50;	//TODO remove maxcustomers
 		/*
 		 * Starting from Activity 10 max number is fixed to 50 the following
 		 * code is deprecated try { GuiFilter a = new GuiFilter(0); while
 		 * (maxCustomers == 0) { maxCustomers = a.getNumber();
 		 * Thread.sleep(200); // waits a time in miliseconds }
 		 */
-		Pbes mainFrame = new Pbes(maxCustomers); // Create new Gui program
+		Pbes mainFrame = new Pbes(); // Create new Gui program
 													// instance
 		mainFrame.setVisible(true); // make Gui visible
 		/*
@@ -59,13 +58,12 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * 
 	 * @author Maren
 	 */
-	public Pbes(Integer numberOfCustomers) { // Constrcutor
-		super(numberOfCustomers); // super constructor
+	public Pbes() { // Constrcutor
+		//super(); // super constructor	
 		setGuiStyles(); // use function for predefined GUI mods
-		customers = new ArrayList<Customer>(numberOfCustomers);
+		customers = new ArrayList<Customer>();
 		// initialize empty customer array with predefined count
-		this.customerCount = 0; // initialize customer count
-
+		
 		// Frame and GUI Setup
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // constant that it
 														// exits
@@ -506,7 +504,6 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		}
 		this.customers.add((Customer) customer);
 		// save customer to empty spot
-		this.customerCount++;
 		return true;
 	} // end addCustomer()
 

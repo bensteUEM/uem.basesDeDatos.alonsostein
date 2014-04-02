@@ -18,8 +18,8 @@ import activity10.Pbes;
  */
 public class PbesSQL extends Pbes {
 
-	public PbesSQL(Integer numberOfCustomers) {
-		super(numberOfCustomers);
+	public PbesSQL() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
