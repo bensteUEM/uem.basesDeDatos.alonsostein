@@ -105,7 +105,13 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		JLabel lblBilling = new JLabel("Billing information: ");
 
 		// JList for listing calls
-		callList = new JList<CustomerCall>(currentCustomer.getCalls().toArray()); // data has type Object[]
+		
+		if (currentCustomer.getCalls().size() > 0){
+			callList = new JList(currentCustomer.getCalls().toArray());
+		}else {
+			callList = new JList<CustomerCall>();
+		}
+
 		JScrollPane listScroller = new JScrollPane(callList);
 
 		btnChangeId = new JButton("Change ID");

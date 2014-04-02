@@ -111,4 +111,8 @@ public class CustomerCall {
 	public Date getStartTime() {	// getter for the start time of the call
 		return this.startTime.getTime();
 	}	// end of getStartTime
+	
+	public String toString(){
+		return this.getDestination()+" - "+this.getDuration()+" - "+this.getStartTime();
+	}
 } // end of class CustomerCall
