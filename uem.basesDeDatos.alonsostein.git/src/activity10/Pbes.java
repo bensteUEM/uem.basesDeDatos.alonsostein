@@ -22,14 +22,14 @@ import activity13.GuiCallPlacement;
  */
 public class Pbes extends PbesAbstract implements ActionListener {
 	/* Some Initial Values */
-	private static final long serialVersionUID = 7954557041637449001L;
-	private JPanel contentPane;
-	JTextField txtSearch;
-	private JTextField txtMoney;
-	private ArrayList<Customer> customers; // TODO THIS IS IMPORTANT to SHOW FOR
+	protected static final long serialVersionUID = 7954557041637449001L;
+	protected JPanel contentPane;
+	protected JTextField txtSearch;
+	protected JTextField txtMoney;
+	protected ArrayList<Customer> customers; // TODO THIS IS IMPORTANT to SHOW FOR
 											// EVALUATION
 	/* private Customer[] customerToImport; //@LUIS - not needed anymore */
-	private BigDecimal b = new BigDecimal(0); // store the minimum balance
+	protected BigDecimal b = new BigDecimal(0); // store the minimum balance
 	final Color UEMCOLOR = new Color(143, 27, 39);
 
 	/**
@@ -344,22 +344,17 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	public void onAddCustomer(ActionEvent ae) {
 		Customer newCustomer = new Customer("", "",
-				Integer.parseInt(this.txtSearch.getText())); // function to
-																// add new
-																// customer
-
+				Integer.parseInt(this.txtSearch.getText()));
+		// function to add new customer
 		if (!(this.addCustomer(newCustomer))) {
 			JOptionPane
 					.showMessageDialog(
 							this,
 							"<html>Something went wrong when trying to save a new user <br> you might have tried to exceed your user maximum</html>");
 		} else {
-			new GuiUserModificator(this, newCustomer); // this will run the
-														// Modificator
-														// hiding this
-														// window until
-														// action was
-														// successful
+			new GuiUserModificator(this, newCustomer);
+			// this will run the Modificator hiding this window until action was
+			// successful
 		}
 	}
 
@@ -500,7 +495,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	public boolean addCustomer(CustomerAbstract customer) {
 		Integer newId;
-		customer.setMinBalance(b); // set minimum balance for customer once it is read from excel
+		customer.setMinBalance(b); // set minimum balance for customer once it
+									// is read from excel
 		// System.out.println("User added to DataStore with min balance "+customer.getMinBalance());
 
 		// as long as the current customer has an id that already exists
@@ -532,7 +528,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	@Override
 	public boolean saveCustomer(CustomerAbstract currentCustomer) {
 		Integer position = 0; // initialize iteration variable
-		for (Customer compareCustomer : this.getCustomers()) { // iterate through all
+		for (Customer compareCustomer : this.getCustomers()) { // iterate
+																// through all
 			// customers
 			if (compareCustomer == null) {
 				// skip empty customers
@@ -559,7 +556,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	@Override
 	public CustomerAbstract getCustomer(Integer searchId) {
-		for (Customer compareCustomer : this.getCustomers()) { // iterate through all
+		for (Customer compareCustomer : this.getCustomers()) { // iterate
+																// through all
 			// customers
 			if (compareCustomer != null) {
 				if (compareCustomer.getId().equals(searchId))
@@ -606,8 +604,9 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public BigDecimal getAllCustomerBalance() {
 		BigDecimal result = new BigDecimal(0, new MathContext(3,
 				RoundingMode.HALF_UP)); // initialize result variable
-		for (Customer compareCustomer : this.getCustomers()) { // iterate through all
-															// customers
+		for (Customer compareCustomer : this.getCustomers()) { // iterate
+																// through all
+																// customers
 			if (compareCustomer != null) // customer exists
 			{
 				result.add(compareCustomer.getBalance());
@@ -642,8 +641,9 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	@Override
 	public void calculateAllBalances() {
-		for (Customer compareCustomer : this.getCustomers()) { // iterate through all
-															// customers
+		for (Customer compareCustomer : this.getCustomers()) { // iterate
+																// through all
+																// customers
 			if (compareCustomer != null) // customer exists
 			{
 				compareCustomer.setBalance(); // calculate Balance for all
@@ -665,8 +665,10 @@ public class Pbes extends PbesAbstract implements ActionListener {
 				RoundingMode.HALF_UP)); // temporary var only - needs to be
 										// class var once
 		// payment is implemented
-		BigDecimal outstanding = new BigDecimal(0.00, new MathContext(3)); // initialize outstanding
-		for (Customer compareCustomer : this.getCustomers()) { // iterate through all
+		BigDecimal outstanding = new BigDecimal(0.00, new MathContext(3)); // initialize
+																			// outstanding
+		for (Customer compareCustomer : this.getCustomers()) { // iterate
+																// through all
 			// customers
 			if (compareCustomer != null) // customer exists
 			{

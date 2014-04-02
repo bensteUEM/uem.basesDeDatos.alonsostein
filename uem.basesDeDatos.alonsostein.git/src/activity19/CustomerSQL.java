@@ -19,12 +19,29 @@ public class CustomerSQL extends Customer {
 	private SQLiteStorage db;
 	private int owner;
 
+	/**
+	 * Constructor for a CustomerSQL Object
+	 * @param newName
+	 * @param newCellPhoneNumber
+	 * @param newId
+	 * @param Owner
+	 * @param db
+	 */
 	public CustomerSQL(String newName, String newCellPhoneNumber,
 			Integer newId, Integer Owner, SQLiteStorage db) {
 		super(newName, newCellPhoneNumber, newId);
 		this.db = db;
 	}
 
+	/**
+	 * Constructor for the creation of a CustomerSQL object based on an SQL result set and some minimum fields
+	 * @param rs
+	 * @param id
+	 * @param name
+	 * @param cellPhoneNumber
+	 * @param sqlLog
+	 * @author benste
+	 */
 	public CustomerSQL(ResultSet rs, Integer id, String name, String cellPhoneNumber, Logger sqlLog) {
 			super(name,cellPhoneNumber,id);
 			try {
