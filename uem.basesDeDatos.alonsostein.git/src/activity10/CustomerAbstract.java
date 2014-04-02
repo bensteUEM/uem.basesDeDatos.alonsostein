@@ -3,6 +3,9 @@ package activity10;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+
+import activity13.CustomerCall;
 
 /**
  * Abstract of the Customer which was the minimal specification to task 8
@@ -92,4 +95,6 @@ public abstract class CustomerAbstract {
 	public String getCellPhoneNumber() {
 		return cellPhoneNumber;
 	}
+
+	public abstract ArrayList<CustomerCall> getCalls();
 }

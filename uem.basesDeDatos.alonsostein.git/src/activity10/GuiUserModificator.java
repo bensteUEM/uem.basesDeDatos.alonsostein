@@ -34,6 +34,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	private JTextField textFieldLand;
 	private JTextField textFieldAir;
 	private JTextField textFieldBalance;
+	private JList<CustomerCall> callList;
 	private JButton btnChangeId;
 	private JButton btnSave;
 	private JButton btnImport;
@@ -104,7 +105,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		JLabel lblBilling = new JLabel("Billing information: ");
 
 		// JList for listing calls
-		JList<CustomerCall> callList = new JList<CustomerCall>(); // data has type Object[]
+		callList = new JList<CustomerCall>(currentCustomer.getCalls().toArray()); // data has type Object[]
 		JScrollPane listScroller = new JScrollPane(callList);
 
 		btnChangeId = new JButton("Change ID");
@@ -241,11 +242,12 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		textFieldBalance.setColumns(10);
 		contentPane.add(textFieldBalance);
 
-		Container callList;
 		// Billing information
+		/*
 		for (CustomerCall call : currentCustomer.getCalls()) {
 			callList.addElement(call);
 		}
+		*/
 		// Buttons
 
 		btnChangeId = new JButton("Change ID");

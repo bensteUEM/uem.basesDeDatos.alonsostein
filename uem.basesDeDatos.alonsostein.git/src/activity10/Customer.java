@@ -309,7 +309,9 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 
 	/**
 	 * @return the calls
+	 *
 	 */
+	@Override
 	public ArrayList<CustomerCall> getCalls() {
 		return calls;
 	}
