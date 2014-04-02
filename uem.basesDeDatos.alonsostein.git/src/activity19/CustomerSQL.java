@@ -17,17 +17,6 @@ public class CustomerSQL extends Customer {
 	}
 
 	/**
-	 * Creates a new Customer based on the response of an SQL query with one user
-	 * @param fullyQualifiedSQLReply
-	 * @throws Exception
-	 */
-	public CustomerSQL(String fullyQualifiedSQLReplyString)
-			throws Exception {
-		//1. create the new customer based on super method
-		super(fullyQualifiedSQLReplyString);
-		// TODO Auto-generated constructor stub
-	}
-		/**
 	 * Function which export an existing customer object as a VALUES part for an SQL statement
 	 * 
 	 * @return VALUES(ID,Owner,Rate,Name,CellPhoneNumber,LandlinePhoneNumber,AirtimeMinutes) 

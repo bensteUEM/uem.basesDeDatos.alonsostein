@@ -54,7 +54,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 *             - error when Customer can not be imported
 	 */
 	public Customer(String fullyQualifiedExportedCustomerString)
-			throws Exception {
+			 {
 		// run parent constructor
 		super(fullyQualifiedExportedCustomerString);
 		// import from text

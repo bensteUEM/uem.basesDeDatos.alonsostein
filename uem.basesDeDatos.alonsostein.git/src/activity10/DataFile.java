@@ -124,6 +124,7 @@ public class DataFile {
 				writer.newLine();
 			}
 
+			
 			// 6. Finish File
 			Date currentDate = Calendar.getInstance().getTime();
 			writer.write("Last updated:" + sdf.format(currentDate));
