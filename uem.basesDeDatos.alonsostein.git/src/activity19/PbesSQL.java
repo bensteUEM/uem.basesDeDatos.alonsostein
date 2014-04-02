@@ -20,7 +20,9 @@ public class PbesSQL extends Pbes {
 
 	public PbesSQL(Integer numberOfCustomers) {
 		super(numberOfCustomers);
-		// TODO Auto-generated constructor stub
+		// Also create the company
+		String sql = " INSERT INTO Customer VALUES " + customer.exportSQLText(this.getCompany());
+		// TODO run SQL
 	}
 
 	@Override

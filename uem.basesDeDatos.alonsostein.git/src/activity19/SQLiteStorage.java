@@ -164,7 +164,7 @@ public class SQLiteStorage {
 		LOG.exiting("SQLiteStorage", "openDB");
 		return false;
 	}
-
+	
 	// // TODO i stopped here
 	/**
 	 * Wrapper to execute SQL Commands without the need to catch exceptions
