@@ -199,6 +199,7 @@ public class SQLiteStorage {
 				// rs.getString("Owner"); // available but only used in the SQL DB
 				result = customer;
 			}
+			
 
 			LOG.fine("SQL Statement returned following result: " + result);
 			stmt.close();
