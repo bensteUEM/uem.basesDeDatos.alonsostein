@@ -202,7 +202,16 @@ public class SQLiteStorage {
 				while (rs.next()){
 					CustomerSQL customer = new CustomerSQL(rs,rs.getInt("ID"),rs.getString("Name"), rs.getString("CellPhoneNumber"),LOG);
 					customers.add(customer);
-				}			
+				}	
+			} else if 	(args.equals("Double")) {
+				LOG.fine("Executing an SQL querry which is expected to return a Double - Balance for one or more than one customer");
+				ResultSet rs = stmt.executeQuery(sql);
+				ArrayList<CustomerSQL> customers = new ArrayList<CustomerSQL>();
+				Double money = 0.0;
+				while (rs.next()){
+					money += (rs.getInt("AirtimeMinutes")*rs.getInt("Rate")/60);
+				}
+				result = money;
 			}
 
 			LOG.fine("SQL Statement returned following result: " + result);

@@ -65,6 +65,17 @@ public class PbesSQL extends Pbes {
 		ArrayList<Customer> customers = (ArrayList<Customer>) db.ownSQLCommand(query,"ArrayList<Customer>");
 		return customers;
 	}
+	/**
+	 * Method to return all customers
+	 * @return ArrayList of all Customers in the Database
+	 */
+	@Override
+	public ArrayList<Customer> getCustomersAboveRate(Integer rate) {
+		String query = "SELECT * FROM Customers WHERE Rate>"+rate+";";
+		@SuppressWarnings("unchecked") // is checked with method param
+		ArrayList<Customer> customers = (ArrayList<Customer>) db.ownSQLCommand(query,"ArrayList<Customer>");
+		return customers;
+	}
 	
 	public Integer getCompanyID() {
 		return COMPANYID;
