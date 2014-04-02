@@ -25,7 +25,7 @@ public class PbesSQL extends Pbes {
 	}
 
 	@Override
-	public boolean addCustomer(CustomerSQL customer) {
+	public boolean addCustomer(CustomerAbstract customer) {
 		String sql = " INSERT INTO Customer VALUES " + customer.exportSQLText(this.getCompany());
 		// TODO run SQL
 	};

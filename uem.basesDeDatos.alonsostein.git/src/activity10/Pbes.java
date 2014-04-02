@@ -484,7 +484,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * @param customer
 	 * @return
 	 */
-	public boolean addCustomer(Customer customer) {
+	public boolean addCustomer(CustomerAbstract customer) {
 		Integer newId;
 
 		// Read minimum Balance and Save to Customer

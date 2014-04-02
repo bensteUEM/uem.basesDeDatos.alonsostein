@@ -18,6 +18,8 @@ public abstract class CustomerAbstract {
 	protected Integer airtimeMinutes; // Amount of minutes consumed
 	protected BigDecimal balance; // Balance of Account in Euros
 	protected Integer rate; // per minute
+	
+	protected abstract void setMinBalance(BigDecimal value);
 
 	@SuppressWarnings("unused")
 	private CustomerAbstract() {
