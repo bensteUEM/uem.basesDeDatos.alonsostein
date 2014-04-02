@@ -2,6 +2,7 @@ package activity19;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 import activity10.Customer;
@@ -16,6 +17,9 @@ import activity13.CustomerCall;
  */
 public class CustomerSQL extends Customer {
 	private SQLiteStorage db;
+	private final static Logger LOG = Logger.getLogger(SQLiteStorage.class
+			.getName());
+	private FileHandler fh;
 	private int owner;
 
 	/**
@@ -68,24 +72,28 @@ public class CustomerSQL extends Customer {
 		/*
 		 * The following section does create an array with the args of the class
 		 */
+		LOG.entering("CustomerSQL", "exportSQLText");
 		String[] parts = new String[Customer.IMPLEMENTEDARGS +1];
-		parts[0] = Integer.toString(this.getId()) + ",";
-		parts[1] = "\'" + this.getOwner() + "\'" + ",";
-		parts[2] = Integer.toString(this.getRate()) + ",";
-		parts[3] = this.getName() + ",";
-		parts[4] = "\'" + this.getCellPhoneNumber() + "\'" + ",";
-		parts[5] = "\'" + this.getLandlinePhoneNumer() + "\'" + ",";
-		parts[6] = Integer.toString(this.getAirtimeMinutes()) + ",";
+		parts[0] = Integer.toString(this.getId());
+		parts[1] = "\'" + this.getOwner() + "\'";
+		parts[2] = Integer.toString(this.getRate()) ;
+		parts[3] = this.getName();
+		parts[4] = "\'" + this.getCellPhoneNumber() + "\'" ;
+		parts[5] = "\'" + this.getLandlinePhoneNumer() + "\'" ;
+		parts[6] = Integer.toString(this.getAirtimeMinutes()) ;
 		parts[7] = this.getBalance().toString();
 		//parts[8] = this.getBalance().toString();
 		//parts[9] = this.getBalance().toString();
 
 		// Parse the Array into a String
-		String result = "VALUES(";
+		String result = new String("VALUES(");
 		for (String part : parts) {
-			result += part + ",";
+			result += (part + ",");
 		} // end for all items
+		//remove last ,
+		result = result.substring(0,result.length()-1);
 		result += ")";
+		LOG.exiting("CustomerSQL", "exportSQLText");
 		return result;
 	} // end exportText()
 
