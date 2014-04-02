@@ -427,7 +427,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void onExportText(ActionEvent ae) {
 		DataFile export = new DataFile(); // create a new file without a
 											// customer object
-		export.exportCustomer(this.customers);
+		export.exportCustomer(this.getCustomers());
 		// export the current set of customers
 	} // end onExportText
 
@@ -437,7 +437,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void onExportExcel(ActionEvent ae) {
 		DataFile export = new DataFile(); // create a new file without a
 											// customer object
-		export.exportCustomerExcel2013(this.customers);
+		export.exportCustomerExcel2013(this.getCustomers());
 		// export the current set of customers
 	} // end onExportExcel
 
@@ -522,7 +522,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	@Override
 	public boolean saveCustomer(CustomerAbstract currentCustomer) {
 		Integer position = 0; // initialize iteration variable
-		for (Customer compareCustomer : this.customers) { // iterate through all
+		for (Customer compareCustomer : this.getCustomers()) { // iterate through all
 			// customers
 			if (compareCustomer == null) {
 				// skip empty customers
@@ -549,7 +549,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	@Override
 	public CustomerAbstract getCustomer(Integer searchId) {
-		for (Customer compareCustomer : this.customers) { // iterate through all
+		for (Customer compareCustomer : this.getCustomers()) { // iterate through all
 			// customers
 			if (compareCustomer != null) {
 				if (compareCustomer.getId().equals(searchId))
@@ -572,7 +572,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * @author benste
 	 */
 	public boolean deleteCustomer(Integer searchId) {
-		for (Customer compareCustomer : this.customers) {
+		for (Customer compareCustomer : this.getCustomers()) {
 			// iterate through all customers
 			if (compareCustomer.getId().equals(searchId))
 			// customer is the one we
@@ -596,7 +596,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public BigDecimal getAllCustomerBalance() {
 		BigDecimal result = new BigDecimal(0, new MathContext(3,
 				RoundingMode.HALF_UP)); // initialize result variable
-		for (Customer compareCustomer : this.customers) { // iterate through all
+		for (Customer compareCustomer : this.getCustomers()) { // iterate through all
 															// customers
 			if (compareCustomer != null) // customer exists
 			{
@@ -613,7 +613,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	public ArrayList<Customer> getCustomersAboveRate(Integer maxRate) {
 		ArrayList<Customer> results = new ArrayList<Customer>();
-		for (Customer compareCustomer : this.customers) {
+		for (Customer compareCustomer : this.getCustomers()) {
 			if (compareCustomer != null) // customer exists
 			{
 				if (compareCustomer.getRate() > maxRate)// customer exceeds rate
@@ -632,7 +632,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	@Override
 	public void calculateAllBalances() {
-		for (Customer compareCustomer : this.customers) { // iterate through all
+		for (Customer compareCustomer : this.getCustomers()) { // iterate through all
 															// customers
 			if (compareCustomer != null) // customer exists
 			{
@@ -656,7 +656,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 										// class var once
 		// payment is implemented
 		BigDecimal outstanding = new BigDecimal(0.00, new MathContext(3)); // initialize outstanding
-		for (Customer compareCustomer : this.customers) { // iterate through all
+		for (Customer compareCustomer : this.getCustomers()) { // iterate through all
 			// customers
 			if (compareCustomer != null) // customer exists
 			{
