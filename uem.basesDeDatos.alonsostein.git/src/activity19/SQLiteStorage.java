@@ -1,6 +1,9 @@
 package activity19;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -203,12 +206,13 @@ public class SQLiteStorage {
 					CustomerSQL customer = new CustomerSQL(rs,rs.getInt("ID"),rs.getString("Name"), rs.getString("CellPhoneNumber"),LOG);
 					customers.add(customer);
 				}	
-			} else if 	(args.equals("Double")) {
+			} else if 	(args.equals("BigDecimal")) {
 				LOG.fine("Executing an SQL querry which is expected to return a Double - Balance for one or more than one customer");
 				ResultSet rs = stmt.executeQuery(sql);
-				Double money = 0.0;
+				BigDecimal money = new BigDecimal(0,new MathContext(3,RoundingMode.HALF_UP));;
 				while (rs.next()){
-					money += (rs.getInt("AirtimeMinutes")*rs.getInt("Rate")/60);
+					BigDecimal value = new BigDecimal(rs.getInt("AirtimeMinutes")*rs.getInt("Rate")/60.0,new MathContext(3,RoundingMode.HALF_UP));
+					money = money.add(value);
 				}
 				result = money;
 			}

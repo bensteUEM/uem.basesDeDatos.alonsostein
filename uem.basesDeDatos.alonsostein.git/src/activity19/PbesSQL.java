@@ -4,6 +4,7 @@
 package activity19;
 
 import java.awt.event.ActionEvent;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -77,6 +78,18 @@ public class PbesSQL extends Pbes {
 		return customers;
 	}
 	
+	/**
+	 * Method to return the cumulative balance of all customers
+	 * @return ArrayList of all Customers in the Database
+	 */
+	@Override
+	public BigDecimal getAllCustomerBalance() {
+		String query = "SELECT ID,Name FROM Customers;";
+		@SuppressWarnings("unchecked") // is checked with method param
+		BigDecimal money = (BigDecimal) db.ownSQLCommand(query,"BigDecimal");
+		return money;
+	}
+		
 	public Integer getCompanyID() {
 		return COMPANYID;
 	}
