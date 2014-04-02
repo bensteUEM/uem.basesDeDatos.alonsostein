@@ -26,9 +26,10 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	private JPanel contentPane;
 	JTextField txtSearch;
 	private JTextField txtMoney;
-	private Integer customerCount;
-	private ArrayList<Customer> customers; //TODO THIS IS IMPORTANT to SHOW FOR EVALUATION
-	/* private Customer[] customerToImport; //@LUIS - not needed anymore*/
+	private ArrayList<Customer> customers; // TODO THIS IS IMPORTANT to SHOW FOR
+											// EVALUATION
+	/* private Customer[] customerToImport; //@LUIS - not needed anymore */
+	private BigDecimal b = new BigDecimal(0); // store the minimum balance
 	final Color UEMCOLOR = new Color(143, 27, 39);
 
 	/**
@@ -38,15 +39,15 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	public static void main(String[] args) { // Main Method that launches the
 												// application
-		Integer maxCustomers = 50;
+		Integer maxCustomers = 50; // TODO remove maxcustomers
 		/*
 		 * Starting from Activity 10 max number is fixed to 50 the following
 		 * code is deprecated try { GuiFilter a = new GuiFilter(0); while
 		 * (maxCustomers == 0) { maxCustomers = a.getNumber();
 		 * Thread.sleep(200); // waits a time in miliseconds }
 		 */
-		Pbes mainFrame = new Pbes(maxCustomers); // Create new Gui program
-													// instance
+		Pbes mainFrame = new Pbes(); // Create new Gui program
+										// instance
 		mainFrame.setVisible(true); // make Gui visible
 		/*
 		 * Also part of the old code ... } catch (Exception e) {
@@ -59,12 +60,11 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * 
 	 * @author Maren
 	 */
-	public Pbes(Integer numberOfCustomers) { // Constrcutor
-		super(numberOfCustomers); // super constructor
+	public Pbes() { // Constrcutor
+		// super(); // super constructor
 		setGuiStyles(); // use function for predefined GUI mods
-		customers = new ArrayList<Customer>(numberOfCustomers);
+		customers = new ArrayList<Customer>();
 		// initialize empty customer array with predefined count
-		this.customerCount = 0; // initialize customer count
 
 		// Frame and GUI Setup
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // constant that it
@@ -169,6 +169,10 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		JMenuItem menExportCustomerExcel = new JMenuItem(
 				"Export customers to Excel2013");
 		menExportCustomerExcel.addActionListener(this);
+		// Added new menu item to inport minimum balance from excel
+		JMenuItem menMinimumBalance = new JMenuItem(
+				"Import minimum balance from Excel");
+		menMinimumBalance.addActionListener(this);
 
 		// User Delete button by ID - same implementation as Search
 		JButton btnDelete = new JButton("Delete User by ID");
@@ -219,6 +223,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		menuData.add(menImportCustomer);
 		menuData.add(menExportCustomer);
 		menuData.add(menExportCustomerExcel);
+		menuData.add(menMinimumBalance);
 		menuBar.add(menuData); // Add menu to Main Menu
 
 		JMenu menuRevenue = new JMenu("Revenue");
@@ -301,6 +306,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			this.onExportExcel(ae);
 		} else if (sourceName.contains("Export customers to CSV")) {
 			this.onExportText(ae);
+		} else if (sourceName.contains("Import minimum balance from Excel")) {
+			this.onLoadMinimumBalance(ae);
 		} else if (sourceName.contains("Delete")) {
 			this.onDeleteByUserId(ae);
 		} else if (sourceName.contains("Call")) {
@@ -396,11 +403,12 @@ public class Pbes extends PbesAbstract implements ActionListener {
 
 	public void onRevenue(ActionEvent ae) {
 		String revenue = this.getCompanyRevenue().toString();
-		System.out.println("Company reveneu big decimal in on revenue is = "+this.getCompanyRevenue());
+		System.out.println("Company reveneu big decimal in on revenue is = "
+				+ this.getCompanyRevenue());
 		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
 				+ " EURO");
 	} // end OnRevenue
-	
+
 	public void onShowAndCalculateCompanyRevenue(ActionEvent ae) {
 		// revenue of each customer
 		this.calculateAllBalances();
@@ -477,6 +485,12 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		} // end checking existance of user
 	} // end onCalculateMonthlyBill
 
+	public void onLoadMinimumBalance(ActionEvent ae) {
+		DataFile d = new DataFile("MinimumBalance");
+		this.b = d.importMinimumBalanceExcel2013();
+		System.out.println(b);
+	}
+
 	/**
 	 * Method which adds a Customer into the local data storage and also sets
 	 * its minimum Balance
@@ -486,10 +500,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	public boolean addCustomer(CustomerAbstract customer) {
 		Integer newId;
-
-		// Read minimum Balance and Save to Customer
-		DataFile d = new DataFile("MinimumBalance");
-		customer.setMinBalance(d.importMinimumBalanceExcel2013());
+		customer.setMinBalance(b); // set minimum balance for customer once it is read from excel
 		// System.out.println("User added to DataStore with min balance "+customer.getMinBalance());
 
 		// as long as the current customer has an id that already exists
@@ -506,7 +517,6 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		}
 		this.customers.add((Customer) customer);
 		// save customer to empty spot
-		this.customerCount++;
 		return true;
 	} // end addCustomer()
 
@@ -660,7 +670,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			// customers
 			if (compareCustomer != null) // customer exists
 			{
-				outstanding = outstanding.add(compareCustomer.getBalance());				
+				outstanding = outstanding.add(compareCustomer.getBalance());
 				// add the outstanding balance to current balance
 			}// end if precondition customer exists
 		}// end of iterating through all customers
@@ -671,3 +681,4 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		return this.customers;
 	}
 } // end class
+

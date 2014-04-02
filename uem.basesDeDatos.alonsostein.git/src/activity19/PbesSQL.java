@@ -23,8 +23,8 @@ public class PbesSQL extends Pbes {
 	final String COMPANYNAME="My First Company";
 	final Integer COMPANYID = 1000;
 	
-	public PbesSQL(Integer numberOfCustomers) {
-		super(numberOfCustomers); // TODO remove number of customers in constructor
+	public PbesSQL( ) {
+		super();
 		db = new SQLiteStorage("activity19");
 		String query = "INSERT INTO Company VALUES ("+this.getCompanyID()+",0.00,\'"+this.getCompanyName()+"\')";
 		db.ownSQLCommand(query,null);
