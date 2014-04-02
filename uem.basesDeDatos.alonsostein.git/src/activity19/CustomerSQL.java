@@ -10,10 +10,7 @@ import activity13.CustomerCall;
  * @author benste
  *
  */
-
 public class CustomerSQL extends Customer {
-	
-	
 
 	public CustomerSQL(String newName, String newCellPhoneNumber, Integer newId) {
 		super(newName, newCellPhoneNumber, newId);

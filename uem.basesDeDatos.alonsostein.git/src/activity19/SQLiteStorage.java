@@ -3,7 +3,6 @@ package activity19;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.FileHandler;
@@ -24,10 +23,6 @@ public class SQLiteStorage {
 	private final static Logger LOG = Logger.getLogger(SQLiteStorage.class
 			.getName());
 	private FileHandler fh;
-	private String sql1;
-	public static String sql2;
-	private String sql3;
-	private String sql4;
 
 	/**
 	 * SQLiteStorage requires the name for the Database

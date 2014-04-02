@@ -5,17 +5,12 @@ import java.awt.event.*;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import activity13.GuiCallPlacement;
-import activity19.SQLiteStorage;
 
 /**
  * Main Class for the activities 8 and 10 Start this program here, it will guide
@@ -32,9 +27,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	JTextField txtSearch;
 	private JTextField txtMoney;
 	private Integer customerCount;
-	private ArrayList<Customer> customers; // TODO THIS IS IMPORTANT to SHOW FOR
-											// EVALUATION
-	/* private Customer[] customerToImport; //@LUIS - not needed anymore */
+	private ArrayList<Customer> customers; //TODO THIS IS IMPORTANT to SHOW FOR EVALUATION
+	/* private Customer[] customerToImport; //@LUIS - not needed anymore*/
 	final Color UEMCOLOR = new Color(143, 27, 39);
 
 	/**
@@ -323,7 +317,6 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * @param new Customer Object
 	 */
 	public void onSearchId(ActionEvent ae) {
-
 		Integer searchId = Integer.parseInt(this.txtSearch.getText());
 		@SuppressWarnings("unused")
 		GuiUserModificator editor = null; // init Modificator
@@ -403,12 +396,11 @@ public class Pbes extends PbesAbstract implements ActionListener {
 
 	public void onRevenue(ActionEvent ae) {
 		String revenue = this.getCompanyRevenue().toString();
-		System.out.println("Company reveneu big decimal in on revenue is = "
-				+ this.getCompanyRevenue());
+		System.out.println("Company reveneu big decimal in on revenue is = "+this.getCompanyRevenue());
 		JOptionPane.showMessageDialog(this, " Your Revenue is:" + revenue
 				+ " EURO");
 	} // end OnRevenue
-
+	
 	public void onShowAndCalculateCompanyRevenue(ActionEvent ae) {
 		// revenue of each customer
 		this.calculateAllBalances();
@@ -554,50 +546,20 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * @param ID
 	 *            of the customer which is requested
 	 * @return Customer Object OR NullPointerException
-	 * @throws SQLException
-	 *             TODO make sure getCustomer is working as intended
 	 */
-	public CustomerAbstract getCustomer(Integer searchId, Connection c,
-			String dbName) throws SQLException {
-		int ident = 0;
-		int owner = 0;
-		int rate = 0;
-		String name = null;
-		String landLinePhoneNumber = null;
-		String cellPhoneNumber = null;
-		int airTimeMinutes = 0;
-		Customer queriedCustomer;
-		Statement stmt = null;
-		String query = "select * " + "from " + SQLiteStorage.sql2 + "where"
-				+ "ID" + "=" + searchId;
-		try {
-			stmt = c.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while (rs.next()) {
-				ident = rs.getInt("ID");
-				owner = rs.getInt("Owner");
-				rate = rs.getInt("Rate");
-				name = rs.getString("Name");
-				cellPhoneNumber = rs.getString("CellPhoneNumber");
-				landLinePhoneNumber = rs.getString("LandlinePhoneNumber");
-				airTimeMinutes = rs.getInt("AirTimeMinutes");
-			}
-		} catch (SQLException e) {
-		} finally {
-			if (stmt != null) {
-				stmt.close();
-			}
-		}
-		return queriedCustomer = new Customer(name, cellPhoneNumber, ident);
-
-		/*
-		 * WE MIGHT NOT NEED THIS LOOP for (Customer compareCustomer :
-		 * this.customers) { // iterate through all // customers if
-		 * (compareCustomer != null) { if
-		 * (compareCustomer.getId().equals(searchId)) // customer is the one {
-		 * return compareCustomer; } // delete customer }// end null checking }
-		 * // end for return null;
-		 */
+	@Override
+	public CustomerAbstract getCustomer(Integer searchId) {
+		for (Customer compareCustomer : this.customers) { // iterate through all
+			// customers
+			if (compareCustomer != null) {
+				if (compareCustomer.getId().equals(searchId))
+				// customer is the one
+				{
+					return compareCustomer;
+				} // delete customer
+			}// end null checking
+		} // end for
+		return null;
 	} // end getCustomer()
 
 	/**
@@ -693,22 +655,15 @@ public class Pbes extends PbesAbstract implements ActionListener {
 				RoundingMode.HALF_UP)); // temporary var only - needs to be
 										// class var once
 		// payment is implemented
-		BigDecimal outstanding = new BigDecimal(0.00, new MathContext(3)); // initialize
-																			// outstanding
+		BigDecimal outstanding = new BigDecimal(0.00, new MathContext(3)); // initialize outstanding
 		for (Customer compareCustomer : this.customers) { // iterate through all
 			// customers
 			if (compareCustomer != null) // customer exists
 			{
-				outstanding = outstanding.add(compareCustomer.getBalance());
+				outstanding = outstanding.add(compareCustomer.getBalance());				
 				// add the outstanding balance to current balance
 			}// end if precondition customer exists
 		}// end of iterating through all customers
 		return (paid.add(outstanding));
 	}// end getCompanyRevenue();
-
-	@Override
-	public CustomerAbstract getCustomer(Integer searchId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 } // end class
