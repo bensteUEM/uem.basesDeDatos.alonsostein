@@ -191,7 +191,7 @@ public class SQLiteStorage {
 				LOG.fine("Executing an SQL querry which is expected to return ONE CustomerSQL Object");
 				ResultSet rs = stmt.executeQuery(sql);
 				CustomerSQL customer = new CustomerSQL(rs.getString("Name"),
-						rs.getString("CellPhoneNumber"), rs.getInt("ID"));
+						rs.getString("CellPhoneNumber"), rs.getInt("ID"), rs.getInt("Owner"),this);
 				customer.setLandlinePhoneNumber(rs
 						.getString("LandlinePhoneNumber"));
 				customer.setRate(rs.getInt("Rate"));

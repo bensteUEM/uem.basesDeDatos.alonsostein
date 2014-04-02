@@ -11,9 +11,13 @@ import activity13.CustomerCall;
  *
  */
 public class CustomerSQL extends Customer {
-
-	public CustomerSQL(String newName, String newCellPhoneNumber, Integer newId) {
+	
+	private SQLiteStorage db;
+	private String owner;
+	
+	public CustomerSQL(String newName, String newCellPhoneNumber, Integer newId, Integer Owner, SQLiteStorage db) {
 		super(newName, newCellPhoneNumber, newId);
+		this.db = db;
 	}
 
 	/**
@@ -23,13 +27,13 @@ public class CustomerSQL extends Customer {
 	 *         
 	 * @author benste
 	 */
-	public String exportSQLText(String owner) {
+	public String exportSQLText() {
 		/*
 		 * The following section does create an array with the args of the class
 		 */
 		String[] parts = new String[Customer.IMPLEMENTEDARGS+1]; // parent
 		parts[0] = Integer.toString(this.getId())+",";
-		parts[1] = "\'"+owner+"\'"+",";
+		parts[1] = "\'"+this.getOwner()+"\'"+",";
 		parts[2] = Integer.toString(this.getRate())+",";
 		parts[3] = this.getName()+",";
 		parts[4] = "\'"+this.getCellPhoneNumber()+"\'"+",";
@@ -49,9 +53,26 @@ public class CustomerSQL extends Customer {
 
 	@Override
 	public ArrayList<CustomerCall> getCalls() {
+		String query = "SELECT * FROM Calls WHERE CustomerId=" + this.getId() + ";";
+		ArrayList<CustomerCall> customer = (ArrayList<CustomerCall>) db.ownSQLCommand(query,"ArrayList<Calls>");
+		return customer;
 	}
 	@Override
 	public void addCall(CustomerCall newCall) {
+	}
+
+	/**
+	 * @return the owner
+	 */
+	public String getOwner() {
+		return owner;
+	}
+
+	/**
+	 * @param owner the owner to set
+	 */
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 
 }

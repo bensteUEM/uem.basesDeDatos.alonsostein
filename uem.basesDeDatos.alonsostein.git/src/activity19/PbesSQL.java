@@ -24,14 +24,16 @@ public class PbesSQL extends Pbes {
 	public PbesSQL(Integer numberOfCustomers) {
 		super(numberOfCustomers); // TODO remove number of customers in constructor
 		db = new SQLiteStorage("activity19");
-		String query = "INSERT INTO Company VALUES ("+COMPANYID+",0.00,\'"+COMPANYNAME+"\')";
+		String query = "INSERT INTO Company VALUES ("+this.getCompanyID()+",0.00,\'"+this.getCompanyName()+"\')";
 		db.ownSQLCommand(query,null);
 	}
 
 	@Override
 	public boolean addCustomer(CustomerAbstract customer) {
-		String sql = " INSERT INTO Customer VALUES " + customer.exportSQLText(this.getCompany());
-		// TODO run SQL
+		CustomerSQL sqlcustomer = (CustomerSQL) customer; 
+		String sql = " INSERT INTO Customer VALUES " + sqlcustomer.exportSQLText();
+		db.ownSQLCommand(sql,null);
+		return true;
 	};
 
 	@Override
@@ -52,8 +54,15 @@ public class PbesSQL extends Pbes {
 	}
 	
 	@Override
-	public boolean getCustomers(Integer searchId) {
+	public ArrayList<Customer> getCustomers(Integer searchId) {
 		return false; //TODO not yet implemented
+	}
+	
+	public Integer getCompanyID() {
+		return COMPANYID;
+	}
+	public String getCompanyName() {
+		return COMPANYNAME;
 	}
 
 }
