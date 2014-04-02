@@ -89,7 +89,7 @@ public class SQLiteStorage {
 			LOG.fine("DELETE ALL Existing Tables");
 			String sql0 = "DROP TABLE IF EXISTS Owner;";
 			ownSQLCommand(sql0,null);
-			sql0 = "DROP TABLE IF EXISTS Customer;";
+			sql0 = "DROP TABLE IF EXISTS Customers;";
 			ownSQLCommand(sql0,null);
 			sql0 = "DROP TABLE IF EXISTS CustomerBill;";
 			ownSQLCommand(sql0,null);

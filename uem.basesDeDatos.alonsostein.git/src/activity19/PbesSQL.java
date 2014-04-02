@@ -77,8 +77,8 @@ public class PbesSQL extends Pbes {
 			((CustomerSQL) sqlcustomer).setId(newId); // set a new ID
 		}
 
-		String sql = " INSERT INTO Customer VALUES "
-				+ sqlcustomer.exportSQLText();
+		String sql = " INSERT INTO Customers "
+				+ sqlcustomer.exportSQLText()+ ";";
 		db.ownSQLCommand(sql, null);
 		return true;
 	};

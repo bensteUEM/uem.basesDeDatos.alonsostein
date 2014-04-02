@@ -15,7 +15,6 @@ import activity13.CustomerCall;
  * 
  */
 public class CustomerSQL extends Customer {
-
 	private SQLiteStorage db;
 	private int owner;
 
@@ -69,7 +68,7 @@ public class CustomerSQL extends Customer {
 		/*
 		 * The following section does create an array with the args of the class
 		 */
-		String[] parts = new String[Customer.IMPLEMENTEDARGS + 1]; // parent
+		String[] parts = new String[Customer.IMPLEMENTEDARGS +1];
 		parts[0] = Integer.toString(this.getId()) + ",";
 		parts[1] = "\'" + this.getOwner() + "\'" + ",";
 		parts[2] = Integer.toString(this.getRate()) + ",";
@@ -78,6 +77,8 @@ public class CustomerSQL extends Customer {
 		parts[5] = "\'" + this.getLandlinePhoneNumer() + "\'" + ",";
 		parts[6] = Integer.toString(this.getAirtimeMinutes()) + ",";
 		parts[7] = this.getBalance().toString();
+		//parts[8] = this.getBalance().toString();
+		//parts[9] = this.getBalance().toString();
 
 		// Parse the Array into a String
 		String result = "VALUES(";
