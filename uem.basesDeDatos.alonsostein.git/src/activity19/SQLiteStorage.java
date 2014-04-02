@@ -100,7 +100,7 @@ public class SQLiteStorage {
 			String sql2 = "CREATE TABLE CUSTOMER "
 					+ "(ID 						INT		PRIMARY KEY		NOT NULL,"
 					+ " Owner       			INT					 	NOT NULL, "
-					+ " Rate        			REAL    				NOT NULL, "
+					+ " Rate        			INT	    				NOT NULL, "
 					+ " Name       				char(50)				NOT NULL, "
 					+ " CellPhoneNumber       	char(50), "
 					+ " LandlinePhoneNumber     char(50), "
@@ -126,7 +126,7 @@ public class SQLiteStorage {
 					+ "Bill 					INT		," + "Origin 					INT 					NOT NULL,"
 					+ " Destination				char(50),"
 					+ " startTime				char(50)    			NOT NULL,"
-					+ " Duration 				 INT     				NOT NULL,"
+					+ " Duration 				INT     				NOT NULL,"
 					// Reference to Customer and Bill Table enforced
 					+ " FOREIGN KEY(Bill) REFERENCES CUSTOMERBILL(ID), "
 					+ " FOREIGN KEY(Origin) REFERENCES CUSTOMER(ID));";
