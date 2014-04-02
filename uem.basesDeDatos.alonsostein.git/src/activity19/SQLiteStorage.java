@@ -6,10 +6,13 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+
+import activity10.Customer;
 
 /**
  * SQLiteStorage Class for use with PBES Project check
@@ -190,14 +193,16 @@ public class SQLiteStorage {
 			} else if (args.equals("CustomerSQL")) {
 				LOG.fine("Executing an SQL querry which is expected to return ONE CustomerSQL Object");
 				ResultSet rs = stmt.executeQuery(sql);
-				CustomerSQL customer = new CustomerSQL(rs.getString("Name"),
-						rs.getString("CellPhoneNumber"), rs.getInt("ID"), rs.getInt("Owner"),this);
-				customer.setLandlinePhoneNumber(rs
-						.getString("LandlinePhoneNumber"));
-				customer.setRate(rs.getInt("Rate"));
-				customer.setAirtimeMinutes(rs.getInt("AirTimeMinutes"));
-				// rs.getString("Owner"); // available but only used in the SQL DB
+				CustomerSQL customer = new CustomerSQL(rs,rs.getInt("ID"),rs.getString("Name"), rs.getString("CellPhoneNumber"),LOG);
 				result = customer;
+			} else if 	(args.equals("ArrayList<Customer>")) {
+				LOG.fine("Executing an SQL querry which is expected to return an ArrayList of CustomerSQL Objects");
+				ResultSet rs = stmt.executeQuery(sql);
+				ArrayList<CustomerSQL> customers = new ArrayList<CustomerSQL>();
+				while (rs.next()){
+					CustomerSQL customer = new CustomerSQL(rs,rs.getInt("ID"),rs.getString("Name"), rs.getString("CellPhoneNumber"),LOG);
+					customers.add(customer);
+				}			
 			}
 
 			LOG.fine("SQL Statement returned following result: " + result);

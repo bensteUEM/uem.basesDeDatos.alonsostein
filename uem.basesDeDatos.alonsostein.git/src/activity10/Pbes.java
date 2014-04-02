@@ -666,4 +666,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		}// end of iterating through all customers
 		return (paid.add(outstanding));
 	}// end getCompanyRevenue();
+
+	public ArrayList<Customer> getCustomers() {
+		return this.customers;
+	}
 } // end class

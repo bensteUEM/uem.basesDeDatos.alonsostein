@@ -4,6 +4,7 @@
 package activity19;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -53,9 +54,16 @@ public class PbesSQL extends Pbes {
 		return false; //TODO not yet implemented
 	}
 	
+	/**
+	 * Method to return all customers
+	 * @return ArrayList of all Customers in the Database
+	 */
 	@Override
-	public ArrayList<Customer> getCustomers(Integer searchId) {
-		return false; //TODO not yet implemented
+	public ArrayList<Customer> getCustomers() {
+		String query = "SELECT * FROM Customers";
+		@SuppressWarnings("unchecked") // is checked with method param
+		ArrayList<Customer> customers = (ArrayList<Customer>) db.ownSQLCommand(query,"ArrayList<Customer>");
+		return customers;
 	}
 	
 	public Integer getCompanyID() {
