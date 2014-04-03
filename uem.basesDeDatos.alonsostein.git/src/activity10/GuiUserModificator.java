@@ -106,7 +106,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 
 		// JList for listing calls
 		
-		if (currentCustomer.getCalls().size() > 0){
+		if (currentCustomer.getCalls() != null){
 			callList = new JList(currentCustomer.getCalls().toArray());
 		}else {
 			callList = new JList<CustomerCall>();

@@ -73,15 +73,15 @@ public class CustomerSQL extends Customer {
 		 * The following section does create an array with the args of the class
 		 */
 		LOG.entering("CustomerSQL", "exportSQLText");
-		String[] parts = new String[Customer.IMPLEMENTEDARGS +1];
+		String[] parts = new String[Customer.IMPLEMENTEDARGS];
 		parts[0] = Integer.toString(this.getId());
-		parts[1] = "\'" + this.getOwner() + "\'";
+		parts[1] = Integer.toString(this.getOwner());
 		parts[2] = Integer.toString(this.getRate()) ;
-		parts[3] = this.getName();
+		parts[3] = "\'" + this.getName() + "\'";
 		parts[4] = "\'" + this.getCellPhoneNumber() + "\'" ;
 		parts[5] = "\'" + this.getLandlinePhoneNumer() + "\'" ;
 		parts[6] = Integer.toString(this.getAirtimeMinutes()) ;
-		parts[7] = this.getBalance().toString();
+		//parts[7] = this.getBalance().toString();
 		//parts[8] = this.getBalance().toString();
 		//parts[9] = this.getBalance().toString();
 

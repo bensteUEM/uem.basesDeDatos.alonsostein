@@ -56,7 +56,7 @@ public class SQLiteStorage {
 			e.printStackTrace();
 		}
 
-		this.name = "benste_test";
+		this.name = databasename;
 		this.openDB(this.name);
 	}
 
