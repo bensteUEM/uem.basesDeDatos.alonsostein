@@ -88,13 +88,13 @@ public class SQLiteStorage {
 
 			LOG.fine("DELETE ALL Existing Tables");
 			String sql0 = "DROP TABLE IF EXISTS Owner;";
-			ownSQLCommand(sql0,null);
+			ownSQLCommand(sql0, null);
 			sql0 = "DROP TABLE IF EXISTS Customers;";
-			ownSQLCommand(sql0,null);
+			ownSQLCommand(sql0, null);
 			sql0 = "DROP TABLE IF EXISTS CustomerBill;";
-			ownSQLCommand(sql0,null);
+			ownSQLCommand(sql0, null);
 			sql0 = "DROP TABLE IF EXISTS CustomerCall;";
-			ownSQLCommand(sql0,null);
+			ownSQLCommand(sql0, null);
 
 			LOG.fine("DELETE ALL Existing Tables finished");
 
@@ -102,7 +102,7 @@ public class SQLiteStorage {
 					+ "(CIF 					INT 	PRIMARY KEY    	NOT NULL,"
 					+ " MinimumConsumption 		REAL, "
 					+ " CompanyName         	CHAR(50)     			NOT NULL);";
-			ownSQLCommand(sql1,null);
+			ownSQLCommand(sql1, null);
 			LOG.finest("Defined table Owner");
 
 			String sql2 = "CREATE TABLE Customers "
@@ -115,7 +115,7 @@ public class SQLiteStorage {
 					+ " AirtimeMinutes     		INT, "
 					// Reference to Owner Table enforced
 					+ " FOREIGN KEY(Owner) REFERENCES Owner(CIF));";
-			ownSQLCommand(sql2,null);
+			ownSQLCommand(sql2, null);
 			LOG.finest("Defined table Customers");
 
 			String sql3 = "CREATE TABLE CustomerBill "
@@ -126,7 +126,7 @@ public class SQLiteStorage {
 					+ " BalanceDue      		REAL,"
 					// Reference to Owner Table enforced
 					+ " FOREIGN KEY(CustomerId) REFERENCES Customers(ID));";
-			ownSQLCommand(sql3,null);
+			ownSQLCommand(sql3, null);
 			LOG.finest("Defined table CustomerBill");
 
 			String sql4 = "CREATE TABLE CustomerCall "
@@ -138,7 +138,7 @@ public class SQLiteStorage {
 					// Reference to Customer and Bill Table enforced
 					+ " FOREIGN KEY(Bill) REFERENCES CustomerBill(ID), "
 					+ " FOREIGN KEY(Origin) REFERENCES Customers(ID));";
-			ownSQLCommand(sql4,null);
+			ownSQLCommand(sql4, null);
 			LOG.finest("Defined table CustomerCall");
 
 			LOG.fine("All tables structures initialized");
@@ -172,7 +172,7 @@ public class SQLiteStorage {
 		LOG.exiting("SQLiteStorage", "openDB");
 		return false;
 	}
-	
+
 	// // TODO i stopped here
 	/**
 	 * Wrapper to execute SQL Commands without the need to catch exceptions
@@ -197,28 +197,39 @@ public class SQLiteStorage {
 				LOG.fine("Executing an SQL querry which is expected to return ONE CustomerSQL Object");
 				ResultSet rs = stmt.executeQuery(sql);
 				LOG.fine("Statement Excecuted");
-				CustomerSQL customer = new CustomerSQL(rs,rs.getInt("ID"),rs.getString("Name"), rs.getString("CellPhoneNumber"),LOG);
-				LOG.fine("CustomerSQL item created with: "+rs.getInt("ID"+"//"+rs.getString("Name")+"//"+rs.getString("CellPhoneNumber")));
+				CustomerSQL customer = new CustomerSQL(rs, rs.getInt("ID"),
+						rs.getString("Name"), rs.getString("CellPhoneNumber"),
+						LOG);
+				LOG.fine("CustomerSQL item created with: "
+						+ rs.getInt("ID" + "//" + rs.getString("Name") + "//"
+								+ rs.getString("CellPhoneNumber")));
 				result = customer;
-			} else if 	(args.equals("ArrayList<Customer>")) {
+			} else if (args.equals("ArrayList<Customer>")) {
 				LOG.fine("Executing an SQL querry which is expected to return an ArrayList of CustomerSQL Objects");
 				ResultSet rs = stmt.executeQuery(sql);
 				ArrayList<CustomerSQL> customers = new ArrayList<CustomerSQL>();
-				while (rs.next()){
-					CustomerSQL customer = new CustomerSQL(rs,rs.getInt("ID"),rs.getString("Name"), rs.getString("CellPhoneNumber"),LOG);
+				while (rs.next()) {
+					CustomerSQL customer = new CustomerSQL(rs, rs.getInt("ID"),
+							rs.getString("Name"),
+							rs.getString("CellPhoneNumber"), LOG);
 					customers.add(customer);
-				}	
-			} else if 	(args.equals("BigDecimal")) {
+				}
+				result = customers;
+			} else if (args.equals("BigDecimal")) {
 				LOG.fine("Executing an SQL querry which is expected to return a Double - Balance for one or more than one customer");
 				ResultSet rs = stmt.executeQuery(sql);
-				BigDecimal money = new BigDecimal(0,new MathContext(3,RoundingMode.HALF_UP));;
-				while (rs.next()){
-					BigDecimal value = new BigDecimal(rs.getInt("AirtimeMinutes")*rs.getInt("Rate")/60.0,new MathContext(3,RoundingMode.HALF_UP));
+				BigDecimal money = new BigDecimal(0, new MathContext(3,
+						RoundingMode.HALF_UP));
+				;
+				while (rs.next()) {
+					BigDecimal value = new BigDecimal(
+							rs.getInt("AirtimeMinutes") * rs.getInt("Rate")
+									/ 60.0, new MathContext(3,
+									RoundingMode.HALF_UP));
 					money = money.add(value);
 				}
 				result = money;
 			}
-			
 
 			LOG.fine("SQL Statement returned following result: " + result);
 			stmt.close();

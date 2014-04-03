@@ -24,6 +24,7 @@ public class CustomerSQL extends Customer {
 
 	/**
 	 * Constructor for a CustomerSQL Object
+	 * 
 	 * @param newName
 	 * @param newCellPhoneNumber
 	 * @param newId
@@ -37,7 +38,9 @@ public class CustomerSQL extends Customer {
 	}
 
 	/**
-	 * Constructor for the creation of a CustomerSQL object based on an SQL result set and some minimum fields
+	 * Constructor for the creation of a CustomerSQL object based on an SQL
+	 * result set and some minimum fields
+	 * 
 	 * @param rs
 	 * @param id
 	 * @param name
@@ -45,22 +48,30 @@ public class CustomerSQL extends Customer {
 	 * @param sqlLog
 	 * @author benste
 	 */
-	public CustomerSQL(ResultSet rs, Integer id, String name, String cellPhoneNumber, Logger sqlLog) {
-			super(name,cellPhoneNumber,id);
-			try {
-				sqlLog.fine("Creating a Customer with ResultSet Constructor");
+	public CustomerSQL(ResultSet rs, Integer id, String name,
+			String cellPhoneNumber, Logger sqlLog) {
+		super(name, cellPhoneNumber, id);
+		LOG.entering("CustoemrSQL","Constructor with Resultset");
+		try {
+			sqlLog.fine("Creating a Customer with ResultSet Constructor");
 			this.setOwner(rs.getInt("Owner"));
-			this.setLandlinePhoneNumber(rs.getString("LandlinePhoneNumber"));
+			sqlLog.finest("finished Owner");
 			this.setRate(rs.getInt("Rate"));
+			sqlLog.finest("finished Rate");
+			this.setLandlinePhoneNumber(rs.getString("LandlinePhoneNumber"));
+			sqlLog.finest("finished LandlinePhoneNumber");
 			this.setAirtimeMinutes(rs.getInt("AirTimeMinutes"));
-			this.setOwner(rs.getInt("Owner"));
+			sqlLog.finest("finished AirTimeMinutes");
 		} catch (Exception e) {
-			sqlLog.warning("An error occured in the CustomerSQL constructor: "+e);
+			sqlLog.warning("An error occured in the CustomerSQL constructor: "
+					+ e);
 		}
+		LOG.exiting("CustoemrSQL","Constructor with Resultset");
 	}
 
 	/**
 	 * Simple Constructor from Text in DataFile
+	 * 
 	 * @param customerText
 	 */
 	public CustomerSQL(String customerText) {
@@ -84,22 +95,22 @@ public class CustomerSQL extends Customer {
 		String[] parts = new String[Customer.IMPLEMENTEDARGS];
 		parts[0] = Integer.toString(this.getId());
 		parts[1] = Integer.toString(this.getOwner());
-		parts[2] = Integer.toString(this.getRate()) ;
+		parts[2] = Integer.toString(this.getRate());
 		parts[3] = "\'" + this.getName() + "\'";
-		parts[4] = "\'" + this.getCellPhoneNumber() + "\'" ;
-		parts[5] = "\'" + this.getLandlinePhoneNumer() + "\'" ;
-		parts[6] = Integer.toString(this.getAirtimeMinutes()) ;
-		//parts[7] = this.getBalance().toString();
-		//parts[8] = this.getBalance().toString();
-		//parts[9] = this.getBalance().toString();
+		parts[4] = "\'" + this.getCellPhoneNumber() + "\'";
+		parts[5] = "\'" + this.getLandlinePhoneNumer() + "\'";
+		parts[6] = Integer.toString(this.getAirtimeMinutes());
+		// parts[7] = this.getBalance().toString();
+		// parts[8] = this.getBalance().toString();
+		// parts[9] = this.getBalance().toString();
 
 		// Parse the Array into a String
 		String result = new String("VALUES(");
 		for (String part : parts) {
 			result += (part + ",");
 		} // end for all items
-		//remove last ,
-		result = result.substring(0,result.length()-1);
+			// remove last ,
+		result = result.substring(0, result.length() - 1);
 		result += ")";
 		LOG.exiting("CustomerSQL", "exportSQLText");
 		return result;
