@@ -51,7 +51,7 @@ public class CustomerSQL extends Customer {
 	public CustomerSQL(ResultSet rs, Integer id, String name,
 			String cellPhoneNumber, Logger sqlLog) {
 		super(name, cellPhoneNumber, id);
-		LOG.entering("CustoemrSQL","Constructor with Resultset");
+		LOG.entering("CustomerSQL","Constructor with Resultset");
 		try {
 			sqlLog.fine("Creating a Customer with ResultSet Constructor");
 			this.setOwner(rs.getInt("Owner"));
@@ -66,7 +66,7 @@ public class CustomerSQL extends Customer {
 			sqlLog.warning("An error occured in the CustomerSQL constructor: "
 					+ e);
 		}
-		LOG.exiting("CustoemrSQL","Constructor with Resultset");
+		LOG.exiting("CustomerSQL","Constructor with Resultset");
 	}
 
 	/**
