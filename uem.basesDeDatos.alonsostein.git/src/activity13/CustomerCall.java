@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import activity10.Customer;
+import activity10.CustomerAbstract;
 
 public class CustomerCall {
 	// declaration of the class variables needed
@@ -29,10 +30,10 @@ public class CustomerCall {
 	 *            String identiying the destination of the Call
 	 * @author benste
 	 */
-	public CustomerCall(Customer newOrigin, String newDestination,
+	public CustomerCall(CustomerAbstract newOrigin, String newDestination,
 			Calendar startTime) { // constructor for Customer call
 		// Save params
-		this.origin = newOrigin; // set the customer who makes the call
+		this.origin = (Customer) newOrigin; // set the customer who makes the call
 		this.destination = newDestination; // set the destination of the call
 		this.startTime = startTime; // set the start time
 

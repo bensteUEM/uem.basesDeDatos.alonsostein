@@ -17,6 +17,7 @@ import activity13.CustomerCall;
  */
 public class CustomerSQL extends Customer {
 	private SQLiteStorage db;
+
 	private final static Logger LOG = Logger.getLogger(SQLiteStorage.class
 			.getName());
 	private FileHandler fh;
@@ -51,7 +52,7 @@ public class CustomerSQL extends Customer {
 	public CustomerSQL(ResultSet rs, Integer id, String name,
 			String cellPhoneNumber, Logger sqlLog) {
 		super(name, cellPhoneNumber, id);
-		LOG.entering("CustomerSQL","Constructor with Resultset");
+		LOG.entering("CustomerSQL", "Constructor with Resultset");
 		try {
 			sqlLog.fine("Creating a Customer with ResultSet Constructor");
 			this.setOwner(rs.getInt("Owner"));
@@ -66,7 +67,7 @@ public class CustomerSQL extends Customer {
 			sqlLog.warning("An error occured in the CustomerSQL constructor: "
 					+ e);
 		}
-		LOG.exiting("CustomerSQL","Constructor with Resultset");
+		LOG.exiting("CustomerSQL", "Constructor with Resultset");
 	}
 
 	/**
@@ -120,9 +121,9 @@ public class CustomerSQL extends Customer {
 	public ArrayList<CustomerCall> getCalls() {
 		String query = "SELECT * FROM Calls WHERE CustomerId=" + this.getId()
 				+ ";";
-		ArrayList<CustomerCall> customer = (ArrayList<CustomerCall>) db
-				.ownSQLCommand(query, "ArrayList<Calls>");
-		return customer;
+		ArrayList<CustomerCall> calls = (ArrayList<CustomerCall>) db
+				.ownSQLCommand(query, "ArrayList<CustomerCall>");
+		return calls;
 	}
 
 	@Override

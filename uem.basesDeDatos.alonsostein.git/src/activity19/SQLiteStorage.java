@@ -9,13 +9,19 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import activity10.Customer;
+import activity10.CustomerAbstract;
+import activity13.CustomerCall;
 
 /**
  * SQLiteStorage Class for use with PBES Project check
@@ -30,6 +36,7 @@ public class SQLiteStorage {
 	private Statement stmt = null;
 	private final static Logger LOG = Logger.getLogger(SQLiteStorage.class
 			.getName());
+	private final static String DATEFORMAT = "yyyy-MM-dd HH:mm:ss";
 	private FileHandler fh;
 
 	/**
@@ -112,24 +119,24 @@ public class SQLiteStorage {
 
 			String sql3 = "CREATE TABLE CustomerBill "
 					+ "(ID 						INT 	PRIMARY KEY     NOT NULL,"
-					+ " CustomerId     			INT    					NOT NULL,"
+					+ " CustomerID     			INT    					NOT NULL,"
 					+ " FileName       			char(50),"
 					+ " DateCreated    			char(50),"
 					+ " BalanceDue      		REAL,"
 					// Reference to Owner Table enforced
-					+ " FOREIGN KEY(CustomerId) REFERENCES Customers(ID));";
+					+ " FOREIGN KEY(CustomerID) REFERENCES Customers(ID));";
 			ownSQLCommand(sql3, null);
 			LOG.finest("Defined table CustomerBill");
 
 			String sql4 = "CREATE TABLE CustomerCall "
 					+ "(ID 						INT 	PRIMARY KEY     NOT NULL,"
-					+ "Bill 					INT		," + "Origin 					INT 					NOT NULL,"
+					+ "BillID 					INT		," + "OriginID					INT 					NOT NULL,"
 					+ " Destination				char(50),"
 					+ " startTime				char(50)    			NOT NULL,"
 					+ " Duration 				INT     				NOT NULL,"
 					// Reference to Customer and Bill Table enforced
-					+ " FOREIGN KEY(Bill) REFERENCES CustomerBill(ID), "
-					+ " FOREIGN KEY(Origin) REFERENCES Customers(ID));";
+					+ " FOREIGN KEY(BillID) REFERENCES CustomerBill(ID), "
+					+ " FOREIGN KEY(OriginID) REFERENCES Customers(ID));";
 			ownSQLCommand(sql4, null);
 			LOG.finest("Defined table CustomerCall");
 
@@ -192,9 +199,9 @@ public class SQLiteStorage {
 				CustomerSQL customer = new CustomerSQL(rs, rs.getInt("ID"),
 						rs.getString("Name"), rs.getString("CellPhoneNumber"),
 						LOG);
-				LOG.fine("CustomerSQL item created with: "
-						+ rs.getInt("ID") + "//" + rs.getString("Name") + "//"
-								+ rs.getString("CellPhoneNumber"));
+				LOG.fine("CustomerSQL item created with: " + rs.getInt("ID")
+						+ "//" + rs.getString("Name") + "//"
+						+ rs.getString("CellPhoneNumber"));
 				result = customer;
 			} else if (args.equals("ArrayList<Customer>")) {
 				LOG.fine("Executing an SQL querry which is expected to return an ArrayList of CustomerSQL Objects");
@@ -221,7 +228,45 @@ public class SQLiteStorage {
 					money = money.add(value);
 				}
 				result = money;
-			}
+
+			} else if (args.equals("ArrayList<CustomerCall>")) {
+				LOG.fine("Executing an SQL querry which is expected to return a ArrayList of CustomerCall");
+				ResultSet rs = stmt.executeQuery(sql);
+				ArrayList<CustomerCall> calls = new ArrayList<CustomerCall>();
+				LOG.finest("iterate through all results");
+				while (rs.next()) {
+					/*
+					 * Existing fields are: startTime ID BillID OriginID
+					 * Destination startTime<char(50)> Duration
+					 */
+
+					// get the customer
+					LOG.finest("Attempting to get the Customer of the Current Call");
+					String query2 = "SELECT * FROM Customers WHERE ID="+rs.getString("OriginID")+";";
+					ArrayList<CustomerAbstract> customers = (ArrayList<CustomerAbstract>)this.ownSQLCommand(query2,"ArrayList<Customer>");
+					CustomerAbstract newOrigin = customers.get(0);
+					
+					// Calendar Part
+					LOG.finest("creating Calendar and importing start Date");
+					DateFormat formatter;
+					Date date;
+					String strDate = rs.getString("startTime");
+					formatter = new SimpleDateFormat(DATEFORMAT);
+					date = (Date) formatter.parse(strDate);
+					Calendar startTime = Calendar.getInstance();
+					startTime.setTime(date);
+			
+					// Final object
+					LOG.finest("creating CustomerCall");
+					CustomerCall call = new CustomerCall(newOrigin,
+							rs.getString("Destination"), startTime);
+					call.setDuration(rs.getInt("duration"));
+					LOG.finest("adding this call:" + call);
+					calls.add(call);
+				} // end while
+				LOG.fine("Finished creating List of Calls: " + calls);
+				result = calls;
+			} // end else if
 
 			LOG.fine("SQL Statement returned following result: " + result);
 			stmt.close();
