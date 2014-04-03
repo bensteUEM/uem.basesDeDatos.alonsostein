@@ -193,8 +193,8 @@ public class SQLiteStorage {
 						rs.getString("Name"), rs.getString("CellPhoneNumber"),
 						LOG);
 				LOG.fine("CustomerSQL item created with: "
-						+ rs.getInt("ID" + "//" + rs.getString("Name") + "//"
-								+ rs.getString("CellPhoneNumber")));
+						+ rs.getInt("ID") + "//" + rs.getString("Name") + "//"
+								+ rs.getString("CellPhoneNumber"));
 				result = customer;
 			} else if (args.equals("ArrayList<Customer>")) {
 				LOG.fine("Executing an SQL querry which is expected to return an ArrayList of CustomerSQL Objects");
@@ -232,6 +232,6 @@ public class SQLiteStorage {
 			LOG.warning(e.toString());
 		}
 		LOG.exiting("SQLiteStorage", "ownSQLCommand");
-		return -1;
+		return null;
 	}
 }

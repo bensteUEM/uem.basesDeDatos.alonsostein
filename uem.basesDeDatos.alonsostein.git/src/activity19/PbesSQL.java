@@ -55,7 +55,7 @@ public class PbesSQL extends Pbes {
 		try {
 			fh = new FileHandler("execution.log");
 			LOG.addHandler(fh);
-			LOG.setLevel(Level.FINE);
+			//LOG.setLevel(Level.FINE);
 			SimpleFormatter formatter = new SimpleFormatter();
 			fh.setFormatter(formatter);
 		} catch (SecurityException | IOException e) {
