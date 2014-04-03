@@ -45,17 +45,9 @@ public class SQLiteStorage {
 	 */
 	public SQLiteStorage(String databasename) {
 		LOG.entering("SQLiteStorage", "Constructor");
-		// This block configure the logger with handler and formatter
-		try {
-			fh = new FileHandler("SQLiteStorage.log");
-			LOG.addHandler(fh);
-			LOG.setLevel(Level.FINE);
-			SimpleFormatter formatter = new SimpleFormatter();
-			fh.setFormatter(formatter);
-		} catch (SecurityException | IOException e) {
-			e.printStackTrace();
-		}
-
+		// This is to configure the logger
+		LOG.setLevel(Level.ALL);
+		// remaining settings
 		this.name = databasename;
 		this.openDB(this.name);
 	}

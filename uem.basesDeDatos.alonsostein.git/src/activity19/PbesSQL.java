@@ -4,8 +4,13 @@
 package activity19;
 
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import javax.swing.JOptionPane;
 
@@ -22,6 +27,9 @@ public class PbesSQL extends Pbes {
 	SQLiteStorage db;
 	final String COMPANYNAME = "My First Company";
 	final Integer COMPANYID = 1000;
+	private final static Logger LOG = Logger.getLogger(SQLiteStorage.class
+			.getName());
+	private FileHandler fh;
 
 	public static void main(String[] args) {
 		PbesSQL gui = new PbesSQL();
@@ -35,11 +43,29 @@ public class PbesSQL extends Pbes {
 		gui.setVisible(true);
 	}
 
+	/**
+	 * Constructor for the PbesSQL Class
+	 * 
+	 * @author benste
+	 */
 	public PbesSQL() {
+		// invoke Super Constructor
 		super();
+		// Create logfile on filesystem
+		try {
+			fh = new FileHandler("execution.log");
+			LOG.addHandler(fh);
+			LOG.setLevel(Level.FINE);
+			SimpleFormatter formatter = new SimpleFormatter();
+			fh.setFormatter(formatter);
+		} catch (SecurityException | IOException e) {
+			e.printStackTrace();
+		}
+		// set deviating GUI Setting
 		this.setTitle("PBES - SQLite Version");
 	}
-
+	
+	@Override
 	public void onAddCustomer(ActionEvent ae) {
 		CustomerSQL newCustomer = new CustomerSQL("", "",
 				Integer.parseInt(this.txtSearch.getText()),
@@ -58,7 +84,7 @@ public class PbesSQL extends Pbes {
 	}
 
 	@Override
-	public boolean addCustomer(CustomerAbstract customer) {	
+	public boolean addCustomer(CustomerAbstract customer) {
 		CustomerSQL sqlcustomer = (CustomerSQL) customer;
 		sqlcustomer.setMinBalance(b);
 		Integer newId;
@@ -78,8 +104,8 @@ public class PbesSQL extends Pbes {
 			((CustomerSQL) sqlcustomer).setId(newId); // set a new ID
 		}
 
-		String sql = " INSERT INTO Customers "
-				+ sqlcustomer.exportSQLText()+ ";";
+		String sql = " INSERT INTO Customers " + sqlcustomer.exportSQLText()
+				+ ";";
 		db.ownSQLCommand(sql, null);
 		return true;
 	};
@@ -90,22 +116,26 @@ public class PbesSQL extends Pbes {
 	 */
 	public boolean saveCustomer(CustomerAbstract currentCustomer) {
 		// 1. Delete old User
-		String sql = " DELETE FROM Customers WHERE ID="+currentCustomer.getId()+";";
+		String sql = " DELETE FROM Customers WHERE ID="
+				+ currentCustomer.getId() + ";";
 		db.ownSQLCommand(sql, null);
-		// 2. Add new user 
-		// Better would be an update statement but it requires a different formatting of the values
+		// 2. Add new user
+		// Better would be an update statement but it requires a different
+		// formatting of the values
 		CustomerSQL customer = (CustomerSQL) currentCustomer;
-		sql = " INSERT INTO Customers "
-				+ customer.exportSQLText()+ ";";
+		sql = " INSERT INTO Customers " + customer.exportSQLText() + ";";
 		db.ownSQLCommand(sql, null);
 		return true; // TODO not yet implemented
 	}
 
 	@Override
 	public CustomerAbstract getCustomer(Integer searchId) {
+		LOG.entering("PbesSQL","getCustomer");
 		String query = "SELECT * FROM Customers WHERE ID=" + searchId;
+		LOG.finest("Defined following SQL query: "+query);
 		CustomerSQL customer = (CustomerSQL) db.ownSQLCommand(query,
 				"CustomerSQL");
+		LOG.exiting("PbesSQL","getCustomer");
 		return customer;
 	}
 
