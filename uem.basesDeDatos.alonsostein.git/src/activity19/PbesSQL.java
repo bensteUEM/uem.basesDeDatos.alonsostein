@@ -131,7 +131,7 @@ public class PbesSQL extends Pbes {
 	@Override
 	public CustomerAbstract getCustomer(Integer searchId) {
 		LOG.entering("PbesSQL","getCustomer");
-		String query = "SELECT * FROM Customers WHERE ID=" + searchId;
+		String query = "SELECT * FROM Customers WHERE ID=" + searchId+";";
 		LOG.finest("Defined following SQL query: "+query);
 		CustomerSQL customer = (CustomerSQL) db.ownSQLCommand(query,
 				"CustomerSQL");
