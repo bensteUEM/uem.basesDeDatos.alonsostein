@@ -30,6 +30,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import activity13.CustomerCall;
+import activity19.CustomerSQL;
 
 public class DataFile {
 	private CustomerAbstract[] groupOfCustomers;
@@ -124,7 +125,6 @@ public class DataFile {
 				writer.newLine();
 			}
 
-			
 			// 6. Finish File
 			Date currentDate = Calendar.getInstance().getTime();
 			writer.write("Last updated:" + sdf.format(currentDate));
@@ -142,10 +142,11 @@ public class DataFile {
 	 * 
 	 * @param customers
 	 */
-	public void exportCustomer(CustomerAbstract[] customers) { // Export customer/s to
-														// file
+	public void exportCustomer(CustomerAbstract[] customers) { // Export
+																// customer/s to
+		// file
 		// SORTING Addon - ref comparator to empty customer object
-		//Arrays.sort(customers, new Customer("", "", -1));
+		// Arrays.sort(customers, new Customer("", "", -1));
 
 		this.groupOfCustomers = customers;
 		// optional Addon - sort customers by ID
@@ -248,56 +249,41 @@ public class DataFile {
 
 			}
 			String[] customerData = new String[numberOfLines]; // create a new
-			// array string
-			// to store all
-			// customers
-			// separated
-			// @LUIS Syntax TYPE[] NAME = OBJECT
-			this.groupOfCustomers = new Customer[numberOfLines];
+			// array string to store all customers separated
+			
 			// TODO reset file object and loop directly instead of splitting and
 			// Modifying original content with a -
 			customerData = fileContent.toString().split("-");
 			// splits the StringBuffer every time it finds an "-" to store every
 			// customer in a position of the array
-
-			for (int i = 0; i <= (groupOfCustomers.length - 1); i++) { // @LUIS
-																		// index
-																		// of
-																		// arrays
-																		// are
-																		// starting
-																		// with
-																		// 0 and
-																		// ending
-																		// with
-																		// length-1
-				/*
-				 * LUIS OLD CODE groupOfCustomers[i] = new Customer("0", "0",
-				 * 0); // initialize // all // elements // to avoid //
-				 * nullpointerexception
-				 * 
-				 * groupOfCustomers[i].importText(customerData[i]); // import
-				 * the // text with // the // required // format // for every //
-				 * customer
-				 */
-				// NEW CODE with easy constructor
-				try {
-					groupOfCustomers[i] = new Customer(customerData[i]);
-				} catch (Exception e) {
-					e.printStackTrace();
-					System.out
-							.println("WARNING, customer was not successfully imported, there might be corrupted data");
-				}
-			}
-
+			this.groupOfCustomers = textToCustomer(customerData);
 			// 3. CLOSE file
 			reader.close();
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return groupOfCustomers;
-
+	}
+	
+	/**
+	 * This function converts multiple Strings which represent Customers into a Customer object
+	 * @param customerData
+	 * @return
+	 */
+	public CustomerAbstract[] textToCustomer(String[] customerData)
+	{
+		this.groupOfCustomers = new CustomerSQL[numberOfLines];
+		for (int i = 0; i <= (groupOfCustomers.length - 1); i++) {
+			// NEW CODE with easy constructor
+			try {
+				groupOfCustomers[i] = new CustomerSQL(customerData[i]);
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out
+						.println("WARNING, customer was not successfully imported, there might be corrupted data");
+			}
+		}
+		return this.groupOfCustomers;
 	}
 
 	/**

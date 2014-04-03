@@ -60,6 +60,14 @@ public class CustomerSQL extends Customer {
 	}
 
 	/**
+	 * Simple Constructor from Text in DataFile
+	 * @param customerText
+	 */
+	public CustomerSQL(String customerText) {
+		super(customerText);
+	}
+
+	/**
 	 * Function which export an existing customer object as a VALUES part for an
 	 * SQL statement
 	 * 
