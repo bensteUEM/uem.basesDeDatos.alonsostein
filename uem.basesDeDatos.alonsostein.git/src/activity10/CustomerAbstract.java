@@ -22,6 +22,11 @@ public abstract class CustomerAbstract {
 	protected BigDecimal balance; // Balance of Account in Euros
 	protected Integer rate; // per minute
 	
+	public abstract void addAirtimeMinutesFromCalls();
+	public abstract void setBalance();
+	public abstract BigDecimal getMinBalance();
+	public abstract String exportText();
+	
 	public abstract void setMinBalance(BigDecimal value);
 
 	@SuppressWarnings("unused")

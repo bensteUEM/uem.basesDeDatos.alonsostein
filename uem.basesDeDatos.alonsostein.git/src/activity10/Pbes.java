@@ -416,7 +416,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void onImportText(ActionEvent ae) {
 		DataFile export = new DataFile(); // create a new file without a
 											// customer object
-		for (Customer oneCustomer : export.importCustomer()) {
+		for (CustomerAbstract oneCustomer : export.importCustomer()) {
 			if (addCustomer(oneCustomer)) {
 				// System.out.println("Following Customer added: " +
 				// oneCustomer);

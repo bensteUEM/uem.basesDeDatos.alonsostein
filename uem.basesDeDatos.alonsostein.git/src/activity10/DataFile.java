@@ -32,7 +32,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import activity13.CustomerCall;
 
 public class DataFile {
-	private Customer[] groupOfCustomers;
+	private CustomerAbstract[] groupOfCustomers;
 	private int numberOfLines = 0;
 	private String fileName = "";
 
@@ -54,7 +54,7 @@ public class DataFile {
 	/**
 	 * Export the customers Bill to a textfile
 	 */
-	public void exportCustomerBill(Customer customer) {
+	public void exportCustomerBill(CustomerAbstract customer) {
 		try {
 
 			// 0. Calculate Customer Balance
@@ -142,10 +142,10 @@ public class DataFile {
 	 * 
 	 * @param customers
 	 */
-	public void exportCustomer(Customer[] customers) { // Export customer/s to
+	public void exportCustomer(CustomerAbstract[] customers) { // Export customer/s to
 														// file
 		// SORTING Addon - ref comparator to empty customer object
-		Arrays.sort(customers, new Customer("", "", -1));
+		//Arrays.sort(customers, new Customer("", "", -1));
 
 		this.groupOfCustomers = customers;
 		// optional Addon - sort customers by ID
@@ -225,7 +225,7 @@ public class DataFile {
 		}
 	}
 
-	public Customer[] importCustomer() {
+	public CustomerAbstract[] importCustomer() {
 
 		// 1. OPEN file
 		File path = new File(this.fileName + ".csv");
