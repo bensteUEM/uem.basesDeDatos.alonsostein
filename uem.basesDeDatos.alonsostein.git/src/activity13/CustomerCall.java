@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -11,6 +12,7 @@ import activity10.Customer;
 import activity10.CustomerAbstract;
 
 public class CustomerCall {
+	private final static String DATEFORMAT = "yyyy-MM-dd HH:mm:ss";
 	// declaration of the class variables needed
 	private Customer origin;
 	private String destination;
@@ -33,7 +35,8 @@ public class CustomerCall {
 	public CustomerCall(CustomerAbstract newOrigin, String newDestination,
 			Calendar startTime) { // constructor for Customer call
 		// Save params
-		this.origin = (Customer) newOrigin; // set the customer who makes the call
+		this.origin = (Customer) newOrigin; // set the customer who makes the
+											// call
 		this.destination = newDestination; // set the destination of the call
 		this.startTime = startTime; // set the start time
 
@@ -109,11 +112,22 @@ public class CustomerCall {
 	/**
 	 * @return startTime the time the call started
 	 */
-	public Date getStartTime() {	// getter for the start time of the call
+	public Date getStartTime() { // getter for the start time of the call
 		return this.startTime.getTime();
-	}	// end of getStartTime
-	
-	public String toString(){
-		return this.getDestination()+" - "+this.getDuration()+" - "+this.getStartTime();
+	} // end of getStartTime
+
+	public String toString() {
+		return this.getDestination() + " - " + this.getDuration() + " - "
+				+ this.getStartTimeString();
+	}
+
+	/**
+	 * Get a String of the Start Time with a Constant defined formatting
+	 * 
+	 * @return
+	 */
+	public String getStartTimeString() {
+		SimpleDateFormat sdf = new SimpleDateFormat(DATEFORMAT);
+		return sdf.format(this.getStartTime());
 	}
 } // end of class CustomerCall

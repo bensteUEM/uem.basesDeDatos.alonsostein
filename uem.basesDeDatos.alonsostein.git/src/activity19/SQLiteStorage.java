@@ -214,6 +214,11 @@ public class SQLiteStorage {
 					customers.add(customer);
 				}
 				result = customers;
+			} else if (args.equals("Integer-ID")) {	
+				LOG.fine("Executing an SQL which should return a simple integer");
+				ResultSet rs = stmt.executeQuery(sql);
+				result = rs.getInt("ID");
+				
 			} else if (args.equals("BigDecimal")) {
 				LOG.fine("Executing an SQL querry which is expected to return a Double - Balance for one or more than one customer");
 				ResultSet rs = stmt.executeQuery(sql);
@@ -236,16 +241,18 @@ public class SQLiteStorage {
 				LOG.finest("iterate through all results");
 				while (rs.next()) {
 					/*
-					 * Existing fields are: startTime ID BillID OriginID
-					 * Destination startTime<char(50)> Duration
+					 * Existing fields are: ID BillID OriginID Destination
+					 * startTime<char(50)> Duration
 					 */
 
 					// get the customer
 					LOG.finest("Attempting to get the Customer of the Current Call");
-					String query2 = "SELECT * FROM Customers WHERE ID="+rs.getString("OriginID")+";";
-					ArrayList<CustomerAbstract> customers = (ArrayList<CustomerAbstract>)this.ownSQLCommand(query2,"ArrayList<Customer>");
+					String query2 = "SELECT * FROM Customers WHERE ID="
+							+ rs.getString("OriginID") + ";";
+					ArrayList<CustomerAbstract> customers = (ArrayList<CustomerAbstract>) this
+							.ownSQLCommand(query2, "ArrayList<Customer>");
 					CustomerAbstract newOrigin = customers.get(0);
-					
+
 					// Calendar Part
 					LOG.finest("creating Calendar and importing start Date");
 					DateFormat formatter;
@@ -255,7 +262,7 @@ public class SQLiteStorage {
 					date = (Date) formatter.parse(strDate);
 					Calendar startTime = Calendar.getInstance();
 					startTime.setTime(date);
-			
+
 					// Final object
 					LOG.finest("creating CustomerCall");
 					CustomerCall call = new CustomerCall(newOrigin,

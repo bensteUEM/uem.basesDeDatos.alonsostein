@@ -1,6 +1,7 @@
 package activity19;
 
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -128,7 +129,22 @@ public class CustomerSQL extends Customer {
 
 	@Override
 	public void addCall(CustomerCall newCall) {
-	}
+		// get next empty ID using the existing calls in the SQL
+		String query = "SELECT MAX(ID) FROM CustomerCall";
+		db.ownSQLCommand(query, null);
+		Integer freeID = (Integer) db.ownSQLCommand(query, "Integer-ID") + 1;
+		
+		// ID,BillID,OriginID,
+		String values1 = Integer.toString(freeID) + ",,"
+				+ Integer.toString(this.getId()) + ",";
+		// Destination,startTime<char(50)>,Duration
+		String values2 = newCall.getDestination() + ",\'"
+				+ newCall.getStartTimeString() + "\'," + newCall.getDuration();
+		String query2 = "INSERT INTO Calls VALUES(" + values1 + values2 + ");";
+		
+		//finally run the real insert query
+		db.ownSQLCommand(query2, null);
+	} // end addCall
 
 	/**
 	 * @return the owner
