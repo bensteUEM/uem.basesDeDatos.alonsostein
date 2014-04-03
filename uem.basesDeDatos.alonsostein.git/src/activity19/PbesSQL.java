@@ -37,6 +37,7 @@ public class PbesSQL extends Pbes {
 
 	public PbesSQL() {
 		super();
+		this.setTitle("PBES - SQLite Version");
 	}
 
 	public void onAddCustomer(ActionEvent ae) {
@@ -84,9 +85,20 @@ public class PbesSQL extends Pbes {
 	};
 
 	@Override
+	/**
+	 * Lazy Version to update the SQL DB with the current user data
+	 */
 	public boolean saveCustomer(CustomerAbstract currentCustomer) {
-		//SQL update ...
-		return false; // TODO not yet implemented
+		// 1. Delete old User
+		String sql = " DELETE FROM Customers WHERE ID="+currentCustomer.getId()+";";
+		db.ownSQLCommand(sql, null);
+		// 2. Add new user 
+		// Better would be an update statement but it requires a different formatting of the values
+		CustomerSQL customer = (CustomerSQL) currentCustomer;
+		sql = " INSERT INTO Customers "
+				+ customer.exportSQLText()+ ";";
+		db.ownSQLCommand(sql, null);
+		return true; // TODO not yet implemented
 	}
 
 	@Override
