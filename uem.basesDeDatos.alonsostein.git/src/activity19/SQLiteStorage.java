@@ -190,7 +190,7 @@ public class SQLiteStorage {
 			this.stmt = c.createStatement();
 			LOG.finest("Statement created: " + this.stmt.toString());
 			if (args == null) {
-				LOG.fine("Executing an SQL querry which is not expected to return a result");
+				LOG.fine("Executing an SQL querry which is not expected to return a result: "+args);
 				result = stmt.executeUpdate(sql);
 			} else if (args.equals("CustomerSQL")) {
 				LOG.fine("Executing an SQL querry which is expected to return ONE CustomerSQL Object");
@@ -218,7 +218,11 @@ public class SQLiteStorage {
 				LOG.fine("Executing an SQL which should return a simple integer");
 				ResultSet rs = stmt.executeQuery(sql);
 				result = rs.getInt("ID");
-				
+			} else if (args.equals("Integer-Count")) {	
+				LOG.fine("Executing an SQL which should return a simple integer");
+				ResultSet rs = stmt.executeQuery(sql);
+				result = rs.getInt(1);
+				LOG.finest("result 1 is: "+result);
 			} else if (args.equals("BigDecimal")) {
 				LOG.fine("Executing an SQL querry which is expected to return a Double - Balance for one or more than one customer");
 				ResultSet rs = stmt.executeQuery(sql);

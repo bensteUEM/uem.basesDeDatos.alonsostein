@@ -92,12 +92,13 @@ public class PbesSQL extends Pbes {
 		String query = "SELECT Count(ID) FROM Customers WHERE ID="
 				+ sqlcustomer.getId() + ";";
 		// as long as the current customer has an id that already exists
-		while ((Integer) db.ownSQLCommand(query, null) == 0) {
+		while ((Integer) db.ownSQLCommand(query, "Integer-Count") > 0) {
 			try {
 				newId = Integer
 						.parseInt(JOptionPane
 								.showInputDialog(this,
 										"This ID already exists or has a problematic format please choose a new one"));
+				query = "SELECT Count(ID) FROM Customers WHERE ID="+ newId + ";";
 			} catch (Exception e) { // reset ID to original choice
 				newId = sqlcustomer.getId(); // in case ID was not valid format
 			}
