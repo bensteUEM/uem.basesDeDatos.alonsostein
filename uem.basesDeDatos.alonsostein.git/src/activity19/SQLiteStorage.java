@@ -90,9 +90,9 @@ public class SQLiteStorage {
 			ownSQLCommand(sql0, null);
 			sql0 = "DROP TABLE IF EXISTS Customers;";
 			ownSQLCommand(sql0, null);
-			sql0 = "DROP TABLE IF EXISTS CustomerBill;";
+			sql0 = "DROP TABLE IF EXISTS CustomerBills;";
 			ownSQLCommand(sql0, null);
-			sql0 = "DROP TABLE IF EXISTS CustomerCall;";
+			sql0 = "DROP TABLE IF EXISTS CustomerCalls;";
 			ownSQLCommand(sql0, null);
 
 			LOG.fine("DELETE ALL Existing Tables finished");
@@ -117,7 +117,7 @@ public class SQLiteStorage {
 			ownSQLCommand(sql2, null);
 			LOG.finest("Defined table Customers");
 
-			String sql3 = "CREATE TABLE CustomerBill "
+			String sql3 = "CREATE TABLE CustomerBills "
 					+ "(ID 						INT 	PRIMARY KEY     NOT NULL,"
 					+ " CustomerID     			INT    					NOT NULL,"
 					+ " FileName       			char(50),"
@@ -126,19 +126,20 @@ public class SQLiteStorage {
 					// Reference to Owner Table enforced
 					+ " FOREIGN KEY(CustomerID) REFERENCES Customers(ID));";
 			ownSQLCommand(sql3, null);
-			LOG.finest("Defined table CustomerBill");
+			LOG.finest("Defined table CustomerBills");
 
-			String sql4 = "CREATE TABLE CustomerCall "
+			String sql4 = "CREATE TABLE CustomerCalls "
 					+ "(ID 						INT 	PRIMARY KEY     NOT NULL,"
-					+ "BillID 					INT		," + "OriginID					INT 					NOT NULL,"
+					+ "BillID 					INT		," 
+					+ "OriginID					INT 					NOT NULL,"
 					+ " Destination				char(50),"
 					+ " startTime				char(50)    			NOT NULL,"
 					+ " Duration 				INT     				NOT NULL,"
 					// Reference to Customer and Bill Table enforced
-					+ " FOREIGN KEY(BillID) REFERENCES CustomerBill(ID), "
+					+ " FOREIGN KEY(BillID) REFERENCES CustomerBills(ID), "
 					+ " FOREIGN KEY(OriginID) REFERENCES Customers(ID));";
 			ownSQLCommand(sql4, null);
-			LOG.finest("Defined table CustomerCall");
+			LOG.finest("Defined table CustomerCalls");
 
 			LOG.fine("All tables structures initialized");
 		} // end if

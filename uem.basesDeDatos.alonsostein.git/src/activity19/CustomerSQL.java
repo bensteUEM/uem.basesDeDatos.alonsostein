@@ -120,7 +120,7 @@ public class CustomerSQL extends Customer {
 
 	@Override
 	public ArrayList<CustomerCall> getCalls() {
-		String query = "SELECT * FROM Calls WHERE CustomerId=" + this.getId()
+		String query = "SELECT * FROM CustomerCalls WHERE OriginID=" + this.getId()
 				+ ";";
 		ArrayList<CustomerCall> calls = (ArrayList<CustomerCall>) db
 				.ownSQLCommand(query, "ArrayList<CustomerCall>");
@@ -130,7 +130,7 @@ public class CustomerSQL extends Customer {
 	@Override
 	public void addCall(CustomerCall newCall) {
 		// get next empty ID using the existing calls in the SQL
-		String query = "SELECT MAX(ID) FROM CustomerCall";
+		String query = "SELECT MAX(ID) FROM CustomerCalls";
 		db.ownSQLCommand(query, null);
 		Integer freeID = (Integer) db.ownSQLCommand(query, "Integer-ID") + 1;
 		
@@ -140,7 +140,7 @@ public class CustomerSQL extends Customer {
 		// Destination,startTime<char(50)>,Duration
 		String values2 = newCall.getDestination() + ",\'"
 				+ newCall.getStartTimeString() + "\'," + newCall.getDuration();
-		String query2 = "INSERT INTO Calls VALUES(" + values1 + values2 + ");";
+		String query2 = "INSERT INTO CustomerCalls VALUES(" + values1 + values2 + ");";
 		
 		//finally run the real insert query
 		db.ownSQLCommand(query2, null);
