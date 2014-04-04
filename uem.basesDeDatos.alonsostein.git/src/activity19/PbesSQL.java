@@ -85,14 +85,25 @@ public class PbesSQL extends Pbes {
 
 	@Override
 	public boolean addCustomer(CustomerAbstract customer) {
+		LOG.entering("PBES SQL","addCustomer");
 		CustomerSQL sqlcustomer = (CustomerSQL) customer;
+		LOG.finest("Casted customer");
+		if (sqlcustomer.getDb() == null){
+			LOG.info("Customer did not have a DB Connection");
+			sqlcustomer.setDb(db);
+			LOG.finest("Added following DB to the Customer"+db);
+		}
+		LOG.finest("Customer should have a DB now");
+		
 		sqlcustomer.setMinBalance(b);
+		LOG.finest("Customer minimum Balance updated with Global Value");
+		
 		Integer newId;
-
 		String query = "SELECT Count(ID) FROM Customers WHERE ID="
 				+ sqlcustomer.getId() + ";";
 		// as long as the current customer has an id that already exists
-		while ((Integer) db.ownSQLCommand(query, "Integer-Count") > 0) {
+		while ((Integer) db.ownSQLCommand(query, "Integer") > 0) {
+			LOG.info("The ID is already in use, trying to find a new one");
 			try {
 				newId = Integer
 						.parseInt(JOptionPane
@@ -104,10 +115,11 @@ public class PbesSQL extends Pbes {
 			}
 			((CustomerSQL) sqlcustomer).setId(newId); // set a new ID
 		}
-
+		LOG.fine("ID Accepted, preparing for SQL");
 		String sql = " INSERT INTO Customers " + sqlcustomer.exportSQLText()
 				+ ";";
 		db.ownSQLCommand(sql, null);
+		LOG.exiting("PbesSQL","addCustomer");
 		return true;
 	};
 
@@ -126,7 +138,7 @@ public class PbesSQL extends Pbes {
 		CustomerSQL customer = (CustomerSQL) currentCustomer;
 		sql = " INSERT INTO Customers " + customer.exportSQLText() + ";";
 		db.ownSQLCommand(sql, null);
-		return true; // TODO not yet implemented
+		return true;
 	}
 
 	@Override

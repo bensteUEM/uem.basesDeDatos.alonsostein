@@ -36,7 +36,10 @@ public class CustomerSQL extends Customer {
 	public CustomerSQL(String newName, String newCellPhoneNumber,
 			Integer newId, Integer Owner, SQLiteStorage db) {
 		super(newName, newCellPhoneNumber, newId);
-		this.db = db;
+		this.setDb(db);
+		if(db==null){
+			LOG.warning("CustomerSQL Init with invalid db");
+		}		
 	}
 
 	/**
@@ -51,9 +54,9 @@ public class CustomerSQL extends Customer {
 	 * @author benste
 	 */
 	public CustomerSQL(ResultSet rs, Integer id, String name,
-			String cellPhoneNumber, Logger sqlLog) {
+			String cellPhoneNumber, Logger sqlLog, SQLiteStorage db) {
 		super(name, cellPhoneNumber, id);
-		LOG.entering("CustomerSQL", "Constructor with Resultset");
+		LOG.entering("CustomerSQL", "Constructor with Resultset - logs in SQL because of RS usage");
 		try {
 			sqlLog.fine("Creating a Customer with ResultSet Constructor");
 			this.setOwner(rs.getInt("Owner"));
@@ -68,16 +71,25 @@ public class CustomerSQL extends Customer {
 			sqlLog.warning("An error occured in the CustomerSQL constructor: "
 					+ e);
 		}
+		// linking with DB
+		this.setDb(db);
+		if(db==null){
+			LOG.warning("CustomerSQL Init with invalid db");
+		}		
+		LOG.finest("finished DB");
+		
 		LOG.exiting("CustomerSQL", "Constructor with Resultset");
 	}
 
 	/**
 	 * Simple Constructor from Text in DataFile
-	 * 
+	 * REQUIRES setting the DB object later from PBES
 	 * @param customerText
 	 */
 	public CustomerSQL(String customerText) {
 		super(customerText);
+		this.setDb(null);
+		LOG.info("CustomerSQL Init with invalid db - should only be used when importing from a file and adding information for DB from PBES manully");
 	}
 
 	/**
@@ -120,8 +132,8 @@ public class CustomerSQL extends Customer {
 
 	@Override
 	public ArrayList<CustomerCall> getCalls() {
-		String query = "SELECT * FROM CustomerCalls WHERE OriginID=" + this.getId()
-				+ ";";
+		String query = "SELECT * FROM CustomerCalls WHERE OriginID="
+				+ this.getId() + ";";
 		ArrayList<CustomerCall> calls = (ArrayList<CustomerCall>) db
 				.ownSQLCommand(query, "ArrayList<CustomerCall>");
 		return calls;
@@ -129,20 +141,27 @@ public class CustomerSQL extends Customer {
 
 	@Override
 	public void addCall(CustomerCall newCall) {
+		LOG.entering("CustomerSQL", "addCall");
 		// get next empty ID using the existing calls in the SQL
-		String query = "SELECT MAX(ID) FROM CustomerCalls";
-		db.ownSQLCommand(query, null);
-		Integer freeID = (Integer) db.ownSQLCommand(query, "Integer-ID") + 1;
-		
+		String query = "SELECT MAX(ID) FROM CustomerCalls;";
+		LOG.finest("Defined Query Text: " + query);	
+		Integer freeID = (Integer) db.ownSQLCommand(query, "Integer");
+		LOG.fine("Found Max ID with: " + freeID);
+		freeID++;
+
 		// ID,BillID,OriginID,
 		String values1 = Integer.toString(freeID) + ",,"
 				+ Integer.toString(this.getId()) + ",";
+		LOG.finest("Created 1. part of Values String: "+values1);
 		// Destination,startTime<char(50)>,Duration
 		String values2 = newCall.getDestination() + ",\'"
 				+ newCall.getStartTimeString() + "\'," + newCall.getDuration();
-		String query2 = "INSERT INTO CustomerCalls VALUES(" + values1 + values2 + ");";
-		
-		//finally run the real insert query
+		LOG.finest("Created 2. part of Values String: "+values2);
+		String query2 = "INSERT INTO CustomerCalls VALUES(" + values1 + values2
+				+ ");";
+		LOG.finest("Merged Strings to a query"+query2);
+
+		// finally run the real insert query
 		db.ownSQLCommand(query2, null);
 	} // end addCall
 
@@ -159,6 +178,20 @@ public class CustomerSQL extends Customer {
 	 */
 	public void setOwner(int i) {
 		this.owner = i;
+	}
+
+	/**
+	 * @return the db
+	 */
+	public SQLiteStorage getDb() {
+		return db;
+	}
+
+	/**
+	 * @param db the db to set
+	 */
+	public void setDb(SQLiteStorage db) {
+		this.db = db;
 	}
 
 }

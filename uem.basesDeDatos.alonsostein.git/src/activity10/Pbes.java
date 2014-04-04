@@ -459,7 +459,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		DataFile export = new DataFile(); // create a new file without a
 											// customer object
 		for (CustomerAbstract oneCustomer : export.importCustomer()) {
-			if (addCustomer(oneCustomer)) {
+			if (this.addCustomer(oneCustomer)) {
 				// System.out.println("Following Customer added: " +
 				// oneCustomer);
 			} // end if

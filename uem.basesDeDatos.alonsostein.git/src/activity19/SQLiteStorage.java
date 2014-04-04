@@ -173,7 +173,6 @@ public class SQLiteStorage {
 		return false;
 	}
 
-	// // TODO i stopped here
 	/**
 	 * Wrapper to execute SQL Commands without the need to catch exceptions
 	 * locally;
@@ -199,7 +198,7 @@ public class SQLiteStorage {
 				LOG.fine("Statement Excecuted");
 				CustomerSQL customer = new CustomerSQL(rs, rs.getInt("ID"),
 						rs.getString("Name"), rs.getString("CellPhoneNumber"),
-						LOG);
+						LOG,this);
 				LOG.fine("CustomerSQL item created with: " + rs.getInt("ID")
 						+ "//" + rs.getString("Name") + "//"
 						+ rs.getString("CellPhoneNumber"));
@@ -211,15 +210,11 @@ public class SQLiteStorage {
 				while (rs.next()) {
 					CustomerSQL customer = new CustomerSQL(rs, rs.getInt("ID"),
 							rs.getString("Name"),
-							rs.getString("CellPhoneNumber"), LOG);
+							rs.getString("CellPhoneNumber"), LOG,this);
 					customers.add(customer);
 				}
 				result = customers;
-			} else if (args.equals("Integer-ID")) {	
-				LOG.fine("Executing an SQL which should return a simple integer");
-				ResultSet rs = stmt.executeQuery(sql);
-				result = rs.getInt("ID");
-			} else if (args.equals("Integer-Count")) {	
+			} else if (args.equals("Integer")) {	
 				LOG.fine("Executing an SQL which should return a simple integer");
 				ResultSet rs = stmt.executeQuery(sql);
 				result = rs.getInt(1);
