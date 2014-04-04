@@ -203,10 +203,10 @@ public class SQLiteStorage {
 						+ "//" + rs.getString("Name") + "//"
 						+ rs.getString("CellPhoneNumber"));
 				result = customer;
-			} else if (args.equals("ArrayList<Customer>")) {
+			} else if (args.equals("ArrayList<CustomerAbstract>")) {
 				LOG.fine("Executing an SQL querry which is expected to return an ArrayList of CustomerSQL Objects");
 				ResultSet rs = stmt.executeQuery(sql);
-				ArrayList<CustomerSQL> customers = new ArrayList<CustomerSQL>();
+				ArrayList<CustomerAbstract> customers = new ArrayList<CustomerAbstract>();
 				while (rs.next()) {
 					CustomerSQL customer = new CustomerSQL(rs, rs.getInt("ID"),
 							rs.getString("Name"),

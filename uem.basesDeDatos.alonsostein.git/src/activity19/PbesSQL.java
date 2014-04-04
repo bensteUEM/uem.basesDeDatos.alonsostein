@@ -150,30 +150,14 @@ public class PbesSQL extends Pbes {
 	 * @return ArrayList of all Customers in the Database
 	 */
 	@Override
-	public ArrayList<Customer> getCustomers() {
-		//TODO this can be more modular using the AboveRate(0);
-		String query = "SELECT * FROM Customers";
-		@SuppressWarnings("unchecked")
-		// is checked with method param
-		ArrayList<Customer> customers = (ArrayList<Customer>) db.ownSQLCommand(
-				query, "ArrayList<Customer>");
-		return customers;
-	}
-
-	/**
-	 * Method to return all customers
-	 * 
-	 * @return ArrayList of all Customers in the Database
-	 */
-	@Override
-	public ArrayList<Customer> getCustomersAboveRate(Integer rate) {
+	public ArrayList<CustomerAbstract> getCustomersAboveRate(Integer rate) {
 		LOG.entering("PbesSQL","getCustomersAboveRate");
 		String query = "SELECT * FROM Customers WHERE Rate>" + rate + ";";
 		LOG.finest("defined SQL statement");
 		@SuppressWarnings("unchecked")
 		// is checked with method param
-		ArrayList<Customer> customers = (ArrayList<Customer>) db.ownSQLCommand(
-				query, "ArrayList<Customer>");
+		ArrayList<CustomerAbstract> customers = (ArrayList<CustomerAbstract>)db.ownSQLCommand(
+				query, "ArrayList<CustomerAbstract>");
 		LOG.fine("excecuted SQL Statement with result: "+customers);
 		LOG.exiting("PbesSQL","getCustomersAboveRate");
 		return customers;

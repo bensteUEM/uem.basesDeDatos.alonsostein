@@ -26,8 +26,9 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	protected JPanel contentPane;
 	protected JTextField txtSearch;
 	protected JTextField txtMoney;
-	protected ArrayList<Customer> customers; // TODO THIS IS IMPORTANT to SHOW FOR
-											// EVALUATION
+	protected ArrayList<Customer> customers; // TODO THIS IS IMPORTANT to SHOW
+												// FOR
+												// EVALUATION
 	/* private Customer[] customerToImport; //@LUIS - not needed anymore */
 	protected BigDecimal b = new BigDecimal(0); // store the minimum balance
 	final Color UEMCOLOR = new Color(143, 27, 39);
@@ -546,6 +547,11 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		return false; // no more space for more customers
 	} // end saveCustomer()
 
+	@Override
+	public ArrayList<CustomerAbstract> getCustomers(Integer searchId) {
+		return getCustomersAboveRate(Integer.MIN_VALUE);
+	}
+
 	/**
 	 * get a specific customer based on its ID
 	 * 
@@ -620,14 +626,14 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * This function does itterate through the classes array of customers and return a list of customers objects who do have their rate above the specified rate
 	 * @author benste
 	 */
-	public ArrayList<Customer> getCustomersAboveRate(Integer maxRate) {
-		ArrayList<Customer> results = new ArrayList<Customer>();
+	public ArrayList<CustomerAbstract> getCustomersAboveRate(Integer maxRate) {
+		ArrayList<CustomerAbstract> results = new ArrayList<CustomerAbstract>();
 		for (Customer compareCustomer : this.getCustomers()) {
 			if (compareCustomer != null) // customer exists
 			{
 				if (compareCustomer.getRate() > maxRate)// customer exceeds rate
 				{
-					results.add(compareCustomer);// add customer to list
+					results.add((CustomerAbstract) compareCustomer);// add customer to list
 				}// end if
 			}// end if precondition customer exists
 		}// end of iterating through all customers

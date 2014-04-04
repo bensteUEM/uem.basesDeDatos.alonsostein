@@ -17,7 +17,8 @@ public abstract class PbesAbstract  extends JFrame{
 	//public abstract CustomerAbstract getCustomer(String searchName, String landLineNumber);
 	
 	public abstract BigDecimal getAllCustomerBalance();
-	public abstract ArrayList<Customer> getCustomersAboveRate(Integer maxRate); //List of CustomerAbstract
+	public abstract ArrayList<CustomerAbstract> getCustomersAboveRate(Integer maxRate); //List of CustomerAbstract
+	public abstract ArrayList<CustomerAbstract> getCustomers(Integer searchId);
 	public abstract void calculateAllBalances();
 	
 	public abstract BigDecimal getCompanyRevenue();
@@ -25,5 +26,6 @@ public abstract class PbesAbstract  extends JFrame{
 	@SuppressWarnings("unused") //use to block default constructor
 	protected PbesAbstract() {
 	}
+
 	
 }

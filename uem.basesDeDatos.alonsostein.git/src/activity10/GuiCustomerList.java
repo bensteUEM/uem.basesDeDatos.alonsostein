@@ -25,13 +25,13 @@ public class GuiCustomerList extends JFrame implements ActionListener {
 	 * Constructor based on an existing list and some additional explanatory
 	 * text
 	 * 
-	 * @param listContent
+	 * @param arrayList
 	 *            Customer Objects to be displayed
 	 * @param information
 	 *            Text to be displayed
 	 */
 	@SuppressWarnings("unchecked")
-	public GuiCustomerList(ArrayList<Customer> listContent, String information) {
+	public GuiCustomerList(ArrayList<CustomerAbstract> arrayList, String information) {
 		setBounds(100, 100, 450, 300); // set some random sizes
 		contentPane = new JPanel(); // create the panel
 		contentPane.setLayout(new BorderLayout(0, 0));// Set a layout
@@ -45,7 +45,7 @@ public class GuiCustomerList extends JFrame implements ActionListener {
 
 		@SuppressWarnings("rawtypes")
 		// this will auto convert to the correct class
-		JList<Customer> list = new JList(listContent.toArray());
+		JList<Customer> list = new JList(arrayList.toArray());
 		// insert the predefined array into the list
 		JScrollPane scrollPane = new JScrollPane(list);
 		// add the Jlist to a scrollable container
