@@ -151,6 +151,7 @@ public class PbesSQL extends Pbes {
 	 */
 	@Override
 	public ArrayList<Customer> getCustomers() {
+		//TODO this can be more modular using the AboveRate(0);
 		String query = "SELECT * FROM Customers";
 		@SuppressWarnings("unchecked")
 		// is checked with method param
@@ -166,11 +167,15 @@ public class PbesSQL extends Pbes {
 	 */
 	@Override
 	public ArrayList<Customer> getCustomersAboveRate(Integer rate) {
+		LOG.entering("PbesSQL","getCustomersAboveRate");
 		String query = "SELECT * FROM Customers WHERE Rate>" + rate + ";";
+		LOG.finest("defined SQL statement");
 		@SuppressWarnings("unchecked")
 		// is checked with method param
 		ArrayList<Customer> customers = (ArrayList<Customer>) db.ownSQLCommand(
 				query, "ArrayList<Customer>");
+		LOG.fine("excecuted SQL Statement with result: "+customers);
+		LOG.exiting("PbesSQL","getCustomersAboveRate");
 		return customers;
 	}
 
