@@ -29,7 +29,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	protected JTextField txtMoney;
 	protected ArrayList<Customer> customers;
 
-	private BigDecimal b = new BigDecimal(0); // store the minimum balance
+	protected BigDecimal b = new BigDecimal(0); // store the minimum balance
 	final Color UEMCOLOR = new Color(143, 27, 39);
 
 	private JButton btnSearch;
