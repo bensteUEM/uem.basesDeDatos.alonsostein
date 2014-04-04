@@ -150,7 +150,7 @@ public class CustomerSQL extends Customer {
 		freeID++;
 
 		// ID,BillID,OriginID,
-		String values1 = Integer.toString(freeID) + ",,"
+		String values1 = Integer.toString(freeID) + ",'',"
 				+ Integer.toString(this.getId()) + ",";
 		LOG.finest("Created 1. part of Values String: "+values1);
 		// Destination,startTime<char(50)>,Duration
