@@ -22,16 +22,39 @@ import activity13.GuiCallPlacement;
  */
 public class Pbes extends PbesAbstract implements ActionListener {
 	/* Some Initial Values */
+
 	protected static final long serialVersionUID = 7954557041637449001L;
 	protected JPanel contentPane;
 	protected JTextField txtSearch;
 	protected JTextField txtMoney;
-	protected ArrayList<Customer> customers; // TODO THIS IS IMPORTANT to SHOW
-												// FOR
-												// EVALUATION
-	/* private Customer[] customerToImport; //@LUIS - not needed anymore */
-	protected BigDecimal b = new BigDecimal(0); // store the minimum balance
+	protected ArrayList<Customer> customers;
+
+	private BigDecimal b = new BigDecimal(0); // store the minimum balance
 	final Color UEMCOLOR = new Color(143, 27, 39);
+
+	private JButton btnSearch;
+	private JButton btnDelete;
+	private JButton btnAddCustomer;
+	private JButton btnCall;
+	private JButton btnMonthlyBill;
+	private JButton btnCustomersAboveRate;
+	private JButton btnPay;
+	private JButton btnAllCustomer;
+
+	private JButton btnCompanyRev;
+	private JButton btnCalcBalance;
+	private JButton btnCalcRev;
+	private JButton btnCustFromText;
+	private JButton btnCustToText;
+
+	private JMenuItem menImportCustomer;
+	private JMenuItem menExportCustomer;
+	private JMenuItem menExportCustomerExcel;
+
+	private JMenuItem menMinimumBalance;
+	private JMenuItem menCalcBalances;
+	private JMenuItem menCalcRev;
+	private JMenuItem menAllCustomer;
 
 	/**
 	 * Launch the application
@@ -62,8 +85,11 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * @author Maren
 	 */
 	public Pbes() { // Constrcutor
-		// super(); // super constructor
 		setGuiStyles(); // use function for predefined GUI mods
+		createElements();
+		fillInformation();
+		arrangeInLayouts();
+
 		customers = new ArrayList<Customer>();
 		// initialize empty customer array with predefined count
 
@@ -79,108 +105,118 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			} // end embedded function
 		});// end of window listener
 
-		setBounds(100, 100, 1000, 500); // set the bounds of the mainframe
+	}
+
+	/**
+	 * LUIS TODO create comment here
+	 */
+	public void createElements() {
+
 		contentPane = new JPanel(); // creation of content Pane
+		txtSearch = new JTextField(); // Creation of Textfield for Input
+		txtMoney = new JTextField();// Creation of Textfield for Money
+		// User Search Button by ID
+		btnSearch = new JButton("Search User by ID");
+		btnCall = new JButton("Call");
+		btnMonthlyBill = new JButton("Monthly bill");
+		btnPay = new JButton("Pay by User ID");
+		btnAddCustomer = new JButton("Add a new Customer");
+		btnAllCustomer = new JButton("Show all Customers");
+		menAllCustomer = new JMenuItem("Show all Customers");
+		btnCompanyRev = new JButton("Compute Balances & Show Company Revenue");
+		btnCustomersAboveRate = new JButton("Show Customers Above Rate");
+		btnCalcBalance = new JButton("Calculate Balance");
+		menCalcBalances = new JMenuItem("Calculate Balances");
+		btnCalcRev = new JButton("Calculate Revenue");
+		menCalcRev = new JMenuItem("Calculate Revenue");
+		btnCustFromText = new JButton("Import customers");
+		menImportCustomer = new JMenuItem("Import customers from CSV");
+		btnCustToText = new JButton("Export customers to CSV");
+		menExportCustomer = new JMenuItem("Export customers to CSV");
+		menExportCustomerExcel = new JMenuItem("Export customers to Excel2013");
+		menMinimumBalance = new JMenuItem("Import minimum balance from Excel");
+		btnDelete = new JButton("Delete User by ID");
+	}
+
+	public void fillInformation() {
+		setBounds(100, 100, 1000, 500); // set the bounds of the mainframe
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); // set Borders
 		setContentPane(contentPane); // set the content pane
 
-		txtSearch = new JTextField(); // Creation of Textfield for Input
 		txtSearch.setToolTipText("enter the User ID here"); // set tooltip
 		txtSearch.setText("0"); // set Text to value of 0
 		txtSearch.setColumns(10); // Clums for Textfield
 
-		txtMoney = new JTextField();// Creation of Textfield for Money
 		txtMoney.setToolTipText("enter amount of Money in Cents"); // set
 																	// tooltip
 		txtMoney.setColumns(10); // set width
 
 		// User Search Button by ID
-		JButton btnSearch = new JButton("Search User by ID");
 		// creation of new Button and its appearance
 		btnSearch.setMnemonic('s'); // set key shortcut
 		btnSearch.addActionListener(this); // link action
 
 		// User Call Button by ID
-		JButton btnCall = new JButton("Call");
 		// creation of new Button and its appearance
 		btnCall.setMnemonic('c'); // set key shortcut
 		btnCall.addActionListener(this); // link action
 
 		// User Monthly bill Button by ID
-		JButton btnMonthlyBill = new JButton("Monthly bill");
 		// creation of new Button and its appearance
 		btnMonthlyBill.setMnemonic('m'); // set key shortcut
 		btnMonthlyBill.addActionListener(this); // link action
 
-		JButton btnPay = new JButton("Pay by User ID");
 		btnPay.setSize(40, 40);
 		btnPay.setEnabled(false); // Disable additional feature for evaluation
 		btnPay.addActionListener(this);
 
 		// Button to add a new customer - same implementation as Search
-		JButton btnAddCustomer = new JButton("Add a new Customer");
 		btnAddCustomer.setEnabled(true);
 		btnAddCustomer.addActionListener(this);
 
 		// Show all customer Button - same implementation as Search
-		JButton btnAllCustomer = new JButton("Show all Customers");
 		btnAllCustomer.addActionListener(this);
 		// Added new Menu Item Style
-		JMenuItem menAllCustomer = new JMenuItem("Show all Customers");
 		menAllCustomer.addActionListener(this);
 
 		// Button that shows customer revenue - same implementation as Search
-		JButton btnCompanyRev = new JButton(
-				"Compute Balances & Show Company Revenue");
 		btnCompanyRev.addActionListener(this);
 
 		// Button CustomersAboveRate - same implementation as Search
-		JButton btnCustomersAboveRate = new JButton("Show Customers Above Rate");
 		btnCustomersAboveRate.addActionListener(this);
 
 		// Button CalcBalance - same implementation as Search
-		JButton btnCalcBalance = new JButton("Calculate Balance");
 		btnCalcBalance.addActionListener(this);
 		// Added new Menu Item Style //TODO
-		JMenuItem menCalcBalances = new JMenuItem("Calculate Balances");
 		menCalcBalances.addActionListener(this);
 
 		// Button CalcRev - same implementation as Search
-		JButton btnCalcRev = new JButton("Calculate Revenue");
 		btnCalcRev.addActionListener(this);
 		// Added new Menu Item Style
-		JMenuItem menCalcRev = new JMenuItem("Calculate Revenue");
 		menCalcRev.addActionListener(this);
 
 		// Import customer from text - same implementation as Search
-		JButton btnCustFromText = new JButton("Import customers");
 		btnCustFromText.addActionListener(this);
 		// Added new Menu Item Style
-		JMenuItem menImportCustomer = new JMenuItem("Import customers from CSV");
 		menImportCustomer.addActionListener(this);
 
 		// Export customer to text - same implementation as Search
-		JButton btnCustToText = new JButton("Export customers to CSV");
 		btnCustToText.addActionListener(this);
 
 		// Added new Menu Item Style
-		JMenuItem menExportCustomer = new JMenuItem("Export customers to CSV");
 		menExportCustomer.addActionListener(this);
 		// Added new Menu Item Style
-		JMenuItem menExportCustomerExcel = new JMenuItem(
-				"Export customers to Excel2013");
 		menExportCustomerExcel.addActionListener(this);
 		// Added new menu item to inport minimum balance from excel
-		JMenuItem menMinimumBalance = new JMenuItem(
-				"Import minimum balance from Excel");
 		menMinimumBalance.addActionListener(this);
 
 		// User Delete button by ID - same implementation as Search
-		JButton btnDelete = new JButton("Delete User by ID");
 		btnDelete.setMnemonic('d');
 		btnDelete.addActionListener(this);
 
-		// NEW GUI DISTRIBUTION
+	}
+
+	public void arrangeInLayouts() {
 		setLayout(new BorderLayout());
 		// main grid layout panel
 		JPanel pnlMain = new JPanel();
@@ -237,10 +273,10 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		menuBar.add(menuAbout); // Add menu to Main Menu
 
 		setJMenuBar(menuBar); // DEBUG just simply show the menu
-	} // End constructor
+	}
 
 	/**
-	 * Overwrite Styles of Items for GUI
+	 * Overwrite Styles of Items for GUI Template
 	 * 
 	 * This uses a procedure described here:
 	 * http://java-demos.blogspot.com.es/2013
@@ -345,17 +381,22 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	public void onAddCustomer(ActionEvent ae) {
 		Customer newCustomer = new Customer("", "",
-				Integer.parseInt(this.txtSearch.getText()));
-		// function to add new customer
+				Integer.parseInt(this.txtSearch.getText())); // function to
+																// add new
+																// customer
+
 		if (!(this.addCustomer(newCustomer))) {
 			JOptionPane
 					.showMessageDialog(
 							this,
 							"<html>Something went wrong when trying to save a new user <br> you might have tried to exceed your user maximum</html>");
 		} else {
-			new GuiUserModificator(this, newCustomer);
-			// this will run the Modificator hiding this window until action was
-			// successful
+			new GuiUserModificator(this, newCustomer); // this will run the
+														// Modificator
+														// hiding this
+														// window until
+														// action was
+														// successful
 		}
 	}
 
@@ -633,7 +674,9 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			{
 				if (compareCustomer.getRate() > maxRate)// customer exceeds rate
 				{
-					results.add((CustomerAbstract) compareCustomer);// add customer to list
+					results.add((CustomerAbstract) compareCustomer);// add
+																	// customer
+																	// to list
 				}// end if
 			}// end if precondition customer exists
 		}// end of iterating through all customers
