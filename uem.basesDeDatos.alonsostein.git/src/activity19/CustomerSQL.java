@@ -89,7 +89,7 @@ public class CustomerSQL extends Customer {
 	public CustomerSQL(String customerText) {
 		super(customerText);
 		this.setDb(null);
-		LOG.info("CustomerSQL Init with invalid db - should only be used when importing from a file and adding information for DB from PBES manully");
+		LOG.finest("CustomerSQL Init with invalid db - should only be used when importing from a file and adding information for DB from PBES manully");
 	}
 
 	/**
@@ -150,7 +150,7 @@ public class CustomerSQL extends Customer {
 		freeID++;
 
 		// ID,BillID,OriginID,
-		String values1 = Integer.toString(freeID) + ",'',"
+		String values1 = Integer.toString(freeID) + ",NULL,"
 				+ Integer.toString(this.getId()) + ",";
 		LOG.finest("Created 1. part of Values String: "+values1);
 		// Destination,startTime<char(50)>,Duration
