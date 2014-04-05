@@ -5,23 +5,22 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import activity10.Pbes;
-import activity13.CustomerCall;
 
 public class GuiUserModificator extends JFrame implements ActionListener {
 
@@ -34,14 +33,24 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	private JTextField textFieldLand;
 	private JTextField textFieldAir;
 	private JTextField textFieldBalance;
-	private JList<CustomerCall> callList;
+	private JList<String> callList;
 	private JButton btnChangeId;
 	private JButton btnSave;
 	private JButton btnImport;
 	private JButton btnExport;
 	private Customer customer;
 	private Pbes parent;
-	private CustomerAbstract dataCall;
+	// private CustomerAbstract dataCall; // remove in future if no issues
+	// private CustomerCall call; // remove in future if no issues
+	private JLabel lblName;
+	private JLabel lblLand;
+	private JLabel lblCell;
+	private JLabel lblBalance;
+	private JLabel lblId;
+	private JLabel lblAirtime;
+	private JLabel lblRate;
+	private JLabel lblBilling;
+	private JScrollPane listScroller;
 
 	/**
 	 * Create the frame.
@@ -49,91 +58,97 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	public GuiUserModificator(Pbes sourceParent, Customer currentCustomer) {
 		this.parent = sourceParent;
 		this.parent.setVisible(false);
+		createElements(currentCustomer);
+		fillInformation(currentCustomer);
+		arrangeInLayouts();
+		// Custom closing window
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent evt) {
+				onExit();
+			}
+		});
+	}
+
+	public void onExit() { // when the GUI for the call is closed
+		this.setVisible(false); // set this gui to not visible
+		parent.setVisible(true); // and set the main GUI visible
+	} // end of onExit
+
+	public void createElements(Customer currentCustomer) {
 		this.setVisible(true);
-		this.setTitle("CUSTOMER INFORMATION");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 500); // set the bounds of the mainframe
 		contentPane = new JPanel(); // creation of content Pane
+		lblName = new JLabel("Name");
+		textFieldName = new JTextField(currentCustomer.getName());
+		lblId = new JLabel("ID number");
+		textFieldId = new JTextField(Integer.toString(currentCustomer.getId()));
+		lblCell = new JLabel("Cellphone number");
+		textFieldCell = new JTextField(currentCustomer.getCellPhoneNumber());
+		lblLand = new JLabel("Landline phone number");
+		textFieldLand = new JTextField(currentCustomer.getLandlinePhoneNumer());
+		lblAirtime = new JLabel("Airtime");
+		textFieldAir = new JTextField(Integer.toString(currentCustomer
+				.getAirtimeMinutes()));
+		lblRate = new JLabel("Rate");
+		textFieldRate = new JTextField(Integer.toString(currentCustomer
+				.getRate()));
+		lblBalance = new JLabel("Balance");
+		textFieldBalance = new JTextField(currentCustomer.getBalance()
+				.toString());
+		lblBilling = new JLabel("Billing information: ");
+		if (currentCustomer.getCalls().size() > 0) {
+			callList = new JList<String>();
+		}
+		listScroller = new JScrollPane(callList);
+		btnChangeId = new JButton("Change ID");
+		btnSave = new JButton("Save");
+		btnImport = new JButton("Import customer from file");
+		btnExport = new JButton("Export customer to file");
+		this.customer = currentCustomer;
+	}
+
+	public void fillInformation(Customer currentCustomer) {
+		setBounds(100, 100, 1200, 500); // set the bounds of the mainframe
+		this.setTitle("CUSTOMER INFORMATION");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); // set Borders
-		setContentPane(contentPane); // set the content pane
+		setContentPane(contentPane);
 
 		JLabel lblCustomerInformation = new JLabel("CUSTOMER INFORMATION");
 		lblCustomerInformation.setHorizontalAlignment(SwingConstants.CENTER);
-
-		JLabel lblName = new JLabel("Name");
-
-		textFieldName = new JTextField(currentCustomer.getName());
 		textFieldName.setColumns(10);
-
-		JLabel lblId = new JLabel("ID number");
-
-		textFieldId = new JTextField(Integer.toString(currentCustomer.getId()));
 		textFieldId.setEditable(false); // disable editing for this field
 										// because it's the identifier
 		textFieldId.setColumns(10);
-
-		JLabel lblCell = new JLabel("Cellphone number");
-
-		textFieldCell = new JTextField(currentCustomer.getCellPhoneNumber());
 		textFieldCell.setColumns(10);
 
-		JLabel lblLand = new JLabel("Landline phone number");
-
-		textFieldLand = new JTextField(currentCustomer.getLandlinePhoneNumer());
 		textFieldLand.setColumns(10);
-
-		JLabel lblAirtime = new JLabel("Airtime");
-
-		textFieldAir = new JTextField(Integer.toString(currentCustomer
-				.getAirtimeMinutes()));
 		textFieldAir.setColumns(10);
-
-		JLabel lblRate = new JLabel("Rate");
-
-		textFieldRate = new JTextField(Integer.toString(currentCustomer
-				.getRate()));
 		textFieldRate.setColumns(10);
 
-		JLabel lblBalance = new JLabel("Balance");
-
-		// Balance field
-		textFieldBalance = new JTextField(currentCustomer.getBalance()
-				.toString());
 		textFieldBalance.setEditable(false);
 		textFieldBalance.setColumns(10);
 
-		JLabel lblBilling = new JLabel("Billing information: ");
-
-		// JList for listing calls
+		// JList for listing calls	
+		DefaultListModel<String> listModel = new DefaultListModel<String>(); // to disapear with #83
 		
 		if (currentCustomer.getCalls() != null){
-			callList = new JList(currentCustomer.getCalls().toArray());
-		}else {
-			callList = new JList<CustomerCall>();
+			// callList = new JList(currentCustomer.getCalls().toArray());
+			listModel.addElement("Rate: "
+					+ currentCustomer.getRate().toString());
+			for (int i = 0; i < currentCustomer.getCalls().size(); i++) {
+				listModel.addElement(currentCustomer.getCalls().get(i)
+						.toString());
+			}
+			callList = new JList<String>(listModel);
 		}
-
-		JScrollPane listScroller = new JScrollPane(callList);
-
-		btnChangeId = new JButton("Change ID");
 		btnChangeId.addActionListener(this);
-		// disable button until 100% works - currently issue after 2nd change -
-		// most likely insert / delete
 		btnChangeId.setEnabled(true);
-
-		btnSave = new JButton("Save");
 		btnSave.addActionListener(this);
-
-		btnImport = new JButton("Import customer from file");
 		btnImport.addActionListener(this);
-
-		btnExport = new JButton("Export customer to file");
 		btnExport.addActionListener(this);
-
 		this.customer = currentCustomer;
+	}
 
-		this.setVisible(true);
-
-		// NEW GUI DISTRIBUTION
+	public void arrangeInLayouts() {
 		setLayout(new BorderLayout());
 		// main grid layout panel
 		JPanel pnlMain = new JPanel();
@@ -144,14 +159,14 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		JPanel pnlTop2 = new JPanel();
 		pnlTop2.setLayout(new GridLayout(7, 2));
 		pnlMain.add(pnlTop2);
-		pnlTop2.add(lblName);
-		pnlTop2.add(textFieldName);
 		pnlTop2.add(lblId);
 		pnlTop2.add(textFieldId);
-		pnlTop2.add(lblCell);
-		pnlTop2.add(textFieldCell);
 		pnlTop2.add(lblRate);
 		pnlTop2.add(textFieldRate);
+		pnlTop2.add(lblName);
+		pnlTop2.add(textFieldName);
+		pnlTop2.add(lblCell);
+		pnlTop2.add(textFieldCell);
 		pnlTop2.add(lblLand);
 		pnlTop2.add(textFieldLand);
 		pnlTop2.add(lblAirtime);
@@ -163,7 +178,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		JPanel pnlBot1 = new JPanel();
 		pnlBot1.setLayout(new GridLayout(1, 2));
 		pnlBot1.add(lblBilling);
-		pnlBot1.add(callList);
+		pnlBot1.add(listScroller);
 		pnlMain.add(pnlBot1);
 
 		// subpanel bot2
@@ -174,108 +189,17 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		pnlBot2.add(btnImport);
 		pnlBot2.add(btnExport);
 		pnlBot2.add(btnChangeId);
-
 	}
 
 	public void setUserModificator(Customer currentCustomer) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 335);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(new GridLayout(17, 2, 0, 0));
-
-		JLabel lblCustomerInformation = new JLabel("CUSTOMER INFORMATION");
-		lblCustomerInformation.setHorizontalAlignment(SwingConstants.CENTER);
-		contentPane.add(lblCustomerInformation);
-
-		JLabel lblInfo = new JLabel("");
-		contentPane.add(lblInfo);
-
-		JLabel lblName = new JLabel("Name");
-		contentPane.add(lblName);
-
-		textFieldName = new JTextField(currentCustomer.getName());
-		contentPane.add(textFieldName);
-		textFieldName.setColumns(10);
-
-		JLabel lblId = new JLabel("ID number");
-		contentPane.add(lblId);
-
-		textFieldId = new JTextField(Integer.toString(currentCustomer.getId()));
-		textFieldId.setEditable(false); // disable editing for this field
-										// because it's the identifier
-		contentPane.add(textFieldId);
-		textFieldId.setColumns(10);
-
-		JLabel lblCell = new JLabel("Cellphone number");
-		contentPane.add(lblCell);
-
-		textFieldCell = new JTextField(currentCustomer.getCellPhoneNumber());
-		contentPane.add(textFieldCell);
-		textFieldCell.setColumns(10);
-
-		JLabel lblLand = new JLabel("Landline phone number");
-		contentPane.add(lblLand);
-
-		textFieldLand = new JTextField(currentCustomer.getLandlinePhoneNumer());
-		contentPane.add(textFieldLand);
-		textFieldLand.setColumns(10);
-
-		JLabel lblAirtime = new JLabel("Airtime");
-		contentPane.add(lblAirtime);
-
-		textFieldAir = new JTextField(Integer.toString(currentCustomer
-				.getAirtimeMinutes()));
-		contentPane.add(textFieldAir);
-		textFieldAir.setColumns(10);
-
-		JLabel lblRate = new JLabel("Rate");
-		contentPane.add(lblRate);
-
-		textFieldRate = new JTextField(Integer.toString(currentCustomer
-				.getRate()));
-		contentPane.add(textFieldRate);
-		textFieldRate.setColumns(10);
-
-		JLabel lblBalance = new JLabel("Balance");
-		contentPane.add(lblBalance);
-
-		// Balance field
-		textFieldBalance = new JTextField(currentCustomer.getBalance()
-				.toString());
-		textFieldBalance.setEditable(false);
-		textFieldBalance.setColumns(10);
-		contentPane.add(textFieldBalance);
-
-		// Billing information
-		/*
-		for (CustomerCall call : currentCustomer.getCalls()) {
-			callList.addElement(call);
-		}
-		*/
-		// Buttons
-
-		btnChangeId = new JButton("Change ID");
-		contentPane.add(btnChangeId);
-		btnChangeId.addActionListener(this);
-
-		btnChangeId.setEnabled(true);
-
-		btnSave = new JButton("Save");
-		contentPane.add(btnSave);
-
-		btnImport = new JButton("Import customer from file");
-		contentPane.add(btnImport);
-		btnImport.addActionListener(this);
-
-		btnExport = new JButton("Export customer to file");
-		contentPane.add(btnExport);
-		btnExport.addActionListener(this);
-
-		this.customer = currentCustomer;
-
-		btnSave.addActionListener(this);
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent evt) {
+				onExit();
+			}
+		});
+		createElements(currentCustomer);
+		fillInformation(currentCustomer);
+		arrangeInLayouts();
 		this.setVisible(true);
 	}
 
@@ -285,8 +209,6 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// if the source is the button "next"
 		String sourceName = e.getActionCommand();
-		// System.out.println("The following button was pressed: "+ sourceName);
-		// //TODO DEBUG
 		if (sourceName.contains("Save")) {
 			this.onSave(e);
 		} else if (e.getActionCommand() == "Change ID") {
@@ -295,7 +217,6 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 			try {
 				this.onImportCustomer(e);
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		} else if (sourceName.contains("Export")) {
@@ -360,7 +281,6 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		} else {
 			System.out
 					.println("The imported user can not be saved into the current database");
-			// TODO offer alternative ID if this is the problem
 		}
 	}
 
@@ -415,7 +335,6 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 			a = a && this.parent.deleteCustomer(this.customer.getId());
 			a = a && this.customer.setId(newId);
 			a = a && this.parent.addCustomer(this.customer);
-			System.out.println("change ID Success ? :" + a); // TODO debug
 			this.setVisible(false);
 			this.parent.setVisible(true);
 			this.parent.txtSearch.setText(Integer.toString(newId));
@@ -478,4 +397,3 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		return this.customer;
 	}
 }
-// TODO add import and export one customer using DataFile

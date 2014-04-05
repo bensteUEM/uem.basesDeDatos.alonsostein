@@ -55,6 +55,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	private JMenuItem menCalcBalances;
 	private JMenuItem menCalcRev;
 	private JMenuItem menAllCustomer;
+	
+	private ArrayList <JButton> buttonElements;
 
 	/**
 	 * Launch the application
@@ -63,13 +65,6 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	public static void main(String[] args) { // Main Method that launches the
 												// application
-		Integer maxCustomers = 50; // TODO remove maxcustomers
-		/*
-		 * Starting from Activity 10 max number is fixed to 50 the following
-		 * code is deprecated try { GuiFilter a = new GuiFilter(0); while
-		 * (maxCustomers == 0) { maxCustomers = a.getNumber();
-		 * Thread.sleep(200); // waits a time in miliseconds }
-		 */
 		Pbes mainFrame = new Pbes(); // Create new Gui program
 										// instance
 		mainFrame.setVisible(true); // make Gui visible
@@ -84,7 +79,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * 
 	 * @author Maren
 	 */
-	public Pbes() { // Constrcutor
+	public Pbes() { // Constructor
 		setGuiStyles(); // use function for predefined GUI mods
 		createElements();
 		fillInformation();
@@ -116,11 +111,12 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		txtSearch = new JTextField(); // Creation of Textfield for Input
 		txtMoney = new JTextField();// Creation of Textfield for Money
 		// User Search Button by ID
+		buttonElements = new ArrayList <JButton>();
+		
 		btnSearch = new JButton("Search User by ID");
 		btnCall = new JButton("Call");
 		btnMonthlyBill = new JButton("Monthly bill");
 		btnPay = new JButton("Pay by User ID");
-		btnAddCustomer = new JButton("Add a new Customer");
 		btnAllCustomer = new JButton("Show all Customers");
 		menAllCustomer = new JMenuItem("Show all Customers");
 		btnCompanyRev = new JButton("Compute Balances & Show Company Revenue");
@@ -136,6 +132,20 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		menExportCustomerExcel = new JMenuItem("Export customers to Excel2013");
 		menMinimumBalance = new JMenuItem("Import minimum balance from Excel");
 		btnDelete = new JButton("Delete User by ID");
+		buttonElements.add(btnSearch);
+		buttonElements.add(btnCall);
+		buttonElements.add(btnMonthlyBill);
+		buttonElements.add(btnPay);
+		buttonElements.add(new JButton("Add a new Customer"));
+		buttonElements.add(btnAllCustomer);
+		buttonElements.add(btnCompanyRev);
+		buttonElements.add(btnCustomersAboveRate);
+		buttonElements.add(btnCalcBalance);
+		buttonElements.add(btnCalcRev);
+		buttonElements.add(btnCustFromText);
+		buttonElements.add(btnCustToText);
+		buttonElements.add(btnDelete);
+		
 	}
 
 	public void fillInformation() {
@@ -143,76 +153,28 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); // set Borders
 		setContentPane(contentPane); // set the content pane
 
+		for(int i=0; i<buttonElements.size(); i++){
+			buttonElements.get(i).addActionListener(this);
+		}		
 		txtSearch.setToolTipText("enter the User ID here"); // set tooltip
 		txtSearch.setText("0"); // set Text to value of 0
 		txtSearch.setColumns(10); // Clums for Textfield
-
-		txtMoney.setToolTipText("enter amount of Money in Cents"); // set
-																	// tooltip
+		txtMoney.setToolTipText("enter amount of Money in Cents"); // set																	// tooltip
 		txtMoney.setColumns(10); // set width
-
 		// User Search Button by ID
 		// creation of new Button and its appearance
 		btnSearch.setMnemonic('s'); // set key shortcut
-		btnSearch.addActionListener(this); // link action
-
 		// User Call Button by ID
 		// creation of new Button and its appearance
 		btnCall.setMnemonic('c'); // set key shortcut
-		btnCall.addActionListener(this); // link action
-
 		// User Monthly bill Button by ID
 		// creation of new Button and its appearance
 		btnMonthlyBill.setMnemonic('m'); // set key shortcut
-		btnMonthlyBill.addActionListener(this); // link action
-
 		btnPay.setSize(40, 40);
 		btnPay.setEnabled(false); // Disable additional feature for evaluation
-		btnPay.addActionListener(this);
-
 		// Button to add a new customer - same implementation as Search
 		btnAddCustomer.setEnabled(true);
-		btnAddCustomer.addActionListener(this);
-
-		// Show all customer Button - same implementation as Search
-		btnAllCustomer.addActionListener(this);
-		// Added new Menu Item Style
-		menAllCustomer.addActionListener(this);
-
-		// Button that shows customer revenue - same implementation as Search
-		btnCompanyRev.addActionListener(this);
-
-		// Button CustomersAboveRate - same implementation as Search
-		btnCustomersAboveRate.addActionListener(this);
-
-		// Button CalcBalance - same implementation as Search
-		btnCalcBalance.addActionListener(this);
-		// Added new Menu Item Style //TODO
-		menCalcBalances.addActionListener(this);
-
-		// Button CalcRev - same implementation as Search
-		btnCalcRev.addActionListener(this);
-		// Added new Menu Item Style
-		menCalcRev.addActionListener(this);
-
-		// Import customer from text - same implementation as Search
-		btnCustFromText.addActionListener(this);
-		// Added new Menu Item Style
-		menImportCustomer.addActionListener(this);
-
-		// Export customer to text - same implementation as Search
-		btnCustToText.addActionListener(this);
-
-		// Added new Menu Item Style
-		menExportCustomer.addActionListener(this);
-		// Added new Menu Item Style
-		menExportCustomerExcel.addActionListener(this);
-		// Added new menu item to inport minimum balance from excel
-		menMinimumBalance.addActionListener(this);
-
-		// User Delete button by ID - same implementation as Search
 		btnDelete.setMnemonic('d');
-		btnDelete.addActionListener(this);
 
 	}
 
@@ -525,7 +487,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void onLoadMinimumBalance(ActionEvent ae) {
 		DataFile d = new DataFile("MinimumBalance");
 		this.b = d.importMinimumBalanceExcel2013();
-		System.out.println(b);
+		JOptionPane.showMessageDialog(this,
+			    "Minimum balance loaded");
 	}
 
 	/**

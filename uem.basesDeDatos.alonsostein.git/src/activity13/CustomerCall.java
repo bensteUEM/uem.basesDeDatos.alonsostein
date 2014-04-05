@@ -19,6 +19,7 @@ public class CustomerCall {
 	private Integer duration; // in seconds
 	private Calendar startTime;
 
+	@SuppressWarnings("unused")
 	private CustomerCall() {
 	} // End Customer Call forbidden constructor
 
@@ -91,21 +92,8 @@ public class CustomerCall {
 	public BigDecimal getTotal() { // method to calculate the total cost of the
 									// call
 		BigDecimal total = new BigDecimal(
-				(duration * origin.getRate()) / 100.00, new MathContext(3)); // calculates
-																				// the
-																				// total
-																				// with
-																				// 3
-																				// significative
-																				// digits
-																				// as
-																				// the
-																				// (duration*the
-																				// rate
-																				// of
-																				// the
-																				// customer)/100
-		// System.out.println(total); //TODO DEBUG
+				(duration * origin.getRate()) / 100.00, new MathContext(3)); 
+		// calculates the total with 3 significative digits as the (duration*the rate of the customer)/100
 		return total;
 	} // end getTotal
 
@@ -117,9 +105,10 @@ public class CustomerCall {
 	} // end of getStartTime
 
 	public String toString() {
-		return this.getDestination() + " - " + this.getDuration() + " - "
-				+ this.getStartTimeString();
-	}
+		return "Destination: " + this.getDestination() + "  Duration: "
+				+ this.getDuration() + " Cost: " + this.getTotal()
+				+ " Start time: " + this.getStartTime();
+	} // end function
 
 	/**
 	 * Get a String of the Start Time with a Constant defined formatting
@@ -129,5 +118,5 @@ public class CustomerCall {
 	public String getStartTimeString() {
 		SimpleDateFormat sdf = new SimpleDateFormat(DATEFORMAT);
 		return sdf.format(this.getStartTime());
-	}
+	} // end fucntion
 } // end of class CustomerCall
