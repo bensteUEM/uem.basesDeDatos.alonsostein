@@ -73,6 +73,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 			}
 		});
 	}
+
 	public void onExit() { // when the GUI for the call is closed
 		this.setVisible(false); // set this gui to not visible
 		parent.setVisible(true); // and set the main GUI visible
@@ -117,7 +118,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		this.setTitle("CUSTOMER INFORMATION");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); // set Borders
 		setContentPane(contentPane);
-		
+
 		JLabel lblCustomerInformation = new JLabel("CUSTOMER INFORMATION");
 		lblCustomerInformation.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldName.setColumns(10);
@@ -140,8 +141,8 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 			listModel.addElement("Rate: "
 					+ currentCustomer.getRate().toString());
 			for (int i = 0; i < currentCustomer.getCalls().size(); i++) {
-				listModel.addElement("Call: "
-						+ currentCustomer.getCalls().get(i).toString());
+				listModel.addElement(currentCustomer.getCalls().get(i)
+						.toString());
 			}
 			callList = new JList(listModel);
 
@@ -157,7 +158,8 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		btnExport.addActionListener(this);
 		this.customer = currentCustomer;
 	}
-	public void arrangeInLayouts(){
+
+	public void arrangeInLayouts() {
 		setLayout(new BorderLayout());
 		// main grid layout panel
 		JPanel pnlMain = new JPanel();

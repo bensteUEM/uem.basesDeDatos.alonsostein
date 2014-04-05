@@ -129,7 +129,6 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		btnCall = new JButton("Call");
 		btnMonthlyBill = new JButton("Monthly bill");
 		btnPay = new JButton("Pay by User ID");
-		btnAddCustomer = new JButton("Add a new Customer");
 		btnAllCustomer = new JButton("Show all Customers");
 		menAllCustomer = new JMenuItem("Show all Customers");
 		btnCompanyRev = new JButton("Compute Balances & Show Company Revenue");
@@ -149,7 +148,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		buttonElements.add(btnCall);
 		buttonElements.add(btnMonthlyBill);
 		buttonElements.add(btnPay);
-		buttonElements.add(btnAddCustomer);
+		buttonElements.add(new JButton("Add a new Customer"));
 		buttonElements.add(btnAllCustomer);
 		buttonElements.add(btnCompanyRev);
 		buttonElements.add(btnCustomersAboveRate);
@@ -493,7 +492,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void onLoadMinimumBalance(ActionEvent ae) {
 		DataFile d = new DataFile("MinimumBalance");
 		this.b = d.importMinimumBalanceExcel2013();
-		System.out.println(b);
+		JOptionPane.showMessageDialog(this,
+			    "Minimum balance loaded");
 	}
 
 	/**
