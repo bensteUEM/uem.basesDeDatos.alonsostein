@@ -147,17 +147,36 @@ public class PbesSQL extends Pbes {
 		LOG.entering("PbesSQL", "getCustomer");
 		String query = "SELECT * FROM Customers WHERE ID=" + searchId + ";";
 		LOG.finest("Defined following SQL query: " + query);
-		CustomerSQL customer = (CustomerSQL) db.ownSQLCommand(query,
-				"CustomerSQL");
-		LOG.exiting("PbesSQL", "getCustomer");
+		/*
+		 * WORKAROUND required because of missing SQL Function
+		 * 
+		 * CustomerSQL customer = (CustomerSQL) 
+		 * db.ownSQLCommand(query,"CustomerSQL");
+		 * 
+		 * original code: LOG.exiting("PbesSQL", "getCustomer");
+		 */
+		LOG.info("WORKAROUND applied because of missing function in SQLite API");	
+		Object temp = db.ownSQLCommand(query, "ArrayList<CustomerAbstract>");
+		LOG.finest("WORKAROUND : got LIST of customers element: " + temp);
+		CustomerSQL customer = null; // init variable
+		if (temp != null) {
+			LOG.finest("END WORKAROUND : >0 return first element");
+			customer = (CustomerSQL) ((ArrayList<CustomerSQL>)temp).get(0);
+		} else {
+			LOG.finest("END WORKAROUND : <0 return null");
+		}
+		/*
+		 * END WORKAROUND
+		 */
+
 		if (customer == null) {
 			LOG.fine("No customer found with this ID");
 			return null;
 		} else {
-			LOG.fine("Customer found with this ID: "+customer);
+			LOG.fine("Customer found with this ID: " + customer);
 			return customer;
-		}//end if null
-	}//end getCustomer method
+		}// end if null
+	}// end getCustomer method
 
 	@Override
 	public boolean deleteCustomer(Integer searchId) {

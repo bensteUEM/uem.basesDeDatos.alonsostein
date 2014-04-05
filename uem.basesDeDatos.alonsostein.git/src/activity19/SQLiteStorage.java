@@ -194,37 +194,58 @@ public class SQLiteStorage {
 						+ args);
 				result = stmt.executeUpdate(sql);
 			} else if (args.equals("CustomerSQL")) {
-				// TODO what happens if result is empty !
-
+				/*
 				LOG.fine("Executing an SQL querry which is expected to return ONE CustomerSQL Object");
 				ResultSet rs = stmt.executeQuery(sql);
 				LOG.fine("Statement Excecuted");
-				if (rs.isLast()) {
-					result = null;
+				
+				 * The following Code can not be used due to an missing SQLite
+				 * function in the API
+				 * 
+				 * if (rs.isLast()) {
+				 * LOG.fine("SQL Database has no results for this query");
+				 * result = null; } else { CustomerSQL customer = new
+				 * CustomerSQL(rs, rs.getInt("ID"), rs.getString("Name"),
+				 * rs.getString("CellPhoneNumber"), LOG, this);
+				 * LOG.fine("CustomerSQL item created with: " + rs.getInt("ID")
+				 * + "//" + rs.getString("Name") + "//" +
+				 * rs.getString("CellPhoneNumber")); result = customer; }
+				 */
+				LOG.warning("USE Workaround in method for missing SQL Function instead");
+				/*
+				 * BEGIN of workaround to be used in functions
+				 */
+				/*
+				ArrayList<CustomerSQL> temp = (ArrayList<CustomerSQL>) ownSQLCommand(
+						sql, "ArrayList<CustomerAbstract>");
+				LOG.finest("WORKAROUND : got element: " + temp);
+				if (temp.size() > 0) {
+					LOG.finest("END WORKAROUND : >0 return first element");
+					return temp.get(0);
 				} else {
-					CustomerSQL customer = new CustomerSQL(rs, rs.getInt("ID"),
-							rs.getString("Name"),
-							rs.getString("CellPhoneNumber"), LOG, this);
-					LOG.fine("CustomerSQL item created with: "
-							+ rs.getInt("ID") + "//" + rs.getString("Name")
-							+ "//" + rs.getString("CellPhoneNumber"));
-					result = customer;
+					LOG.finest("END WORKAROUND : <0 return null");
+					return null;
 				}
+				*/
+				/*
+				 * END of workaround
+				 */
 
 			} else if (args.equals("ArrayList<CustomerAbstract>")) {
 				LOG.fine("Executing an SQL querry which is expected to return an ArrayList of CustomerSQL Objects");
 				// TODO what happens if result is empty !
 				ResultSet rs = stmt.executeQuery(sql);
 				ArrayList<CustomerAbstract> customers = new ArrayList<CustomerAbstract>();
-				if (rs.isLast()) {
-					result = null;
-				} else {
-					while (rs.next()) {
-						CustomerSQL customer = new CustomerSQL(rs,
-								rs.getInt("ID"), rs.getString("Name"),
-								rs.getString("CellPhoneNumber"), LOG, this);
-						customers.add(customer);
-					}
+				/*
+				 * Missing Java API implementation in Wrapper ! if (rs.isLast())
+				 * { LOG.fine("SQL Database has no results for this query");
+				 * result = null; } else {
+				 */
+				while (rs.next()) {
+					CustomerSQL customer = new CustomerSQL(rs, rs.getInt("ID"),
+							rs.getString("Name"),
+							rs.getString("CellPhoneNumber"), LOG, this);
+					customers.add(customer);
 					result = customers;
 				}
 			} else if (args.equals("Integer")) {
