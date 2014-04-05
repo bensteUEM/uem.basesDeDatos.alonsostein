@@ -11,6 +11,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -42,6 +43,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	private Customer customer;
 	private Pbes parent;
 	private CustomerAbstract dataCall;
+	private CustomerCall call;
 
 	/**
 	 * Create the frame.
@@ -105,10 +107,20 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		JLabel lblBilling = new JLabel("Billing information: ");
 
 		// JList for listing calls
-		
-		if (currentCustomer.getCalls().size() > 0){
-			callList = new JList(currentCustomer.getCalls().toArray());
-		}else {
+
+		if (currentCustomer.getCalls().size() > 0) {
+			// callList = new JList(currentCustomer.getCalls().toArray());
+			DefaultListModel listModel;
+			listModel = new DefaultListModel();
+			listModel.addElement("Rate: "
+					+ currentCustomer.getRate().toString());
+			for (int i = 0; i < currentCustomer.getCalls().size(); i++) {
+				listModel.addElement("Call: " + i+1
+						+ currentCustomer.getCalls().get(i).toString());
+			}
+			callList = new JList(listModel);
+
+		} else {
 			callList = new JList<CustomerCall>();
 		}
 
@@ -250,10 +262,9 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 
 		// Billing information
 		/*
-		for (CustomerCall call : currentCustomer.getCalls()) {
-			callList.addElement(call);
-		}
-		*/
+		 * for (CustomerCall call : currentCustomer.getCalls()) {
+		 * callList.addElement(call); }
+		 */
 		// Buttons
 
 		btnChangeId = new JButton("Change ID");
