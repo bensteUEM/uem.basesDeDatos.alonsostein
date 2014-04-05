@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.logging.Logger;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -21,9 +22,11 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import activity10.Pbes;
+import activity19.SQLiteStorage;
 
 public class GuiUserModificator extends JFrame implements ActionListener {
-
+	private final static Logger LOG = Logger.getLogger(SQLiteStorage.class
+			.getName());
 	private static final long serialVersionUID = -609295754837654259L;
 	private JPanel contentPane;
 	private JTextField textFieldName;
@@ -95,9 +98,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		textFieldBalance = new JTextField(currentCustomer.getBalance()
 				.toString());
 		lblBilling = new JLabel("Billing information: ");
-		if (currentCustomer.getCalls().size() > 0) {
-			callList = new JList<String>();
-		}
+		callList = new JList<String>();
 		listScroller = new JScrollPane(callList);
 		btnChangeId = new JButton("Change ID");
 		btnSave = new JButton("Save");
@@ -112,8 +113,6 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); // set Borders
 		setContentPane(contentPane);
 
-		JLabel lblCustomerInformation = new JLabel("CUSTOMER INFORMATION");
-		lblCustomerInformation.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldName.setColumns(10);
 		textFieldId.setEditable(false); // disable editing for this field
 										// because it's the identifier
