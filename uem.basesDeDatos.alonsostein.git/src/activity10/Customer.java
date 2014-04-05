@@ -421,4 +421,14 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		} // end for all items
 		return result;
 	} // end exportText()
+	public ArrayList<CustomerCall> getBill(Integer id){
+		if(id == null){
+			return this.getCalls();
+		}
+		else{
+			
+			return this.getCalls();
+		}
+
+	}
 } // end class
