@@ -34,6 +34,10 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 	private Pbes parent;
 	CustomerCall call;
 	private JTextArea textAreaInfo;
+	private JLabel lblCustomerInformation;
+	private JLabel lblInfo;
+	private JLabel lblName;
+	private JLabel lblId;
 
 	public GuiCallPlacement(Pbes sourceParent, Customer currentCustomer) { // method
 																			// to
@@ -46,57 +50,9 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 																			// placement
 		this.parent = sourceParent;
 		this.parent.setVisible(false);
-		this.setVisible(true);
-		setBounds(100, 100, 450, 335);
-		contentPane = new JPanel();
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // set to add a
-																// custom close
-																// operation
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(new GridLayout(5, 2, 0, 0));
-
-		this.setTitle("CALL PLACEMENT");
-		JLabel lblCustomerInformation = new JLabel("Welcome "
-				+ currentCustomer.getName());
-		lblCustomerInformation.setHorizontalAlignment(SwingConstants.CENTER);
-		contentPane.add(lblCustomerInformation);
-
-		JLabel lblInfo = new JLabel("");
-		contentPane.add(lblInfo);
-
-		JLabel lblName = new JLabel("Your cellphone number");
-		contentPane.add(lblName);
-
-		// set the text field of for the phone number of the caller
-		textFieldCellPhoneNumber = new JTextField(
-				currentCustomer.getCellPhoneNumber());
-		textFieldCellPhoneNumber.setEditable(false);
-		contentPane.add(textFieldCellPhoneNumber);
-		textFieldCellPhoneNumber.setColumns(10);
-
-		JLabel lblId = new JLabel("Enter the number you want to call");
-		contentPane.add(lblId);
-		// set the text field for the number to call
-		textFieldNumberToCall = new JTextField(20);
-		this.numberToCall = textFieldNumberToCall.getText();
-		contentPane.add(textFieldNumberToCall);
-		// create a button to start the call
-		btnCall = new JButton("Call");
-		contentPane.add(btnCall);
-		btnCall.addActionListener(this);
-		// create a button to hang up
-		btnHangUp = new JButton("Hang up");
-		contentPane.add(btnHangUp);
-		btnHangUp.addActionListener(this);
-		btnHangUp.setVisible(false);
-		// crate a text area to show the call information
-		textAreaInfo = new JTextArea(15, 20);
-		textAreaInfo.setEditable(false);
-		contentPane.add(textAreaInfo);
-		textAreaInfo.setVisible(false);
-
-		customer = currentCustomer;
+		createElements(currentCustomer);
+		fillInformation();
+		arrangeInLayouts();
 
 		// method to set a custom close operation
 		addWindowListener(new WindowAdapter() {
@@ -116,6 +72,56 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 			this.onHangUp(e);
 		}
 	} // end of actionPerformed
+	
+	public void createElements(Customer currentCustomer){
+		this.setVisible(true);
+		setBounds(100, 100, 450, 335);
+		contentPane = new JPanel();
+		lblCustomerInformation = new JLabel("Welcome "
+				+ currentCustomer.getName());
+		lblInfo = new JLabel("");
+
+		lblName = new JLabel("Your cellphone number");
+		textFieldCellPhoneNumber = new JTextField(
+				currentCustomer.getCellPhoneNumber());
+		lblId = new JLabel("Enter the number you want to call");
+		textFieldNumberToCall = new JTextField(20);
+		btnCall = new JButton("Call");
+		btnHangUp = new JButton("Hang up");
+		textAreaInfo = new JTextArea(15, 20);
+		customer = currentCustomer;
+	}
+	
+	public void fillInformation(){
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // set to add a
+																// custom close
+																// operation
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new GridLayout(5, 2, 0, 0));
+		this.setTitle("CALL PLACEMENT");
+		lblCustomerInformation.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldCellPhoneNumber.setEditable(false);
+		textFieldCellPhoneNumber.setColumns(10);
+		this.numberToCall = textFieldNumberToCall.getText();
+		btnCall.addActionListener(this);
+		btnHangUp.addActionListener(this);
+		btnHangUp.setVisible(false);
+		textAreaInfo.setEditable(false);
+		textAreaInfo.setVisible(false);
+	}
+	
+	public void arrangeInLayouts(){
+		setContentPane(contentPane);
+		contentPane.add(lblCustomerInformation);
+		contentPane.add(lblInfo);
+		contentPane.add(lblName);
+		contentPane.add(textFieldCellPhoneNumber);
+		contentPane.add(lblId);
+		contentPane.add(textFieldNumberToCall);
+		contentPane.add(btnCall);
+		contentPane.add(btnHangUp);
+		contentPane.add(textAreaInfo);		
+	}
 
 	public void onExit() { // when the GUI for the call is closed
 		this.setVisible(false); // set this gui to not visible
