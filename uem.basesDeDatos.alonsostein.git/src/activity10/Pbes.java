@@ -32,21 +32,6 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	protected BigDecimal b = new BigDecimal(0); // store the minimum balance
 	final Color UEMCOLOR = new Color(143, 27, 39);
 
-	private JButton btnSearch;
-	private JButton btnDelete;
-	private JButton btnAddCustomer;
-	private JButton btnCall;
-	private JButton btnMonthlyBill;
-	private JButton btnCustomersAboveRate;
-	private JButton btnPay;
-	private JButton btnAllCustomer;
-
-	private JButton btnCompanyRev;
-	private JButton btnCalcBalance;
-	private JButton btnCalcRev;
-	private JButton btnCustFromText;
-	private JButton btnCustToText;
-
 	private JMenuItem menImportCustomer;
 	private JMenuItem menExportCustomer;
 	private JMenuItem menExportCustomerExcel;
@@ -113,38 +98,27 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		// User Search Button by ID
 		buttonElements = new ArrayList <JButton>();
 		
-		btnSearch = new JButton("Search User by ID");
-		btnCall = new JButton("Call");
-		btnMonthlyBill = new JButton("Monthly bill");
-		btnPay = new JButton("Pay by User ID");
-		btnAllCustomer = new JButton("Show all Customers");
+		
 		menAllCustomer = new JMenuItem("Show all Customers");
-		btnCompanyRev = new JButton("Compute Balances & Show Company Revenue");
-		btnCustomersAboveRate = new JButton("Show Customers Above Rate");
-		btnCalcBalance = new JButton("Calculate Balance");
 		menCalcBalances = new JMenuItem("Calculate Balances");
-		btnCalcRev = new JButton("Calculate Revenue");
 		menCalcRev = new JMenuItem("Calculate Revenue");
-		btnCustFromText = new JButton("Import customers");
 		menImportCustomer = new JMenuItem("Import customers from CSV");
-		btnCustToText = new JButton("Export customers to CSV");
 		menExportCustomer = new JMenuItem("Export customers to CSV");
 		menExportCustomerExcel = new JMenuItem("Export customers to Excel2013");
 		menMinimumBalance = new JMenuItem("Import minimum balance from Excel");
-		btnDelete = new JButton("Delete User by ID");
-		buttonElements.add(btnSearch);
-		buttonElements.add(btnCall);
-		buttonElements.add(btnMonthlyBill);
-		buttonElements.add(btnPay);
+		buttonElements.add(new JButton("Search User by ID"));
+		buttonElements.add(new JButton("Call"));
+		buttonElements.add(new JButton("Monthly bill"));
+		buttonElements.add(new JButton("Pay by User ID"));
 		buttonElements.add(new JButton("Add a new Customer"));
-		buttonElements.add(btnAllCustomer);
-		buttonElements.add(btnCompanyRev);
-		buttonElements.add(btnCustomersAboveRate);
-		buttonElements.add(btnCalcBalance);
-		buttonElements.add(btnCalcRev);
-		buttonElements.add(btnCustFromText);
-		buttonElements.add(btnCustToText);
-		buttonElements.add(btnDelete);
+		buttonElements.add(new JButton("Show all Customers"));
+		buttonElements.add(new JButton("Compute Balances & Show Company Revenue"));
+		buttonElements.add(new JButton("Show Customers Above Rate"));
+		buttonElements.add(new JButton("Calculate Balance"));
+		buttonElements.add(new JButton("Calculate Revenue"));
+		buttonElements.add(new JButton("Import customers"));
+		buttonElements.add(new JButton("Export customers to CSV"));
+		buttonElements.add(new JButton("Delete User by ID"));
 		
 	}
 
@@ -161,20 +135,6 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		txtSearch.setColumns(10); // Clums for Textfield
 		txtMoney.setToolTipText("enter amount of Money in Cents"); // set																	// tooltip
 		txtMoney.setColumns(10); // set width
-		// User Search Button by ID
-		// creation of new Button and its appearance
-		btnSearch.setMnemonic('s'); // set key shortcut
-		// User Call Button by ID
-		// creation of new Button and its appearance
-		btnCall.setMnemonic('c'); // set key shortcut
-		// User Monthly bill Button by ID
-		// creation of new Button and its appearance
-		btnMonthlyBill.setMnemonic('m'); // set key shortcut
-		btnPay.setSize(40, 40);
-		btnPay.setEnabled(false); // Disable additional feature for evaluation
-		// Button to add a new customer - same implementation as Search
-		btnAddCustomer.setEnabled(true);
-		btnDelete.setMnemonic('d');
 
 	}
 
@@ -195,11 +155,11 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		JPanel pnlTopRight = new JPanel();
 		pnlTopRight.setLayout(new GridLayout(1, 3));
 		pnlMain.add(pnlTopRight);
-		pnlTopRight.add(btnSearch);
-		pnlTopRight.add(btnDelete);
-		pnlTopRight.add(btnAddCustomer);
-		pnlTopRight.add(btnCall);
-		pnlTopRight.add(btnMonthlyBill);
+		pnlTopRight.add(buttonElements.get(0));
+		pnlTopRight.add(buttonElements.get(12)); // delete
+		pnlTopRight.add(buttonElements.get(4));	// addcustomer
+		pnlTopRight.add(buttonElements.get(1));	// call
+		pnlTopRight.add(buttonElements.get(2)); 	// monthlyBill
 
 		// subpanel bot-left
 		JPanel pnlBotLeft = new JPanel();
@@ -211,8 +171,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		JPanel pnlBotRight = new JPanel();
 		pnlBotRight.setLayout(new GridLayout(1, 3));
 		pnlMain.add(pnlBotRight);
-		pnlBotRight.add(btnCustomersAboveRate);
-		pnlBotRight.add(btnPay);
+		pnlBotRight.add(buttonElements.get(7));
+		pnlBotRight.add(buttonElements.get(3));
 
 		// Create the menu bar.
 		JMenuBar menuBar = new JMenuBar();
