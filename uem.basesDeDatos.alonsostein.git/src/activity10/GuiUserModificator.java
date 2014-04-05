@@ -115,7 +115,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 			listModel.addElement("Rate: "
 					+ currentCustomer.getRate().toString());
 			for (int i = 0; i < currentCustomer.getCalls().size(); i++) {
-				listModel.addElement("Call: " + i+1
+				listModel.addElement("Call: "
 						+ currentCustomer.getCalls().get(i).toString());
 			}
 			callList = new JList(listModel);

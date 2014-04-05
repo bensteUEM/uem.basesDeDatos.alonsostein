@@ -108,11 +108,13 @@ public class CustomerCall {
 	/**
 	 * @return startTime the time the call started
 	 */
-	public Date getStartTime() {	// getter for the start time of the call
+	public Date getStartTime() { // getter for the start time of the call
 		return this.startTime.getTime();
-	}	// end of getStartTime
-	
-	public String toString(){
-		return this.getDestination()+" - "+this.getDuration()+" - "+this.getStartTime();
+	} // end of getStartTime
+
+	public String toString() {
+		return "Destination: " + this.getDestination() + "  Duration: "
+				+ this.getDuration() + " Cost: " + this.getTotal()
+				+ " Start time: " + this.getStartTime();
 	}
 } // end of class CustomerCall
