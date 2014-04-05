@@ -55,7 +55,7 @@ public class PbesSQL extends Pbes {
 		try {
 			fh = new FileHandler("execution.log");
 			LOG.addHandler(fh);
-			//LOG.setLevel(Level.FINE);
+			// LOG.setLevel(Level.FINE);
 			SimpleFormatter formatter = new SimpleFormatter();
 			fh.setFormatter(formatter);
 		} catch (SecurityException | IOException e) {
@@ -64,7 +64,7 @@ public class PbesSQL extends Pbes {
 		// set deviating GUI Setting
 		this.setTitle("PBES - SQLite Version");
 	}
-	
+
 	@Override
 	public void onAddCustomer(ActionEvent ae) {
 		CustomerSQL newCustomer = new CustomerSQL("", "",
@@ -85,19 +85,19 @@ public class PbesSQL extends Pbes {
 
 	@Override
 	public boolean addCustomer(CustomerAbstract customer) {
-		LOG.entering("PBES SQL","addCustomer");
+		LOG.entering("PBES SQL", "addCustomer");
 		CustomerSQL sqlcustomer = (CustomerSQL) customer;
 		LOG.finest("Casted customer");
-		if (sqlcustomer.getDb() == null){
+		if (sqlcustomer.getDb() == null) {
 			LOG.info("Customer did not have a DB Connection");
 			sqlcustomer.setDb(db);
-			LOG.finest("Added following DB to the Customer"+db);
+			LOG.finest("Added following DB to the Customer" + db);
 		}
 		LOG.finest("Customer should have a DB now");
-		
+
 		sqlcustomer.setMinBalance(b);
 		LOG.finest("Customer minimum Balance updated with Global Value");
-		
+
 		Integer newId;
 		String query = "SELECT Count(ID) FROM Customers WHERE ID="
 				+ sqlcustomer.getId() + ";";
@@ -109,7 +109,8 @@ public class PbesSQL extends Pbes {
 						.parseInt(JOptionPane
 								.showInputDialog(this,
 										"This ID already exists or has a problematic format please choose a new one"));
-				query = "SELECT Count(ID) FROM Customers WHERE ID="+ newId + ";";
+				query = "SELECT Count(ID) FROM Customers WHERE ID=" + newId
+						+ ";";
 			} catch (Exception e) { // reset ID to original choice
 				newId = sqlcustomer.getId(); // in case ID was not valid format
 			}
@@ -119,7 +120,7 @@ public class PbesSQL extends Pbes {
 		String sql = " INSERT INTO Customers " + sqlcustomer.exportSQLText()
 				+ ";";
 		db.ownSQLCommand(sql, null);
-		LOG.exiting("PbesSQL","addCustomer");
+		LOG.exiting("PbesSQL", "addCustomer");
 		return true;
 	};
 
@@ -143,14 +144,20 @@ public class PbesSQL extends Pbes {
 
 	@Override
 	public CustomerAbstract getCustomer(Integer searchId) {
-		LOG.entering("PbesSQL","getCustomer");
-		String query = "SELECT * FROM Customers WHERE ID=" + searchId+";";
-		LOG.finest("Defined following SQL query: "+query);
+		LOG.entering("PbesSQL", "getCustomer");
+		String query = "SELECT * FROM Customers WHERE ID=" + searchId + ";";
+		LOG.finest("Defined following SQL query: " + query);
 		CustomerSQL customer = (CustomerSQL) db.ownSQLCommand(query,
 				"CustomerSQL");
-		LOG.exiting("PbesSQL","getCustomer");
-		return customer;
-	}
+		LOG.exiting("PbesSQL", "getCustomer");
+		if (customer == null) {
+			LOG.fine("No customer found with this ID");
+			return null;
+		} else {
+			LOG.fine("Customer found with this ID: "+customer);
+			return customer;
+		}//end if null
+	}//end getCustomer method
 
 	@Override
 	public boolean deleteCustomer(Integer searchId) {
@@ -164,15 +171,15 @@ public class PbesSQL extends Pbes {
 	 */
 	@Override
 	public ArrayList<CustomerAbstract> getCustomersAboveRate(Integer rate) {
-		LOG.entering("PbesSQL","getCustomersAboveRate");
+		LOG.entering("PbesSQL", "getCustomersAboveRate");
 		String query = "SELECT * FROM Customers WHERE Rate>" + rate + ";";
 		LOG.finest("defined SQL statement");
 		@SuppressWarnings("unchecked")
 		// is checked with method param
-		ArrayList<CustomerAbstract> customers = (ArrayList<CustomerAbstract>)db.ownSQLCommand(
-				query, "ArrayList<CustomerAbstract>");
-		LOG.fine("excecuted SQL Statement with result: "+customers);
-		LOG.exiting("PbesSQL","getCustomersAboveRate");
+		ArrayList<CustomerAbstract> customers = (ArrayList<CustomerAbstract>) db
+				.ownSQLCommand(query, "ArrayList<CustomerAbstract>");
+		LOG.fine("excecuted SQL Statement with result: " + customers);
+		LOG.exiting("PbesSQL", "getCustomersAboveRate");
 		return customers;
 	}
 

@@ -130,8 +130,7 @@ public class SQLiteStorage {
 
 			String sql4 = "CREATE TABLE CustomerCalls "
 					+ "(ID 						INT 	PRIMARY KEY     NOT NULL,"
-					+ "BillID 					INT		," 
-					+ "OriginID					INT 					NOT NULL,"
+					+ "BillID 					INT		," + "OriginID					INT 					NOT NULL,"
 					+ " Destination				char(50),"
 					+ " startTime				char(50)    			NOT NULL,"
 					+ " Duration 				INT     				NOT NULL,"
@@ -190,35 +189,48 @@ public class SQLiteStorage {
 			this.stmt = c.createStatement();
 			LOG.finest("Statement created: " + this.stmt.toString());
 			if (args == null) {
-				LOG.fine("Executing an SQL querry which is not expected to return a result: "+args);
+				LOG.fine("Executing an SQL querry which is not expected to return a result: "
+						+ args);
 				result = stmt.executeUpdate(sql);
 			} else if (args.equals("CustomerSQL")) {
+				// TODO what happens if result is empty !
+
 				LOG.fine("Executing an SQL querry which is expected to return ONE CustomerSQL Object");
 				ResultSet rs = stmt.executeQuery(sql);
 				LOG.fine("Statement Excecuted");
-				CustomerSQL customer = new CustomerSQL(rs, rs.getInt("ID"),
-						rs.getString("Name"), rs.getString("CellPhoneNumber"),
-						LOG,this);
-				LOG.fine("CustomerSQL item created with: " + rs.getInt("ID")
-						+ "//" + rs.getString("Name") + "//"
-						+ rs.getString("CellPhoneNumber"));
-				result = customer;
-			} else if (args.equals("ArrayList<CustomerAbstract>")) {
-				LOG.fine("Executing an SQL querry which is expected to return an ArrayList of CustomerSQL Objects");
-				ResultSet rs = stmt.executeQuery(sql);
-				ArrayList<CustomerAbstract> customers = new ArrayList<CustomerAbstract>();
-				while (rs.next()) {
+				if (rs.isLast()) {
+					result = null;
+				} else {
 					CustomerSQL customer = new CustomerSQL(rs, rs.getInt("ID"),
 							rs.getString("Name"),
-							rs.getString("CellPhoneNumber"), LOG,this);
-					customers.add(customer);
+							rs.getString("CellPhoneNumber"), LOG, this);
+					LOG.fine("CustomerSQL item created with: "
+							+ rs.getInt("ID") + "//" + rs.getString("Name")
+							+ "//" + rs.getString("CellPhoneNumber"));
+					result = customer;
 				}
-				result = customers;
-			} else if (args.equals("Integer")) {	
+
+			} else if (args.equals("ArrayList<CustomerAbstract>")) {
+				LOG.fine("Executing an SQL querry which is expected to return an ArrayList of CustomerSQL Objects");
+				// TODO what happens if result is empty !
+				ResultSet rs = stmt.executeQuery(sql);
+				ArrayList<CustomerAbstract> customers = new ArrayList<CustomerAbstract>();
+				if (rs.isLast()) {
+					result = null;
+				} else {
+					while (rs.next()) {
+						CustomerSQL customer = new CustomerSQL(rs,
+								rs.getInt("ID"), rs.getString("Name"),
+								rs.getString("CellPhoneNumber"), LOG, this);
+						customers.add(customer);
+					}
+					result = customers;
+				}
+			} else if (args.equals("Integer")) {
 				LOG.fine("Executing an SQL which should return a simple integer");
 				ResultSet rs = stmt.executeQuery(sql);
 				result = rs.getInt(1);
-				LOG.finest("result 1 is: "+result);
+				LOG.finest("result 1 is: " + result);
 			} else if (args.equals("BigDecimal")) {
 				LOG.fine("Executing an SQL querry which is expected to return a Double - Balance for one or more than one customer");
 				ResultSet rs = stmt.executeQuery(sql);
