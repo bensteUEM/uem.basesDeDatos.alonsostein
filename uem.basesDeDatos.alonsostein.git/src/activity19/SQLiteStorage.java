@@ -181,6 +181,7 @@ public class SQLiteStorage {
 	 *            - arguments e.g. expected return class
 	 * @return value depending on args
 	 */
+	@SuppressWarnings("unchecked")
 	public Object ownSQLCommand(String sql, String args) {
 		LOG.entering("SQLiteStorage", "ownSQLCommand");
 		LOG.fine("Attempting to execute following SQL Statement: " + sql);
