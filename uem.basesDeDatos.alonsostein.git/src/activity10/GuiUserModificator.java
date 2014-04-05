@@ -156,14 +156,14 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		JPanel pnlTop2 = new JPanel();
 		pnlTop2.setLayout(new GridLayout(7, 2));
 		pnlMain.add(pnlTop2);
-		pnlTop2.add(lblName);
-		pnlTop2.add(textFieldName);
 		pnlTop2.add(lblId);
 		pnlTop2.add(textFieldId);
-		pnlTop2.add(lblCell);
-		pnlTop2.add(textFieldCell);
 		pnlTop2.add(lblRate);
 		pnlTop2.add(textFieldRate);
+		pnlTop2.add(lblName);
+		pnlTop2.add(textFieldName);
+		pnlTop2.add(lblCell);
+		pnlTop2.add(textFieldCell);
 		pnlTop2.add(lblLand);
 		pnlTop2.add(textFieldLand);
 		pnlTop2.add(lblAirtime);
