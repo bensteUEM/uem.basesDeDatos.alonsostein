@@ -135,6 +135,13 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		txtSearch.setColumns(10); // Clums for Textfield
 		txtMoney.setToolTipText("enter amount of Money in Cents"); // set																	// tooltip
 		txtMoney.setColumns(10); // set width
+		menImportCustomer.addActionListener(this);
+		menExportCustomer.addActionListener(this);
+		menExportCustomerExcel.addActionListener(this);
+		menMinimumBalance.addActionListener(this);
+		menAllCustomer.addActionListener(this);
+		menCalcBalances.addActionListener(this);
+		menCalcRev.addActionListener(this);
 
 	}
 
