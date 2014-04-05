@@ -34,7 +34,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 
 	private JButton btnSearch;
 	private JButton btnDelete;
-	private JButton btnAddCustomer;
+	private JButton btnAddCustomer = new JButton("Add a new Customer"); // TEMP FIX for debugigng needed remove with new version of luis2 branch
 	private JButton btnCall;
 	private JButton btnMonthlyBill;
 	private JButton btnCustomersAboveRate;
@@ -136,7 +136,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		buttonElements.add(btnCall);
 		buttonElements.add(btnMonthlyBill);
 		buttonElements.add(btnPay);
-		buttonElements.add(new JButton("Add a new Customer"));
+		buttonElements.add(btnAddCustomer );
 		buttonElements.add(btnAllCustomer);
 		buttonElements.add(btnCompanyRev);
 		buttonElements.add(btnCustomersAboveRate);
@@ -197,7 +197,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		pnlMain.add(pnlTopRight);
 		pnlTopRight.add(btnSearch);
 		pnlTopRight.add(btnDelete);
-		pnlTopRight.add(btnAddCustomer);
+		pnlTopRight.add(btnAddCustomer); 
 		pnlTopRight.add(btnCall);
 		pnlTopRight.add(btnMonthlyBill);
 
