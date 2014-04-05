@@ -201,103 +201,14 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	}
 
 	public void setUserModificator(Customer currentCustomer) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 335);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(new GridLayout(17, 2, 0, 0));
-
-		JLabel lblCustomerInformation = new JLabel("CUSTOMER INFORMATION");
-		lblCustomerInformation.setHorizontalAlignment(SwingConstants.CENTER);
-		contentPane.add(lblCustomerInformation);
-
-		JLabel lblInfo = new JLabel("");
-		contentPane.add(lblInfo);
-
-		JLabel lblName = new JLabel("Name");
-		contentPane.add(lblName);
-
-		textFieldName = new JTextField(currentCustomer.getName());
-		contentPane.add(textFieldName);
-		textFieldName.setColumns(10);
-
-		JLabel lblId = new JLabel("ID number");
-		contentPane.add(lblId);
-
-		textFieldId = new JTextField(Integer.toString(currentCustomer.getId()));
-		textFieldId.setEditable(false); // disable editing for this field
-										// because it's the identifier
-		contentPane.add(textFieldId);
-		textFieldId.setColumns(10);
-
-		JLabel lblCell = new JLabel("Cellphone number");
-		contentPane.add(lblCell);
-
-		textFieldCell = new JTextField(currentCustomer.getCellPhoneNumber());
-		contentPane.add(textFieldCell);
-		textFieldCell.setColumns(10);
-
-		JLabel lblLand = new JLabel("Landline phone number");
-		contentPane.add(lblLand);
-
-		textFieldLand = new JTextField(currentCustomer.getLandlinePhoneNumer());
-		contentPane.add(textFieldLand);
-		textFieldLand.setColumns(10);
-
-		JLabel lblAirtime = new JLabel("Airtime");
-		contentPane.add(lblAirtime);
-
-		textFieldAir = new JTextField(Integer.toString(currentCustomer
-				.getAirtimeMinutes()));
-		contentPane.add(textFieldAir);
-		textFieldAir.setColumns(10);
-
-		JLabel lblRate = new JLabel("Rate");
-		contentPane.add(lblRate);
-
-		textFieldRate = new JTextField(Integer.toString(currentCustomer
-				.getRate()));
-		contentPane.add(textFieldRate);
-		textFieldRate.setColumns(10);
-
-		JLabel lblBalance = new JLabel("Balance");
-		contentPane.add(lblBalance);
-
-		// Balance field
-		textFieldBalance = new JTextField(currentCustomer.getBalance()
-				.toString());
-		textFieldBalance.setEditable(false);
-		textFieldBalance.setColumns(10);
-		contentPane.add(textFieldBalance);
-
-		// Billing information
-		/*
-		 * for (CustomerCall call : currentCustomer.getCalls()) {
-		 * callList.addElement(call); }
-		 */
-		// Buttons
-
-		btnChangeId = new JButton("Change ID");
-		contentPane.add(btnChangeId);
-		btnChangeId.addActionListener(this);
-
-		btnChangeId.setEnabled(true);
-
-		btnSave = new JButton("Save");
-		contentPane.add(btnSave);
-
-		btnImport = new JButton("Import customer from file");
-		contentPane.add(btnImport);
-		btnImport.addActionListener(this);
-
-		btnExport = new JButton("Export customer to file");
-		contentPane.add(btnExport);
-		btnExport.addActionListener(this);
-
-		this.customer = currentCustomer;
-
-		btnSave.addActionListener(this);
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent evt) {
+				onExit();
+			}
+		});
+		createElements(currentCustomer);
+		fillInformation(currentCustomer);
+		arrangeInLayouts();
 		this.setVisible(true);
 	}
 
