@@ -10,6 +10,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -64,7 +66,17 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		createElements(currentCustomer);
 		fillInformation(currentCustomer);
 		arrangeInLayouts();
+		// Custom closing window
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent evt) {
+				onExit();
+			}
+		});
 	}
+	public void onExit() { // when the GUI for the call is closed
+		this.setVisible(false); // set this gui to not visible
+		parent.setVisible(true); // and set the main GUI visible
+	} // end of onExit
 
 	public void createElements(Customer currentCustomer) {
 		this.setVisible(true);
