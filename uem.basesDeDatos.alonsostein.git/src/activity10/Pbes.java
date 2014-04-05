@@ -168,80 +168,26 @@ public class Pbes extends PbesAbstract implements ActionListener {
 
 		for(int i=0; i<buttonElements.size(); i++){
 			buttonElements.get(i).addActionListener(this);
-		}
-		
+		}		
 		txtSearch.setToolTipText("enter the User ID here"); // set tooltip
 		txtSearch.setText("0"); // set Text to value of 0
 		txtSearch.setColumns(10); // Clums for Textfield
-
-		txtMoney.setToolTipText("enter amount of Money in Cents"); // set
-																	// tooltip
+		txtMoney.setToolTipText("enter amount of Money in Cents"); // set																	// tooltip
 		txtMoney.setColumns(10); // set width
-		
-		
-
 		// User Search Button by ID
 		// creation of new Button and its appearance
 		btnSearch.setMnemonic('s'); // set key shortcut
-		//btnSearch.addActionListener(this); // link action
-
 		// User Call Button by ID
 		// creation of new Button and its appearance
 		btnCall.setMnemonic('c'); // set key shortcut
-		//btnCall.addActionListener(this); // link action
-
 		// User Monthly bill Button by ID
 		// creation of new Button and its appearance
 		btnMonthlyBill.setMnemonic('m'); // set key shortcut
-		//btnMonthlyBill.addActionListener(this); // link action
-
 		btnPay.setSize(40, 40);
 		btnPay.setEnabled(false); // Disable additional feature for evaluation
-		//btnPay.addActionListener(this);
-
 		// Button to add a new customer - same implementation as Search
 		btnAddCustomer.setEnabled(true);
-		//btnAddCustomer.addActionListener(this);
-
-		// Show all customer Button - same implementation as Search
-		//btnAllCustomer.addActionListener(this);
-		// Added new Menu Item Style
-		//menAllCustomer.addActionListener(this);
-
-		// Button that shows customer revenue - same implementation as Search
-		//btnCompanyRev.addActionListener(this);
-
-		// Button CustomersAboveRate - same implementation as Search
-		//btnCustomersAboveRate.addActionListener(this);
-
-		// Button CalcBalance - same implementation as Search
-		//btnCalcBalance.addActionListener(this);
-		// Added new Menu Item Style //TODO
-		//menCalcBalances.addActionListener(this);
-
-		// Button CalcRev - same implementation as Search
-		//btnCalcRev.addActionListener(this);
-		// Added new Menu Item Style
-		//menCalcRev.addActionListener(this);
-
-		// Import customer from text - same implementation as Search
-		//btnCustFromText.addActionListener(this);
-		// Added new Menu Item Style
-		//menImportCustomer.addActionListener(this);
-
-		// Export customer to text - same implementation as Search
-		//btnCustToText.addActionListener(this);
-
-		// Added new Menu Item Style
-		//menExportCustomer.addActionListener(this);
-		// Added new Menu Item Style
-		//menExportCustomerExcel.addActionListener(this);
-		// Added new menu item to inport minimum balance from excel
-		//menMinimumBalance.addActionListener(this);
-
-		// User Delete button by ID - same implementation as Search
 		btnDelete.setMnemonic('d');
-		//btnDelete.addActionListener(this);
 
 	}
 
