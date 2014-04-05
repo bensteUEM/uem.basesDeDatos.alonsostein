@@ -36,7 +36,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	private JTextField textFieldLand;
 	private JTextField textFieldAir;
 	private JTextField textFieldBalance;
-	private JList<String> callList;
+	private DefaultListModel<String> callList;
 	private JButton btnChangeId;
 	private JButton btnSave;
 	private JButton btnImport;
@@ -98,8 +98,9 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		textFieldBalance = new JTextField(currentCustomer.getBalance()
 				.toString());
 		lblBilling = new JLabel("Billing information: ");
-		callList = new JList<String>();
-		listScroller = new JScrollPane(callList);
+		callList = new DefaultListModel<String>();
+		JList<String> jliCalls = new JList<String>(callList);
+		listScroller = new JScrollPane(jliCalls);
 		btnChangeId = new JButton("Change ID");
 		btnSave = new JButton("Save");
 		btnImport = new JButton("Import customer from file");
@@ -127,18 +128,19 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		textFieldBalance.setColumns(10);
 
 		// JList for listing calls	
-		DefaultListModel<String> listModel = new DefaultListModel<String>(); // to disapear with #83
-		
+		LOG.fine("preparing to fill existing calls");		
 		if (currentCustomer.getCalls() != null){
-			// callList = new JList(currentCustomer.getCalls().toArray());
-			listModel.addElement("Rate: "
+			// http://docs.oracle.com/javase/8/docs/api/javax/swing/DefaultListModel.html#addElement-E-
+			callList.addElement("Rate: "
 					+ currentCustomer.getRate().toString());
 			for (int i = 0; i < currentCustomer.getCalls().size(); i++) {
-				listModel.addElement(currentCustomer.getCalls().get(i)
+				callList.addElement(currentCustomer.getCalls().get(i)
 						.toString());
 			}
-			callList = new JList<String>(listModel);
+			LOG.finest("added following call to List");
 		}
+		LOG.fine("populated list with all calls");
+		
 		btnChangeId.addActionListener(this);
 		btnChangeId.setEnabled(true);
 		btnSave.addActionListener(this);
