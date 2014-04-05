@@ -41,7 +41,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	private JButton btnSave;
 	private JButton btnImport;
 	private JButton btnExport;
-	private Customer customer;
+	private CustomerAbstract customer;
 	private Pbes parent;
 	// private CustomerAbstract dataCall; // remove in future if no issues
 	// private CustomerCall call; // remove in future if no issues
@@ -58,7 +58,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	/**
 	 * Create the frame.
 	 */
-	public GuiUserModificator(Pbes sourceParent, Customer currentCustomer) {
+	public GuiUserModificator(Pbes sourceParent, CustomerAbstract currentCustomer) {
 		this.parent = sourceParent;
 		this.parent.setVisible(false);
 		createElements(currentCustomer);
@@ -77,7 +77,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		parent.setVisible(true); // and set the main GUI visible
 	} // end of onExit
 
-	public void createElements(Customer currentCustomer) {
+	public void createElements(CustomerAbstract currentCustomer) {
 		this.setVisible(true);
 		contentPane = new JPanel(); // creation of content Pane
 		lblName = new JLabel("Name");
@@ -108,7 +108,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		this.customer = currentCustomer;
 	}
 
-	public void fillInformation(Customer currentCustomer) {
+	public void fillInformation(CustomerAbstract currentCustomer) {
 		setBounds(100, 100, 1200, 500); // set the bounds of the mainframe
 		this.setTitle("CUSTOMER INFORMATION");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); // set Borders
@@ -192,14 +192,14 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		pnlBot2.add(btnChangeId);
 	}
 
-	public void setUserModificator(Customer currentCustomer) {
+	public void setUserModificator(CustomerAbstract customer2) {
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent evt) {
 				onExit();
 			}
 		});
-		createElements(currentCustomer);
-		fillInformation(currentCustomer);
+		createElements(customer2);
+		fillInformation(customer2);
 		arrangeInLayouts();
 		this.setVisible(true);
 	}
@@ -287,7 +287,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 
 	public void onExportCustomer(ActionEvent ae) {
 		this.onSave(ae);
-		Customer[] customerToExport = new Customer[1]; // as in this case we
+		CustomerAbstract[] customerToExport = new Customer[1]; // as in this case we
 														// want to
 		// add only one customer, it
 		// creates an array of 1 element
@@ -394,7 +394,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	 * 
 	 * @return Customer customer object of this GUI
 	 */
-	public Customer getCustomer() {
+	public CustomerAbstract getCustomer() {
 		return this.customer;
 	}
 }

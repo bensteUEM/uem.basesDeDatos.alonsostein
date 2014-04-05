@@ -286,6 +286,7 @@ public class SQLiteStorage {
 					ArrayList<CustomerAbstract> customers = (ArrayList<CustomerAbstract>) this
 							.ownSQLCommand(query2, "ArrayList<Customer>");
 					CustomerAbstract newOrigin = customers.get(0);
+					LOG.finest("The current user associated as origin is: "+newOrigin);
 
 					// Calendar Part
 					LOG.finest("creating Calendar and importing start Date");

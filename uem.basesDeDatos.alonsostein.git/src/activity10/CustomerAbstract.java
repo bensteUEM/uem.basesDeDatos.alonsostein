@@ -102,4 +102,7 @@ public abstract class CustomerAbstract {
 	}
 
 	public abstract ArrayList<CustomerCall> getCalls();
+	public abstract boolean setName(String text);
+	public abstract boolean setCellPhoneNumber(String text);
+	public abstract boolean setId(Integer newId);
 }

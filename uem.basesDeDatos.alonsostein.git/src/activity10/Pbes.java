@@ -296,7 +296,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		GuiUserModificator editor = null; // init Modificator
 		if (this.getCustomer(searchId) != null) { // check that user exists
 			editor = new GuiUserModificator(this,
-					(Customer) this.getCustomer(searchId));
+					this.getCustomer(searchId));
 			// create a new editor with the user found
 		} else {// user not found
 			JOptionPane.showMessageDialog(this, "User with ID: " + searchId

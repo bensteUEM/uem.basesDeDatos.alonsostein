@@ -317,8 +317,8 @@ public class DataFile {
 		} // end of try
 	}// end of import minimum Balance
 
-	public DataFile(Customer[] customers) {
-		this.groupOfCustomers = customers;
+	public DataFile(CustomerAbstract[] customerToExport) {
+		this.groupOfCustomers = customerToExport;
 		this.fileName = "data_customers";
 	} // end of constructor
 
