@@ -127,27 +127,19 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 
 		textFieldBalance.setEditable(false);
 		textFieldBalance.setColumns(10);
-		
-		//JList for listing calls
-		/*
-		for (int i = 0; i < ((Customer) currentCustomer).getBillText(
-				currentCustomer.getId()).size(); i++) {
-			callList.addElement(((Customer) currentCustomer)
-					.getBillText(currentCustomer.getId()).get(i));
+
+		LOG.fine("preparing to fill existing calls");
+		if (currentCustomer.getCalls() != null) {
+			// http://docs.oracle.com/javase/8/docs/api/javax/swing/DefaultListModel.html#addElement-E-
+			for (int i = 0; i < ((Customer) currentCustomer).getBillText(
+					currentCustomer.getId()).size(); i++) {
+				callList.addElement(((Customer) currentCustomer).getBillText(
+						currentCustomer.getId()).get(i));
+			}
+			LOG.finest("added following call to List");
 		}
-		*/
-		
-		// JList for listing calls	
-		 		LOG.fine("preparing to fill existing calls");		
-		 		if (currentCustomer.getCalls() != null){
-		 			// http://docs.oracle.com/javase/8/docs/api/javax/swing/DefaultListModel.html#addElement-E-
-		 			for (int i = 0; i < ((Customer) currentCustomer).getBillText(currentCustomer.getId()).size(); i++) {
-		 				callList.addElement(((Customer) currentCustomer).getBillText(currentCustomer.getId()).get(i));
-		 			}
-		 			LOG.finest("added following call to List");
-		 		}
-		 		LOG.fine("populated list with all calls");
-		
+		LOG.fine("populated list with all calls");
+
 		btnChangeId.addActionListener(this);
 		btnChangeId.setEnabled(true);
 		btnSave.addActionListener(this);
