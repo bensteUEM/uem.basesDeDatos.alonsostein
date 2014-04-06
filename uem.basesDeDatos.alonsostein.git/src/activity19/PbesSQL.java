@@ -180,7 +180,13 @@ public class PbesSQL extends Pbes {
 
 	@Override
 	public boolean deleteCustomer(Integer searchId) {
-		return false; // TODO not yet implemented
+		LOG.entering("PbesSQL", "deleteCustomer");
+		String query = "DELETE FROM Customers WHERE ID="
+				+ searchId + ";";	
+		LOG.finer("Defined SQL query: "+query);
+		db.ownSQLCommand(query, null);
+		LOG.exiting("PbesSQL", "deleteCustomer");
+		return true;
 	}
 
 	/**
