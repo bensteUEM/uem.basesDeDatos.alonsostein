@@ -105,9 +105,9 @@ public class CustomerCall {
 	} // end of getStartTime
 
 	public String toString() {
-		return "Destination: " + this.getDestination() + "  Duration: "
-				+ this.getDuration() + " Cost: " + this.getTotal()
-				+ " Start time: " + this.getStartTime();
+		return "Destination: " + this.getDestination() + " \t Duration: "
+				+ this.getDuration() + "\t Cost: " + this.getTotal()
+				+ "\t Start time: " + this.getStartTime();
 	} // end function
 
 	/**
