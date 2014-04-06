@@ -241,7 +241,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		// SQL part
 		// TODO - currently outside of specification but future improvement of multiple Bills
 		
-		bill.setFileName("Bill-SQLID-"+this.getCustomer().getName());
+		bill.setFileName("");
 		
 		JOptionPane.showMessageDialog(this,
 				bill.exportCustomerBill((Customer) this.getCustomer()));

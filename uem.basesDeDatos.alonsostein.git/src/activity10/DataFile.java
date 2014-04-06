@@ -54,6 +54,7 @@ public class DataFile {
 
 	/**
 	 * Export the customers Bill to a textfile
+	 * 
 	 * @return File Location
 	 */
 	public String exportCustomerBill(CustomerAbstract customer) {
@@ -69,7 +70,8 @@ public class DataFile {
 			Date currentDate = Calendar.getInstance().getTime();
 			
 			// 1. OPEN
-			File path = new File("Bills"+File.separator+this.fileName+"_"+customer.getName()+sdf2.format(currentDate)+".txt");
+			//this.fileName+"_"
+			File path = new File("Bills"+File.separator+customer.getName()+"-"+sdf2.format(currentDate)+".txt");
 			String fileName = path.getPath();
 			// 2. Create Writer
 			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
@@ -111,13 +113,13 @@ public class DataFile {
 			writer.newLine();
 			// get the billing text from Customer class
 
-			for (int i = 0; i < customer.getBillText(
-					customer.getId()).size(); i++) {
-				writer.write(customer.getBillText(
-						customer.getId()).get(i));
+			//TODO specify Bill ID
+			for (String textline : customer.getBillText(null)) {
+				writer.write(textline);
 				writer.newLine();
 			} // end for
 
+			
 			writer.write("====");
 			writer.newLine();
 			// 5b - minimum Consumption Advice
@@ -137,44 +139,43 @@ public class DataFile {
 			
 		} // end try
 	}
-	public void createBillCalls(CustomerAbstract customer){
+
+	public void createBillCalls(CustomerAbstract customer) {
 		try {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		File path = new File(this.fileName + ".txt");
-		String fileName = path.getPath();
-		// 2. Create Writer
-		BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
-				true));
-		// get the billing text from Customer class
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			File path = new File(this.fileName + ".txt");
+			String fileName = path.getPath();
+			// 2. Create Writer
+			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
+					true));
+			// get the billing text from Customer class
 
-					for (int i = 0; i < customer.getBillText(
-							customer.getId()).size(); i++) {
-						writer.write(customer.getBillText(
-								customer.getId()).get(i));
-						writer.newLine();
-					} // end for
+			for (int i = 0; i < customer.getBillText(customer.getId()).size(); i++) {
+				writer.write(customer.getBillText(customer.getId()).get(i));
+				writer.newLine();
+			} // end for
 
-					writer.write("====");
-					writer.newLine();
-					// 5b - minimum Consumption Advice
-					if (customer.getBalance() == customer.getMinBalance()) {
-						writer.write("Please be adviced that you are paying the minimum Balance required for your contract!");
-						writer.newLine();
-					}
+			writer.write("====");
+			writer.newLine();
+			// 5b - minimum Consumption Advice
+			if (customer.getBalance() == customer.getMinBalance()) {
+				writer.write("Please be adviced that you are paying the minimum Balance required for your contract!");
+				writer.newLine();
+			}
 
-					// 6. Finish File
-					Date currentDate = Calendar.getInstance().getTime();
-					writer.write("Last updated:" + sdf.format(currentDate));
+			// 6. Finish File
+			Date currentDate = Calendar.getInstance().getTime();
+			writer.write("Last updated:" + sdf.format(currentDate));
 
-					writer.flush();
-					writer.close();
-		
+			writer.flush();
+			writer.close();
+
 		} catch (IOException e) {
 			e.printStackTrace(); // throws a standard error when there are
 									// errors with file handling
 		} // end try
 	}
-	
+
 	/**
 	 * Use this class to export any list of customers
 	 * 

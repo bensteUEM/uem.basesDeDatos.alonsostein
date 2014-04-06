@@ -459,23 +459,15 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 
 	// get calls to create the bill
 	public ArrayList<CustomerCall> getBillCalls(Integer id) {
-		ArrayList<CustomerCall> billCalls = new ArrayList<CustomerCall>();
-		if (id == null) {
-			for (int i = 0; i < this.getCalls().size(); i++) {
-				billCalls.add(this.getCalls().get(i));
-			}
-			return billCalls;
-		} else {
-			for (int i = 0; i < this.getCalls().size(); i++) {
-				billCalls.add(this.getCalls().get(i));
-			}
-
-			return billCalls;
-		}
+		return this.getCalls();
+		//TODO overwrite in SQL Custoemr once Bills get used
 	}
 
-	// create the bill
-	public ArrayList<String> getBillText(Integer id) {
+	/**
+	 * Create Strings for all Calls of the specified bill
+	 * @param id - ID of the CustomerBill NOT of Customer or Call
+	 */
+	public ArrayList<String> getBillText(Integer id) {		
 		ArrayList<String> bill = new ArrayList<String>();
 		for (int i = 0; i < this.getBillCalls(id).size(); i++) {
 			bill.add(getBillCalls(id).get(i).toString());
