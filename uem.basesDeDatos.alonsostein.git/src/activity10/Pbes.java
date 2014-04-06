@@ -495,7 +495,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void onLoadMinimumBalance(ActionEvent ae) {
 		DataFile d = new DataFile("MinimumBalance");
 		this.b = d.importMinimumBalanceExcel2013();
-		JOptionPane.showMessageDialog(this, "Minimum balance loaded");
+		JOptionPane.showMessageDialog(this, "Minimum balance loaded: "+this.b);
 	}
 
 	public void onInitiateDatabase(ActionEvent ae) {

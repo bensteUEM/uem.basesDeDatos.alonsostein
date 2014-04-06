@@ -446,7 +446,12 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		for (int i = 0; i < this.getCalls().size(); i++) {
 			totalBill = totalBill.add(this.getCalls().get(i).getTotal());
 		}
-		billCost = ("Total bill: " + totalBill);
+		
+		if (totalBill.compareTo(this.minBalance) == -1){
+			billCost = "Minimum Consumption not reached : "+this.minBalance;
+		} else {
+			billCost = ("Total bill: " + totalBill);
+		}
 		return billCost;
 	}
 

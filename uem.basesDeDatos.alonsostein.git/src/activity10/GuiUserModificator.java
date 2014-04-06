@@ -65,15 +65,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 			CustomerAbstract currentCustomer) {
 		this.parent = sourceParent;
 		this.parent.setVisible(false);
-		createElements(currentCustomer);
-		fillInformation(currentCustomer);
-		arrangeInLayouts();
-		// Custom closing window
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent evt) {
-				onExit();
-			}
-		});
+		this.setUserModificator(currentCustomer);
 	}
 
 	public void onExit() { // when the GUI for the call is closed
