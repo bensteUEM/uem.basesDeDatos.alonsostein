@@ -54,10 +54,10 @@ public class DataFile {
 
 	/**
 	 * Export the customers Bill to a textfile
+	 * @return File Location
 	 */
-	public void exportCustomerBill(CustomerAbstract customer) {
+	public String exportCustomerBill(CustomerAbstract customer) {
 		try {
-
 			// 0. Calculate Customer Balance
 			Integer previousMinutes = customer.getAirtimeMinutes();
 			customer.addAirtimeMinutesFromCalls();
@@ -65,9 +65,11 @@ public class DataFile {
 
 			// precondition Date Format
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
+			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+			Date currentDate = Calendar.getInstance().getTime();
+			
 			// 1. OPEN
-			File path = new File(this.fileName + ".txt");
+			File path = new File("Bills"+File.separator+this.fileName+"_"+customer.getName()+sdf2.format(currentDate)+".txt");
 			String fileName = path.getPath();
 			// 2. Create Writer
 			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
@@ -127,14 +129,15 @@ public class DataFile {
 			}
 
 			// 6. Finish File
-			Date currentDate = Calendar.getInstance().getTime();
 			writer.write("Last updated:" + sdf.format(currentDate));
 
 			writer.flush();
 			writer.close();
+			return path.getPath();
 		} catch (IOException e) {
-			e.printStackTrace(); // throws a standard error when there are
+			return e.getMessage(); // throws a standard error when there are
 									// errors with file handling
+			
 		} // end try
 	} // end export customer bill
 

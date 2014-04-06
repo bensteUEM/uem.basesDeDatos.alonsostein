@@ -174,14 +174,14 @@ public class Pbes extends PbesAbstract implements ActionListener {
 
 		// subpanel top-right
 		JPanel pnlTopRight = new JPanel();
-		pnlTopRight.setLayout(new GridLayout(1, 3));
+		pnlTopRight.setLayout(new GridLayout(1, 4));
 		pnlMain.add(pnlTopRight);
 
 		pnlTopRight.add(buttonElements.get(0));	// search by id
 		pnlTopRight.add(buttonElements.get(11)); // delete
 		pnlTopRight.add(buttonElements.get(3)); // addcustomer
 		pnlTopRight.add(buttonElements.get(1)); // call
-		pnlTopRight.add(buttonElements.get(2)); // monthlyBill
+		//pnlTopRight.add(buttonElements.get(2)); // monthlyBill
 
 		// subpanel bot-left
 		JPanel pnlBotLeft = new JPanel();
@@ -452,11 +452,19 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void onCalculateMonthlyBill(ActionEvent ae) {
 		Integer searchId = Integer.parseInt(this.txtSearch.getText());
 		if (this.getCustomer(searchId) != null) { // check that user exists
-			DataFile bill = new DataFile();
-			bill.setFileName("Billing_info");
-			bill.exportCustomerBill((Customer) this.getCustomer(searchId));
+			
+			DataFile bill = new DataFile("");
+			
+			// SQL part
+			// TODO - currently outside of specification but future improvement of multiple Bills
+			
+			bill.setFileName("Bill-SQLID-"+this.getCustomer(searchId).getName());
+			
 			JOptionPane.showMessageDialog(this,
-					"User Bill has been saved on the Filesystem");
+					bill.exportCustomerBill((Customer) this.getCustomer(searchId)));
+		
+			JOptionPane.showMessageDialog(this,
+					"User Bill has been saved on the Filesystem");			
 		} else {// user not found
 			JOptionPane.showMessageDialog(this, "User with ID: " + searchId
 					+ " does not exist yet");

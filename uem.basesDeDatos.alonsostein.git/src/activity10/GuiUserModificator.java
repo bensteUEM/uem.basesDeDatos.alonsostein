@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.logging.Logger;
 
 import javax.swing.DefaultListModel;
@@ -41,6 +43,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	private JButton btnSave;
 	private JButton btnImport;
 	private JButton btnExport;
+	private JButton btnBill;
 	private CustomerAbstract customer;
 	private Pbes parent;
 	// private CustomerAbstract dataCall; // remove in future if no issues
@@ -106,6 +109,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		btnSave = new JButton("Save");
 		btnImport = new JButton("Import customer from file");
 		btnExport = new JButton("Export customer to file");
+		btnBill = new JButton("Monthly bill");
 		this.customer = currentCustomer;
 	}
 
@@ -145,6 +149,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		btnSave.addActionListener(this);
 		btnImport.addActionListener(this);
 		btnExport.addActionListener(this);
+		btnBill.addActionListener(this);
 		this.customer = currentCustomer;
 	}
 
@@ -183,12 +188,13 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 
 		// subpanel bot2
 		JPanel pnlBot2 = new JPanel();
-		pnlBot2.setLayout(new GridLayout(2, 2));
+		pnlBot2.setLayout(new GridLayout(2, 4));
 		pnlMain.add(pnlBot2);
 		pnlBot2.add(btnSave);
 		pnlBot2.add(btnImport);
 		pnlBot2.add(btnExport);
 		pnlBot2.add(btnChangeId);
+		pnlBot2.add(btnBill);
 	}
 
 	public void setUserModificator(CustomerAbstract customer2) {
@@ -221,6 +227,8 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 			}
 		} else if (sourceName.contains("Export")) {
 			this.onExportCustomer(e);
+		} else if (sourceName.contains("Monthly bill")) {
+			this.onMonthlyBill();
 		}
 	}
 
@@ -228,6 +236,22 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	 * 
 	 * The following section does have the functions for the buttons
 	 */
+
+	/**
+	 * Function to create a Bill into a text File with all current calls.
+	 * @author benste
+	 */
+	public void onMonthlyBill() {
+		DataFile bill = new DataFile("");
+	
+		// SQL part
+		// TODO - currently outside of specification but future improvement of multiple Bills
+		
+		bill.setFileName("Bill-SQLID-"+this.getCustomer().getName());
+		
+		JOptionPane.showMessageDialog(this,
+				bill.exportCustomerBill((Customer) this.getCustomer()));
+	}
 
 	/**
 	 * This function should be called when the content of the modificator should
