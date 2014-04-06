@@ -40,14 +40,20 @@ public class TestClass {
 				+ testSetCustomerSQL());
 		System.out.println("Test - Read Customer SQL: " + testGetCustomerSQL());
 
-		System.out.println("Test - Write Dummy Call to SQL: " + testSetCall(1,"Target 100", "100"));
-		System.out.println("Test - Write Dummy Call to SQL: " + testSetCall(2,"Target 250", "250"));
-		System.out.println("Test - Write Dummy Call to SQL: " + testSetCall(3,"Target 500", "500"));
-		System.out.println("Test - Write Dummy Call to SQL: " + testSetCall(4,"Target 75", "75"));
+		System.out.println("Test - Write Dummy Call to SQL: "
+				+ testSetCall(1, "Target 1", "1"));
+		System.out.println("Test - Write Dummy Call to SQL: "
+				+ testSetCall(2, "Target 25", "25"));
+		System.out.println("Test - Write Dummy Call to SQL: "
+				+ testSetCall(3, "Target 50", "50"));
+		System.out.println("Test - Write Dummy Call to SQL: "
+				+ testSetCall(4, "Target 75", "75"));
 
-		System.out.println("Test - Create Bill for user 1: "+db.newBill(1, "fakefile", "FakeDATE"));
-		System.out.println("Test - getting Total of Bill 1: "+db.getBillTotal(1));
-		
+		System.out.println("Test - Create Bill for user 1: "
+				+ db.newBill(1, "fakefile", "FakeDATE"));
+		System.out.println("Test - getting Total of Bill 1: "
+				+ db.getBillTotal(1));
+
 		System.out.println("Test -  Calls of Customer: "
 				+ testGetCalls(testGetCustomerSQL()));
 
@@ -100,9 +106,10 @@ public class TestClass {
 	 * Calls
 	 */
 
-	public static boolean testSetCall(int id, String destination, String duration) {
+	public static boolean testSetCall(int id, String destination,
+			String duration) {
 		// ID,BillID,OriginID,
-		String values1 = id+",NULL,1,";
+		String values1 = id + ",NULL,1,";
 		// Destination,startTime<char(50)>,Duration
 		// yyyy-MM-dd HH:mm:ss
 		String values2 = "\'" + destination + "',\'1888-10-05 11:22:33\',"
@@ -118,8 +125,10 @@ public class TestClass {
 		ArrayList<CustomerCall> d = (ArrayList<CustomerCall>) customer
 				.getCalls();
 		if (d.size() > 0) { // has a size
-			System.out.println("\tFound Call: " + d.get(0)); // has a first
-																// element ?
+			for (CustomerCall call : d) {
+				System.out.println("\tFound Call: " + call); // has a first
+															// element ?
+			}
 		} else {
 			System.out.println("\tCustomer has no Calls");
 		}

@@ -270,7 +270,7 @@ public class SQLiteStorage {
 				while (rs.next()) {
 					BigDecimal value = new BigDecimal(
 							rs.getInt("AirtimeMinutes") * rs.getInt("Rate")
-									/ 60.0, new MathContext(3,
+									/ 60.0 / 100.0, new MathContext(3,
 									RoundingMode.HALF_UP));
 					money = money.add(value);
 				}
