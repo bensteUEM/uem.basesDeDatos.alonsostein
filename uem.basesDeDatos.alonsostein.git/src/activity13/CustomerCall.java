@@ -92,7 +92,7 @@ public class CustomerCall {
 	public BigDecimal getTotal() { // method to calculate the total cost of the
 									// call
 		BigDecimal total = new BigDecimal(
-				(duration * origin.getRate()) / 100.00, new MathContext(3)); 
+				((duration * origin.getRate()) / 60.0)/ 100.0, new MathContext(3)); 
 		// calculates the total with 3 significative digits as the (duration*the rate of the customer)/100
 		return total;
 	} // end getTotal
