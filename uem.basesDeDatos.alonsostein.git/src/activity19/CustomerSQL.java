@@ -6,6 +6,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 import activity10.Customer;
+import activity10.DataFile;
 import activity13.CustomerCall;
 
 /**
@@ -67,6 +68,7 @@ public class CustomerSQL extends Customer {
 			sqlLog.finest("finished LandlinePhoneNumber");
 			this.setAirtimeMinutes(rs.getInt("AirTimeMinutes"));
 			sqlLog.finest("finished AirTimeMinutes");
+			
 		} catch (Exception e) {
 			sqlLog.warning("An error occured in the CustomerSQL constructor: "
 					+ e);

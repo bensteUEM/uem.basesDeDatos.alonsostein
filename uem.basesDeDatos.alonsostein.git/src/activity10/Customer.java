@@ -43,8 +43,8 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		this.airtimeMinutes = 0;
 		this.balance = new BigDecimal(0, new MathContext(3,
 				RoundingMode.HALF_UP));
-		this.minBalance = new BigDecimal(0, new MathContext(3,
-				RoundingMode.HALF_UP));
+		DataFile d = new DataFile("MinimumBalance");
+		this.setMinBalance(d.importMinimumBalanceExcel2013());
 		this.rate = 0;
 	} // end Customer()
 
@@ -61,6 +61,8 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		// run parent constructor
 		super(fullyQualifiedExportedCustomerString);
 		// import from text
+		DataFile d = new DataFile("MinimumBalance");
+		this.setMinBalance(d.importMinimumBalanceExcel2013());
 		boolean success = this.importText(fullyQualifiedExportedCustomerString);
 		if (!(success)) {
 			System.out
