@@ -110,9 +110,9 @@ public class DataFile {
 			writer.newLine();
 
 			// get the billing text from Customer class
-				for (int i = 0; i < ((Customer) customer).getBillText(
+				for (int i = 0; i < ((Customer) customer).getBillTextExport(
 						customer.getId()).size(); i++) {
-					writer.write(((Customer) customer).getBillText(
+					writer.write(((Customer) customer).getBillTextExport(
 							customer.getId()).get(i));
 					writer.newLine();
 				} // end for
