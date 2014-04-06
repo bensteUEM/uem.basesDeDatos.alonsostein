@@ -94,6 +94,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 *@author Luis
 	 */
 	public void createElements() { // Create the elements of the GUI
+		
 
 		contentPane = new JPanel(); // creation of content Pane
 		txtSearch = new JTextField(); // Creation of Textfield for Input
