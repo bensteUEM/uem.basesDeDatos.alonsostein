@@ -114,7 +114,6 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		buttonElements.add(new JButton("Search User by ID"));
 		buttonElements.add(new JButton("Call"));
 		buttonElements.add(new JButton("Monthly bill"));
-		//buttonElements.add(new JButton("Pay by User ID")); TODO remove
 		buttonElements.add(new JButton("Add a new Customer"));
 		buttonElements.add(new JButton("Show all Customers"));
 		buttonElements.add(new JButton(
@@ -194,7 +193,6 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		pnlBotRight.setLayout(new GridLayout(1, 2));
 		pnlMain.add(pnlBotRight);
 		pnlBotRight.add(buttonElements.get(6)); // show customers above rate
-		//pnlBotRight.add(buttonElements.get(3)); // TODO remove
 
 		// Create the menu bar.
 		JMenuBar menuBar = new JMenuBar();
