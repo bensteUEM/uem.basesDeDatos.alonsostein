@@ -194,10 +194,11 @@ public class SQLiteStorage {
 				result = stmt.executeUpdate(sql);
 			} else if (args.equals("CustomerSQL")) {
 				/*
-				LOG.fine("Executing an SQL querry which is expected to return ONE CustomerSQL Object");
-				ResultSet rs = stmt.executeQuery(sql);
-				LOG.fine("Statement Excecuted");
-				
+				 * LOG.fine(
+				 * "Executing an SQL querry which is expected to return ONE CustomerSQL Object"
+				 * ); ResultSet rs = stmt.executeQuery(sql);
+				 * LOG.fine("Statement Excecuted");
+				 * 
 				 * The following Code can not be used due to an missing SQLite
 				 * function in the API
 				 * 
@@ -215,17 +216,14 @@ public class SQLiteStorage {
 				 * BEGIN of workaround to be used in functions
 				 */
 				/*
-				ArrayList<CustomerSQL> temp = (ArrayList<CustomerSQL>) ownSQLCommand(
-						sql, "ArrayList<CustomerAbstract>");
-				LOG.finest("WORKAROUND : got element: " + temp);
-				if (temp.size() > 0) {
-					LOG.finest("END WORKAROUND : >0 return first element");
-					return temp.get(0);
-				} else {
-					LOG.finest("END WORKAROUND : <0 return null");
-					return null;
-				}
-				*/
+				 * ArrayList<CustomerSQL> temp = (ArrayList<CustomerSQL>)
+				 * ownSQLCommand( sql, "ArrayList<CustomerAbstract>");
+				 * LOG.finest("WORKAROUND : got element: " + temp); if
+				 * (temp.size() > 0) {
+				 * LOG.finest("END WORKAROUND : >0 return first element");
+				 * return temp.get(0); } else {
+				 * LOG.finest("END WORKAROUND : <0 return null"); return null; }
+				 */
 				/*
 				 * END of workaround
 				 */
@@ -240,22 +238,29 @@ public class SQLiteStorage {
 				 * result = null; } else {
 				 */
 				LOG.finest("Will now iterated through all results of the query");
-				
+
 				while (rs.next()) {
 					LOG.finest("A resultset exists will continue with customer");
 					CustomerSQL customer = new CustomerSQL(rs, rs.getInt("ID"),
 							rs.getString("Name"),
 							rs.getString("CellPhoneNumber"), LOG, this);
 					customers.add(customer);
-					LOG.finest("Added following customer to ArrayList: "+customer);
+					LOG.finest("Added following customer to ArrayList: "
+							+ customer);
 				}// end while
-				LOG.finest("Finished loop of all results with customer array: "+customers);
+				LOG.finest("Finished loop of all results with customer array: "
+						+ customers);
 				result = customers;
 			} else if (args.equals("Integer")) {
 				LOG.fine("Executing an SQL which should return a simple integer");
 				ResultSet rs = stmt.executeQuery(sql);
-				result = rs.getInt(1);
-				LOG.finest("result 1 is: " + result);
+				Integer subresult = 0;
+				while (rs.next()) {
+					subresult += (Integer) rs.getInt(1);
+				}
+				result = subresult;
+				LOG.finest("sum of result 1 is: " + result);
+
 			} else if (args.equals("BigDecimal")) {
 				LOG.fine("Executing an SQL querry which is expected to return a Double - Balance for one or more than one customer");
 				ResultSet rs = stmt.executeQuery(sql);
@@ -285,12 +290,15 @@ public class SQLiteStorage {
 					LOG.finer("Attempting to get the Customer of the Current Call");
 					String query2 = "SELECT * FROM Customers WHERE ID="
 							+ rs.getString("OriginID") + ";";
-					LOG.finest("subSQL query: "+query2 + "should return: ArrayList<CustomerAbstract>");
+					LOG.finest("subSQL query: " + query2
+							+ "should return: ArrayList<CustomerAbstract>");
 					ArrayList<CustomerAbstract> customers = (ArrayList<CustomerAbstract>) this
-							.ownSQLCommand(query2, "ArrayList<CustomerAbstract>");
-					LOG.finest("DEBUG subSQL returned: "+customers);
+							.ownSQLCommand(query2,
+									"ArrayList<CustomerAbstract>");
+					LOG.finest("DEBUG subSQL returned: " + customers);
 					CustomerAbstract newOrigin = customers.get(0);
-					LOG.fine("The current user associated as origin is: "+newOrigin);
+					LOG.fine("The current user associated as origin is: "
+							+ newOrigin);
 
 					// Calendar Part
 					LOG.finer("creating Calendar and importing start Date");
@@ -324,5 +332,60 @@ public class SQLiteStorage {
 		}
 		LOG.exiting("SQLiteStorage", "ownSQLCommand");
 		return null;
+	}
+
+	/**
+	 * Function which associates ALL Calls of the selected user with a new
+	 * Bill
+	 * 
+	 * @return BillID
+	 */
+	public int newBill(Integer userID, String fileName, String date) {
+		LOG.entering("SQLiteStorage","newBill");
+		//get new ID for bill
+		String query = "SELECT MAX(ID) FROM CustomerBills";
+		Integer freeID = (Integer) this.ownSQLCommand(query,"Integer") + 1;
+		LOG.fine("next Bill will have this id: "+freeID);
+		
+		// create new bill
+		// ID,CustomerID, FileName, DateCreated, BalanceDue  
+		query = "INSERT INTO CustomerBills VALUES(1,"+userID.toString()+",\'"+fileName+"\',\'"+date+"\',NULL);";
+		this.ownSQLCommand(query,null);
+		LOG.fine("Added Bill to the SQLite Database");
+		
+		// update Calls and link them to the Bill
+		query = "UPDATE CustomerCalls BillID="+freeID+" WHERE [CustomerID="+userID+"];";
+		// AND BillID=Null];"; // FUTURE ADDITION 
+		this.ownSQLCommand(query,null);
+		LOG.fine("Updated Calls to reference correct BillID: "+freeID);
+	
+		//set Airtime Minutes based on Calls
+		query = "SELECT Duration FROM CustomerCalls WHERE BillID="+freeID+" AND OriginID="+userID+";";
+		Integer totalminutes = (Integer) ownSQLCommand(query,"Integer");
+		LOG.fine("got Total Minutes for this bill and customer: "+totalminutes);
+		query = "UPDATE Customers Duration="+totalminutes.toString()+" WHERE ID="+userID+";";
+		ownSQLCommand(query,null);
+		LOG.fine("set minutes to the customer: "+userID);
+		
+		//calculate total - WARNING 
+		
+		return freeID;
+	}
+	
+	/**
+	 * Calculate the Total of a Bill
+	 * @param billID
+	 * @return total of the Bill
+	 */
+	public BigDecimal getBillTotal(Integer billID){
+		String query = "SELECT CustomerID FROM CustomerBills WHERE ID="+billID+";";
+		Integer userID = (Integer) ownSQLCommand(query,"Integer");
+		LOG.fine("got user ID for this Bill: "+userID);
+		
+		query = "SELECT AirtimeMinutes, Rate FROM Customers WHERE ID="+userID+";";
+		BigDecimal total = (BigDecimal) this.ownSQLCommand(query,"BigDecimal");
+		LOG.fine("Calculated the Customer Total: "+total);
+	
+		return total;
 	}
 }
