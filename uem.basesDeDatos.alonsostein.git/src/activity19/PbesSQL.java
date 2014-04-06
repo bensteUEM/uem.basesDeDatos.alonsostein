@@ -3,6 +3,7 @@
  */
 package activity19;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -160,8 +161,10 @@ public class PbesSQL extends Pbes {
 		LOG.finest("WORKAROUND : got LIST of customers element: " + temp);
 		CustomerSQL customer = null; // init variable
 		if (temp != null) {
-			LOG.finest("END WORKAROUND : >0 return first element");
+			LOG.finest("END WORKAROUND : >0");
+			if (((ArrayList<CustomerAbstract>) temp).size()>0){
 			customer = (CustomerSQL) ((ArrayList<CustomerSQL>)temp).get(0);
+			}
 		} else {
 			LOG.finest("END WORKAROUND : <0 return null");
 		}
