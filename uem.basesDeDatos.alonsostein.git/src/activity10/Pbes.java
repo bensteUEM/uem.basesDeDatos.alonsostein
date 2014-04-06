@@ -499,10 +499,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	}
 
 	public void onInitiateDatabase(ActionEvent ae) {
-		String database = "PBESDatabase";
-		SQLiteStorage dbStorage = new SQLiteStorage(database);
-		dbStorage.init();
-		JOptionPane.showMessageDialog(this, "Database initiated");
+		System.out.println("WARNING: do not try SQL functions in regular PBES");
 	}
 
 	/**

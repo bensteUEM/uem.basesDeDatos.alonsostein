@@ -35,8 +35,6 @@ public class PbesSQL extends Pbes {
 		PbesSQL gui = new PbesSQL();
 		// Database
 		gui.db = new SQLiteStorage("activity19");
-		// Initialise Data
-		gui.db.init();
 		String query = "INSERT INTO Owner VALUES (" + gui.getCompanyID()
 				+ ",0.00,\'" + gui.getCompanyName() + "\')";
 		gui.db.ownSQLCommand(query, null);
@@ -82,7 +80,12 @@ public class PbesSQL extends Pbes {
 			// successful
 		}
 	}
-
+	@Override
+	public void onInitiateDatabase(ActionEvent ae) {
+		db.init();
+	}
+	
+	
 	@Override
 	public boolean addCustomer(CustomerAbstract customer) {
 		LOG.entering("PBES SQL", "addCustomer");
