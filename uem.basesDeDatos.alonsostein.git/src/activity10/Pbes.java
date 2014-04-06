@@ -114,7 +114,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		buttonElements.add(new JButton("Search User by ID"));
 		buttonElements.add(new JButton("Call"));
 		buttonElements.add(new JButton("Monthly bill"));
-		buttonElements.add(new JButton("Pay by User ID"));
+		//buttonElements.add(new JButton("Pay by User ID")); TODO remove
 		buttonElements.add(new JButton("Add a new Customer"));
 		buttonElements.add(new JButton("Show all Customers"));
 		buttonElements.add(new JButton(
@@ -172,8 +172,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		pnlMain.add(pnlTopRight);
 
 		pnlTopRight.add(buttonElements.get(0));
-		pnlTopRight.add(buttonElements.get(12)); // delete
-		pnlTopRight.add(buttonElements.get(4)); // addcustomer
+		pnlTopRight.add(buttonElements.get(11)); // delete
+		pnlTopRight.add(buttonElements.get(3)); // addcustomer
 		pnlTopRight.add(buttonElements.get(1)); // call
 		pnlTopRight.add(buttonElements.get(2)); // monthlyBill
 
@@ -185,10 +185,10 @@ public class Pbes extends PbesAbstract implements ActionListener {
 
 		// subpanel bot-right
 		JPanel pnlBotRight = new JPanel();
-		pnlBotRight.setLayout(new GridLayout(1, 3));
+		pnlBotRight.setLayout(new GridLayout(1, 2));
 		pnlMain.add(pnlBotRight);
-		pnlBotRight.add(buttonElements.get(7));
-		pnlBotRight.add(buttonElements.get(3));
+		pnlBotRight.add(buttonElements.get(6));
+		//pnlBotRight.add(buttonElements.get(3)); // TODO remove
 
 		// Create the menu bar.
 		JMenuBar menuBar = new JMenuBar();
