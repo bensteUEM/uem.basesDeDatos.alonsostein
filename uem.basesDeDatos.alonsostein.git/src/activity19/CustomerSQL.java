@@ -155,7 +155,7 @@ public class CustomerSQL extends Customer {
 				+ Integer.toString(this.getId()) + ",";
 		LOG.finest("Created 1. part of Values String: "+values1);
 		// Destination,startTime<char(50)>,Duration
-		String values2 = newCall.getDestination() + ",\'"
+		String values2 = "\'"+newCall.getDestination() + "\',\'"
 				+ newCall.getStartTimeString() + "\'," + newCall.getDuration();
 		LOG.finest("Created 2. part of Values String: "+values2);
 		String query2 = "INSERT INTO CustomerCalls VALUES(" + values1 + values2
