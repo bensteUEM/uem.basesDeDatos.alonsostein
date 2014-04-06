@@ -354,7 +354,7 @@ public class SQLiteStorage {
 		LOG.fine("Added Bill to the SQLite Database");
 		
 		// update Calls and link them to the Bill
-		query = "UPDATE CustomerCalls BillID="+freeID+" WHERE [CustomerID="+userID+"];";
+		query = "UPDATE CustomerCalls SET BillID="+freeID+" WHERE OriginID = "+userID+";";
 		// AND BillID=Null];"; // FUTURE ADDITION 
 		this.ownSQLCommand(query,null);
 		LOG.fine("Updated Calls to reference correct BillID: "+freeID);
@@ -363,7 +363,7 @@ public class SQLiteStorage {
 		query = "SELECT Duration FROM CustomerCalls WHERE BillID="+freeID+" AND OriginID="+userID+";";
 		Integer totalminutes = (Integer) ownSQLCommand(query,"Integer");
 		LOG.fine("got Total Minutes for this bill and customer: "+totalminutes);
-		query = "UPDATE Customers Duration="+totalminutes.toString()+" WHERE ID="+userID+";";
+		query = "UPDATE Customers SET AirtimeMinutes="+totalminutes.toString()+" WHERE ID="+userID+";";
 		ownSQLCommand(query,null);
 		LOG.fine("set minutes to the customer: "+userID);
 		
