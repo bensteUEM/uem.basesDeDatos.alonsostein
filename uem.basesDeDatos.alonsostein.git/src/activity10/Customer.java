@@ -6,6 +6,9 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator; //needed for sorting 
 
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+
 import activity13.CustomerCall;
 
 public class Customer extends CustomerAbstract implements Comparator<Customer> {
@@ -17,8 +20,9 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 														// implemented for a
 														// customer
 	private BigDecimal minBalance = new BigDecimal(0, new MathContext(3,
-			RoundingMode.HALF_UP)); //in full ï¿½ cutting of Cents
+			RoundingMode.HALF_UP)); // in full ï¿½ cutting of Cents
 	private ArrayList<CustomerCall> calls = new ArrayList<CustomerCall>(0);
+	private DefaultListModel<String> callList;
 
 	/**
 	 * Constructor for a new Custoemr object
@@ -53,8 +57,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 * @throws Exception
 	 *             - error when Customer can not be imported
 	 */
-	public Customer(String fullyQualifiedExportedCustomerString)
-			 {
+	public Customer(String fullyQualifiedExportedCustomerString) {
 		// run parent constructor
 		super(fullyQualifiedExportedCustomerString);
 		// import from text
@@ -266,31 +269,36 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 * balance per customer
 	 */
 	public BigDecimal getBalance() {
-		BigDecimal minBalance = this.getMinBalance(); // get customer min Balance
-		if (this.balance.compareTo(minBalance)== 1) {
+		BigDecimal minBalance = this.getMinBalance(); // get customer min
+														// Balance
+		if (this.balance.compareTo(minBalance) == 1) {
 			return this.balance;
-		} //end if
+		} // end if
 		return minBalance;
-	} //end getBalance
-	
+	} // end getBalance
+
 	/**
-	 * calculate Balance in € based on given formula
-	 * and reset the Minutes used as they have been billed to balance
+	 * calculate Balance in € based on given formula and reset the Minutes used
+	 * as they have been billed to balance
 	 */
 	public void setBalance() {
-		/* DEBUGGING Part for Balance Calculation //TODO
-		System.out.println("Rate= "+this.getRate());
-		System.out.println("Airtime= "+this.getAirtimeMinutes());
-		System.out.println("Rate*Airtime= "+this.getRate()*this.getAirtimeMinutes());
-		System.out.println("Rate*Airtime/100= "+(this.getRate())*this.getAirtimeMinutes()/100.0);
-		*/
-		this.balance = 
-				new BigDecimal((this.getRate() * this.getAirtimeMinutes()) /100.00,new MathContext(3,
-						RoundingMode.HALF_UP)); //costs are negative rates
-		//System.out.println("saved balance="+this.balance); //TODO DEBUG
+		/*
+		 * DEBUGGING Part for Balance Calculation //TODO
+		 * System.out.println("Rate= "+this.getRate());
+		 * System.out.println("Airtime= "+this.getAirtimeMinutes());
+		 * System.out.println
+		 * ("Rate*Airtime= "+this.getRate()*this.getAirtimeMinutes());
+		 * System.out
+		 * .println("Rate*Airtime/100= "+(this.getRate())*this.getAirtimeMinutes
+		 * ()/100.0);
+		 */
+		this.balance = new BigDecimal(
+				(this.getRate() * this.getAirtimeMinutes()) / 100.00,
+				new MathContext(3, RoundingMode.HALF_UP)); // costs are negative
+															// rates
+		// System.out.println("saved balance="+this.balance); //TODO DEBUG
 		this.setAirtimeMinutes(0);
-	} //end setBalance
-	
+	} // end setBalance
 
 	/**
 	 * @return the minBalance
@@ -309,7 +317,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 
 	/**
 	 * @return the calls
-	 *
+	 * 
 	 */
 	@Override
 	public ArrayList<CustomerCall> getCalls() {
@@ -317,17 +325,18 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	}
 
 	/**
-	 * @param the call to be appended to the List of Calls
+	 * @param the
+	 *            call to be appended to the List of Calls
 	 */
 	public void addCall(CustomerCall newCall) {
 		this.calls.add(newCall);
 	}
-	
+
 	/**
 	 * Read the Customers Call Log to calculate the minutes which were used
 	 */
-	public void addAirtimeMinutesFromCalls(){
-		for (CustomerCall call : this.calls){
+	public void addAirtimeMinutesFromCalls() {
+		for (CustomerCall call : this.calls) {
 			this.airtimeMinutes += call.getDuration();
 		}
 	}
@@ -421,14 +430,26 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		} // end for all items
 		return result;
 	} // end exportText()
-	public ArrayList<CustomerCall> getBill(Integer id){
-		if(id == null){
-			return this.getCalls();
-		}
-		else{
-			
-			return this.getCalls();
-		}
 
+	public ArrayList<String> getBill(Customer cust) {
+		ArrayList<String> bill = new ArrayList<String>();
+		if (id == null) {
+			for (int i = 0; i < cust.getCalls().size(); i++) {
+				bill.add(cust.getCalls().get(i).toString());
+			}
+			return bill;
+		} else {
+			bill.add("Rate: " + cust.getRate().toString());
+			for (int i = 0; i < cust.getCalls().size(); i++) {
+				bill.add(cust.getCalls().get(i).toString());
+			}
+			BigDecimal totalBill = null;
+			for (int i = 1; i < cust.getCalls().size(); i++) {
+				totalBill = cust.getCalls().get(i - 1).getTotal()
+						.add(cust.getCalls().get(i).getTotal());
+			}
+			bill.add("Total bill: " + totalBill);
+			return bill;
+		}
 	}
 } // end class

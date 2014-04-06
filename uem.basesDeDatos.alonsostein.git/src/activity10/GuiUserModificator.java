@@ -58,7 +58,8 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	/**
 	 * Create the frame.
 	 */
-	public GuiUserModificator(Pbes sourceParent, CustomerAbstract currentCustomer) {
+	public GuiUserModificator(Pbes sourceParent,
+			CustomerAbstract currentCustomer) {
 		this.parent = sourceParent;
 		this.parent.setVisible(false);
 		createElements(currentCustomer);
@@ -126,21 +127,14 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 
 		textFieldBalance.setEditable(false);
 		textFieldBalance.setColumns(10);
-
-		// JList for listing calls	
-		LOG.fine("preparing to fill existing calls");		
-		if (currentCustomer.getCalls() != null){
-			// http://docs.oracle.com/javase/8/docs/api/javax/swing/DefaultListModel.html#addElement-E-
-			callList.addElement("Rate: "
-					+ currentCustomer.getRate().toString());
-			for (int i = 0; i < currentCustomer.getCalls().size(); i++) {
-				callList.addElement(currentCustomer.getCalls().get(i)
-						.toString());
-			}
-			LOG.finest("added following call to List");
-		}
-		LOG.fine("populated list with all calls");
 		
+		//JList for listing calls
+		
+		for (int i = 0; i < ((Customer) currentCustomer).getBill(
+				(Customer) currentCustomer).size(); i++) {
+			callList.addElement(((Customer) currentCustomer)
+					.getBill((Customer) currentCustomer).get(i));
+		}
 		btnChangeId.addActionListener(this);
 		btnChangeId.setEnabled(true);
 		btnSave.addActionListener(this);
@@ -287,8 +281,9 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 
 	public void onExportCustomer(ActionEvent ae) {
 		this.onSave(ae);
-		CustomerAbstract[] customerToExport = new Customer[1]; // as in this case we
-														// want to
+		CustomerAbstract[] customerToExport = new Customer[1]; // as in this
+																// case we
+		// want to
 		// add only one customer, it
 		// creates an array of 1 element
 		customerToExport[0] = this.customer; // sets the position 0 of the array
