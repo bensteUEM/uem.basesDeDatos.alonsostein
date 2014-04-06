@@ -177,7 +177,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		pnlTopRight.setLayout(new GridLayout(1, 3));
 		pnlMain.add(pnlTopRight);
 
-		pnlTopRight.add(buttonElements.get(0));
+		pnlTopRight.add(buttonElements.get(0));	// search by id
 		pnlTopRight.add(buttonElements.get(11)); // delete
 		pnlTopRight.add(buttonElements.get(3)); // addcustomer
 		pnlTopRight.add(buttonElements.get(1)); // call
@@ -193,7 +193,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		JPanel pnlBotRight = new JPanel();
 		pnlBotRight.setLayout(new GridLayout(1, 2));
 		pnlMain.add(pnlBotRight);
-		pnlBotRight.add(buttonElements.get(6));
+		pnlBotRight.add(buttonElements.get(6)); // show customers above rate
 		//pnlBotRight.add(buttonElements.get(3)); // TODO remove
 
 		// Create the menu bar.
