@@ -1,8 +1,6 @@
 package activity10;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 
 import activity13.CustomerCall;

@@ -13,8 +13,6 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import javax.swing.JOptionPane;
-
-import activity10.Customer;
 import activity10.CustomerAbstract;
 import activity10.GuiUserModificator;
 import activity10.Pbes;
@@ -24,6 +22,7 @@ import activity10.Pbes;
  * 
  */
 public class PbesSQL extends Pbes {
+	private static final long serialVersionUID = -2637791780598587562L;
 	SQLiteStorage db;
 	final String COMPANYNAME = "My First Company";
 	final Integer COMPANYID = 1000;
@@ -142,6 +141,7 @@ public class PbesSQL extends Pbes {
 		return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public CustomerAbstract getCustomer(Integer searchId) {
 		LOG.entering("PbesSQL", "getCustomer");
@@ -210,7 +210,6 @@ public class PbesSQL extends Pbes {
 	@Override
 	public BigDecimal getAllCustomerBalance() {
 		String query = "SELECT ID,Name FROM Customers;";
-		@SuppressWarnings("unchecked")
 		// is checked with method param
 		BigDecimal money = (BigDecimal) db.ownSQLCommand(query, "BigDecimal");
 		return money;

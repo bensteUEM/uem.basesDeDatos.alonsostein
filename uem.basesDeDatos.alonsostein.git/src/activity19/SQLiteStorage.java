@@ -1,6 +1,5 @@
 package activity19;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -10,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,9 +17,6 @@ import java.util.Date;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
-
-import activity10.Customer;
 import activity10.CustomerAbstract;
 import activity13.CustomerCall;
 
@@ -33,15 +30,16 @@ import activity13.CustomerCall;
 public class SQLiteStorage {
 	private String name;
 	private Connection c = null;
-	private Statement stmt = null;
-	private final static Logger LOG = Logger.getLogger(SQLiteStorage.class
+	public final static Logger LOG = Logger.getLogger(SQLiteStorage.class
 			.getName());
 	private final static String DATEFORMAT = "yyyy-MM-dd HH:mm:ss";
+	@SuppressWarnings("unused")
 	private FileHandler fh;
 
 	/**
 	 * SQLiteStorage requires the name for the Database
 	 */
+	@SuppressWarnings("unused")
 	private SQLiteStorage() {
 	}
 
@@ -183,12 +181,13 @@ public class SQLiteStorage {
 	 */
 	@SuppressWarnings("unchecked")
 	public Object ownSQLCommand(String sql, String args) {
+		Statement stmt = null;
 		LOG.entering("SQLiteStorage", "ownSQLCommand");
 		LOG.fine("Attempting to execute following SQL Statement: " + sql);
 		Object result = null;
 		try {
-			this.stmt = c.createStatement();
-			LOG.finest("Statement created: " + this.stmt.toString());
+			stmt = c.createStatement();
+			LOG.finest("Statement created: " + stmt.toString());
 			if (args == null) {
 				LOG.fine("Executing an SQL querry which is not expected to return a result: "
 						+ args);
@@ -233,7 +232,6 @@ public class SQLiteStorage {
 
 			} else if (args.equals("ArrayList<CustomerAbstract>")) {
 				LOG.fine("Executing an SQL querry which is expected to return an ArrayList of CustomerSQL Objects");
-				// TODO what happens if result is empty !
 				ResultSet rs = stmt.executeQuery(sql);
 				ArrayList<CustomerAbstract> customers = new ArrayList<CustomerAbstract>();
 				/*
@@ -241,13 +239,18 @@ public class SQLiteStorage {
 				 * { LOG.fine("SQL Database has no results for this query");
 				 * result = null; } else {
 				 */
+				LOG.finest("Will now iterated through all results of the query");
+				
 				while (rs.next()) {
+					LOG.finest("A resultset exists will continue with customer");
 					CustomerSQL customer = new CustomerSQL(rs, rs.getInt("ID"),
 							rs.getString("Name"),
 							rs.getString("CellPhoneNumber"), LOG, this);
 					customers.add(customer);
-					result = customers;
-				}
+					LOG.finest("Added following customer to ArrayList: "+customer);
+				}// end while
+				LOG.finest("Finished loop of all results with customer array: "+customers);
+				result = customers;
 			} else if (args.equals("Integer")) {
 				LOG.fine("Executing an SQL which should return a simple integer");
 				ResultSet rs = stmt.executeQuery(sql);
@@ -278,18 +281,19 @@ public class SQLiteStorage {
 					 * Existing fields are: ID BillID OriginID Destination
 					 * startTime<char(50)> Duration
 					 */
-
 					// get the customer
-					LOG.finest("Attempting to get the Customer of the Current Call");
+					LOG.finer("Attempting to get the Customer of the Current Call");
 					String query2 = "SELECT * FROM Customers WHERE ID="
 							+ rs.getString("OriginID") + ";";
+					LOG.finest("subSQL query: "+query2 + "should return: ArrayList<CustomerAbstract>");
 					ArrayList<CustomerAbstract> customers = (ArrayList<CustomerAbstract>) this
-							.ownSQLCommand(query2, "ArrayList<Customer>");
+							.ownSQLCommand(query2, "ArrayList<CustomerAbstract>");
+					LOG.finest("DEBUG subSQL returned: "+customers);
 					CustomerAbstract newOrigin = customers.get(0);
-					LOG.finest("The current user associated as origin is: "+newOrigin);
+					LOG.fine("The current user associated as origin is: "+newOrigin);
 
 					// Calendar Part
-					LOG.finest("creating Calendar and importing start Date");
+					LOG.finer("creating Calendar and importing start Date");
 					DateFormat formatter;
 					Date date;
 					String strDate = rs.getString("startTime");
@@ -315,7 +319,7 @@ public class SQLiteStorage {
 			LOG.finest("Statement closed");
 			LOG.exiting("SQLiteStorage", "ownSQLCommand");
 			return result;
-		} catch (Exception e) {
+		} catch (SQLException | ParseException e) {
 			LOG.warning(e.toString());
 		}
 		LOG.exiting("SQLiteStorage", "ownSQLCommand");

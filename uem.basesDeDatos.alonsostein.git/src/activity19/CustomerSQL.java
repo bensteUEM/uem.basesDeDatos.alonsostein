@@ -1,7 +1,6 @@
 package activity19;
 
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -21,6 +20,7 @@ public class CustomerSQL extends Customer {
 
 	private final static Logger LOG = Logger.getLogger(SQLiteStorage.class
 			.getName());
+	@SuppressWarnings("unused")
 	private FileHandler fh;
 	private int owner;
 
@@ -130,6 +130,7 @@ public class CustomerSQL extends Customer {
 		return result;
 	} // end exportText()
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<CustomerCall> getCalls() {
 		String query = "SELECT * FROM CustomerCalls WHERE OriginID="

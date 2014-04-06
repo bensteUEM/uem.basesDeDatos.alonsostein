@@ -1,11 +1,14 @@
-package activity10;
+package activity19;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.SimpleFormatter;
 
+import activity10.CustomerAbstract;
+import activity10.DataFile;
 import activity13.CustomerCall;
-import activity19.CustomerSQL;
-import activity19.PbesSQL;
-import activity19.SQLiteStorage;
 
 public class TestClass {
 	public static SQLiteStorage db;
@@ -42,9 +45,25 @@ public class TestClass {
 				+ testGetCalls(testGetCustomerSQL()));
 
 	}
+	
+	public static boolean setLogger(SQLiteStorage db){
+		
+		try {
+			FileHandler fh = new FileHandler("TestClass.log");
+			SQLiteStorage.LOG.addHandler(fh);
+			SQLiteStorage.LOG.setLevel(Level.FINEST);
+			SimpleFormatter formatter = new SimpleFormatter();
+			fh.setFormatter(formatter);
+			return true;
+		} catch (SecurityException | IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 	public static boolean testDB() {
 		TestClass.db = new SQLiteStorage("testing");
+		setLogger(TestClass.db);
 		TestClass.db.init();
 		return true;
 	}
@@ -88,9 +107,9 @@ public class TestClass {
 	
 	
 	public static boolean testGetCalls(CustomerAbstract customer) {
-		ArrayList<CustomerCall> c = customer.getCalls();
-		if (c.size() > 0) { // has a size
-			System.out.println("\tFound Call: " + c.get(0)); // has a first
+		ArrayList<CustomerCall> d = (ArrayList<CustomerCall>) customer.getCalls();
+		if (d.size() > 0) { // has a size
+			System.out.println("\tFound Call: " + d.get(0)); // has a first
 																// element ?
 		} else {
 			System.out.println("\tCustomer has no Calls");
