@@ -90,7 +90,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	}
 
 	/**
-	 * Modularize the creation of the GUI
+	 * Create elements of the GUi in a modular way
 	 *@author Luis
 	 */
 	public void createElements() { // Create the elements of the GUI
@@ -127,7 +127,10 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		buttonElements.add(new JButton("Delete User by ID"));
 
 	}
-
+	/**
+	 * Fill information of the elements of the GUi in a modular way
+	 *@author Luis
+	 */
 	public void fillInformation() {	// Fill information of the elements of the GUI
 		setBounds(100, 100, 1000, 500); // set the bounds of the mainframe
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); // set Borders
@@ -152,7 +155,10 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		menCalcRev.addActionListener(this);
 
 	}
-
+	/**
+	 * Arrange the elements of the GUI in a modular way
+	 *@author Luis
+	 */
 	public void arrangeInLayouts() {	// arrange the elements of the GUI in layouts
 		setLayout(new BorderLayout());
 		// main grid layout panel
