@@ -198,6 +198,8 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		createElements(customer2);
 		fillInformation(customer2);
 		arrangeInLayouts();
+		this.invalidate();
+		this.validate();
 		this.setVisible(true);
 	}
 
