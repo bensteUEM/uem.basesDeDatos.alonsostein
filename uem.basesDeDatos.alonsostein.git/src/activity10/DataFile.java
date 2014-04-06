@@ -110,12 +110,14 @@ public class DataFile {
 			writer.newLine();
 
 			// get the billing text from Customer class
-				for (int i = 0; i < ((Customer) customer).getBillTextExport(
-						customer.getId()).size(); i++) {
-					writer.write(((Customer) customer).getBillTextExport(
-							customer.getId()).get(i));
-					writer.newLine();
-				} // end for
+
+			for (int i = 0; i < customer.getBillTextExport(
+					customer.getId()).size(); i++) {
+				writer.write(customer.getBillTextExport(
+						customer.getId()).get(i));
+				writer.newLine();
+			} // end for
+
 			writer.write("====");
 			writer.newLine();
 			// 5b - minimum Consumption Advice
