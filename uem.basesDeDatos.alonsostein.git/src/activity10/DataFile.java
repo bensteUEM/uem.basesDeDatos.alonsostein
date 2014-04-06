@@ -147,9 +147,9 @@ public class DataFile {
 				true));
 		// get the billing text from Customer class
 
-					for (int i = 0; i < customer.getBillTextExport(
+					for (int i = 0; i < customer.getBillText(
 							customer.getId()).size(); i++) {
-						writer.write(customer.getBillTextExport(
+						writer.write(customer.getBillText(
 								customer.getId()).get(i));
 						writer.newLine();
 					} // end for

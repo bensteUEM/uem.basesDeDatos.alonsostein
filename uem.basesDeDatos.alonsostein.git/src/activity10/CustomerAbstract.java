@@ -103,7 +103,7 @@ public abstract class CustomerAbstract {
 	public abstract boolean setName(String text);
 	public abstract boolean setCellPhoneNumber(String text);
 	public abstract boolean setId(Integer newId);
-	public abstract ArrayList<String> getBillTextExport(Integer id);
+	public abstract ArrayList<String> getBillText(Integer id);
 	public abstract ArrayList<CustomerCall> getBillCalls(Integer id);
 	
 }
