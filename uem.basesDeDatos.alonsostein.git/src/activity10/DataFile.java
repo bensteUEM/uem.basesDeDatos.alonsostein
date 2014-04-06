@@ -109,19 +109,13 @@ public class DataFile {
 			writer.write("====");
 			writer.newLine();
 
-			// same order - CONTENT
-			
-			//for (CustomerCall call : customer.getCalls()) {
-				
+			// get the billing text from Customer class
 				for (int i = 0; i < ((Customer) customer).getBillText(
 						customer.getId()).size(); i++) {
 					writer.write(((Customer) customer).getBillText(
 							customer.getId()).get(i));
 					writer.newLine();
-				}
-				
-				
-			//} // end for
+				} // end for
 			writer.write("====");
 			writer.newLine();
 			// 5b - minimum Consumption Advice
