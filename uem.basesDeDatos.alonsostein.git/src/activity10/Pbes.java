@@ -32,6 +32,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	protected BigDecimal b = new BigDecimal(0); // store the minimum balance
 	final Color UEMCOLOR = new Color(143, 27, 39);
 
+	// define menu items
 	private JMenuItem menImportCustomer;
 	private JMenuItem menExportCustomer;
 	private JMenuItem menExportCustomerExcel;
@@ -40,8 +41,9 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	private JMenuItem menCalcBalances;
 	private JMenuItem menCalcRev;
 	private JMenuItem menAllCustomer;
-	
-	private ArrayList <JButton> buttonElements;
+
+	// create arrayList of buttons
+	private ArrayList<JButton> buttonElements;
 
 	/**
 	 * Launch the application
@@ -66,9 +68,9 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	public Pbes() { // Constructor
 		setGuiStyles(); // use function for predefined GUI mods
-		createElements();
-		fillInformation();
-		arrangeInLayouts();
+		createElements();	// use function to create elements of the GUI
+		fillInformation();	// fill the information of the elements of the gui
+		arrangeInLayouts();	// arrange the elements of the gui in Layouts
 
 		customers = new ArrayList<Customer>();
 		// initialize empty customer array with predefined count
@@ -88,17 +90,18 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	}
 
 	/**
-	 * LUIS TODO create comment here
+	 * Modularize the creation of the GUI
+	 *@author Luis
 	 */
-	public void createElements() {
+	public void createElements() { // Create the elements of the GUI
 
 		contentPane = new JPanel(); // creation of content Pane
 		txtSearch = new JTextField(); // Creation of Textfield for Input
 		txtMoney = new JTextField();// Creation of Textfield for Money
 		// User Search Button by ID
-		buttonElements = new ArrayList <JButton>();
+		buttonElements = new ArrayList<JButton>();
 		
-		
+		// create menu items
 		menAllCustomer = new JMenuItem("Show all Customers");
 		menCalcBalances = new JMenuItem("Calculate Balances");
 		menCalcRev = new JMenuItem("Calculate Revenue");
@@ -106,35 +109,40 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		menExportCustomer = new JMenuItem("Export customers to CSV");
 		menExportCustomerExcel = new JMenuItem("Export customers to Excel2013");
 		menMinimumBalance = new JMenuItem("Import minimum balance from Excel");
+		
+		// add buttons to the arrayList of buttons
 		buttonElements.add(new JButton("Search User by ID"));
 		buttonElements.add(new JButton("Call"));
 		buttonElements.add(new JButton("Monthly bill"));
 		buttonElements.add(new JButton("Pay by User ID"));
 		buttonElements.add(new JButton("Add a new Customer"));
 		buttonElements.add(new JButton("Show all Customers"));
-		buttonElements.add(new JButton("Compute Balances & Show Company Revenue"));
+		buttonElements.add(new JButton(
+				"Compute Balances & Show Company Revenue"));
 		buttonElements.add(new JButton("Show Customers Above Rate"));
 		buttonElements.add(new JButton("Calculate Balance"));
 		buttonElements.add(new JButton("Calculate Revenue"));
 		buttonElements.add(new JButton("Import customers"));
 		buttonElements.add(new JButton("Export customers to CSV"));
 		buttonElements.add(new JButton("Delete User by ID"));
-		
+
 	}
 
-	public void fillInformation() {
+	public void fillInformation() {	// Fill information of the elements of the GUI
 		setBounds(100, 100, 1000, 500); // set the bounds of the mainframe
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); // set Borders
 		setContentPane(contentPane); // set the content pane
 
-		for(int i=0; i<buttonElements.size(); i++){
+		for (int i = 0; i < buttonElements.size(); i++) {	// add action listeners for all buttons iterating through the arrayList of buttons
 			buttonElements.get(i).addActionListener(this);
-		}		
+		}
 		txtSearch.setToolTipText("enter the User ID here"); // set tooltip
 		txtSearch.setText("0"); // set Text to value of 0
 		txtSearch.setColumns(10); // Clums for Textfield
-		txtMoney.setToolTipText("enter amount of Money in Cents"); // set																	// tooltip
+		txtMoney.setToolTipText("enter amount of Money in Cents"); // set //
+																	// tooltip
 		txtMoney.setColumns(10); // set width
+		// add actionListeners for the menu items
 		menImportCustomer.addActionListener(this);
 		menExportCustomer.addActionListener(this);
 		menExportCustomerExcel.addActionListener(this);
@@ -145,7 +153,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 
 	}
 
-	public void arrangeInLayouts() {
+	public void arrangeInLayouts() {	// arrange the elements of the GUI in layouts
 		setLayout(new BorderLayout());
 		// main grid layout panel
 		JPanel pnlMain = new JPanel();
@@ -165,9 +173,9 @@ public class Pbes extends PbesAbstract implements ActionListener {
 
 		pnlTopRight.add(buttonElements.get(0));
 		pnlTopRight.add(buttonElements.get(12)); // delete
-		pnlTopRight.add(buttonElements.get(4));	// addcustomer
-		pnlTopRight.add(buttonElements.get(1));	// call
-		pnlTopRight.add(buttonElements.get(2)); 	// monthlyBill
+		pnlTopRight.add(buttonElements.get(4)); // addcustomer
+		pnlTopRight.add(buttonElements.get(1)); // call
+		pnlTopRight.add(buttonElements.get(2)); // monthlyBill
 
 		// subpanel bot-left
 		JPanel pnlBotLeft = new JPanel();
@@ -212,7 +220,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * http://java-demos.blogspot.com.es/2013
 	 * /01/set-selection-background-foreground-for-jmenuitem.html
 	 */
-	public void setGuiStyles() {
+	public void setGuiStyles() {	// set the style of the GUI
 		UIManager.put("MenuBar.background", Color.DARK_GRAY);
 
 		UIManager.put("Menu.foreground", Color.WHITE);
@@ -295,8 +303,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		@SuppressWarnings("unused")
 		GuiUserModificator editor = null; // init Modificator
 		if (this.getCustomer(searchId) != null) { // check that user exists
-			editor = new GuiUserModificator(this,
-					this.getCustomer(searchId));
+			editor = new GuiUserModificator(this, this.getCustomer(searchId));
 			// create a new editor with the user found
 		} else {// user not found
 			JOptionPane.showMessageDialog(this, "User with ID: " + searchId
@@ -455,8 +462,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void onLoadMinimumBalance(ActionEvent ae) {
 		DataFile d = new DataFile("MinimumBalance");
 		this.b = d.importMinimumBalanceExcel2013();
-		JOptionPane.showMessageDialog(this,
-			    "Minimum balance loaded");
+		JOptionPane.showMessageDialog(this, "Minimum balance loaded");
 	}
 
 	/**
