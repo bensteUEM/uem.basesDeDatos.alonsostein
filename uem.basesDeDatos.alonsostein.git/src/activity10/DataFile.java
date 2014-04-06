@@ -109,14 +109,13 @@ public class DataFile {
 			writer.write("====");
 			writer.newLine();
 
-			// same order - CONTENT
-			for (CustomerCall call : customer.getCalls()) {
-				writer.write(call.getDestination() + " , ");
-				writer.write(sdf.format(call.getStartTime()) + " , ");
-				writer.write(call.getDuration() + " , ");
-				writer.write(call.getTotal() + " , ");
-				writer.newLine();
-			} // end for
+			// get the billing text from Customer class
+				for (int i = 0; i < ((Customer) customer).getBillText(
+						customer.getId()).size(); i++) {
+					writer.write(((Customer) customer).getBillText(
+							customer.getId()).get(i));
+					writer.newLine();
+				} // end for
 			writer.write("====");
 			writer.newLine();
 			// 5b - minimum Consumption Advice
@@ -250,7 +249,7 @@ public class DataFile {
 			}
 			String[] customerData = new String[numberOfLines]; // create a new
 			// array string to store all customers separated
-			
+
 			// TODO reset file object and loop directly instead of splitting and
 			// Modifying original content with a -
 			customerData = fileContent.toString().split("-");
@@ -264,14 +263,15 @@ public class DataFile {
 		}
 		return groupOfCustomers;
 	}
-	
+
 	/**
-	 * This function converts multiple Strings which represent Customers into a Customer object
+	 * This function converts multiple Strings which represent Customers into a
+	 * Customer object
+	 * 
 	 * @param customerData
 	 * @return
 	 */
-	public CustomerAbstract[] textToCustomer(String[] customerData)
-	{
+	public CustomerAbstract[] textToCustomer(String[] customerData) {
 		this.groupOfCustomers = new CustomerSQL[numberOfLines];
 		for (int i = 0; i <= (groupOfCustomers.length - 1); i++) {
 			// NEW CODE with easy constructor

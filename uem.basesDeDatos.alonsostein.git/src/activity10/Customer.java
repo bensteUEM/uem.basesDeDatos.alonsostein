@@ -431,24 +431,47 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		return result;
 	} // end exportText()
 
-	public ArrayList<String> getBill(Customer cust) {
-		ArrayList<String> bill = new ArrayList<String>();
-		if (id == null) {
-			for (int i = 0; i < cust.getCalls().size(); i++) {
-				bill.add(cust.getCalls().get(i).toString());
-			}
-			return bill;
-		} else {
-			bill.add("Rate: " + cust.getRate().toString());
-			for (int i = 0; i < cust.getCalls().size(); i++) {
-				bill.add(cust.getCalls().get(i).toString());
-			}
-			float totalBill = 0;
-			for (int i = 0; i < cust.getCalls().size(); i++) {
-				totalBill += (cust.getCalls()).get(i).getTotal().floatValue();
-			}
-			bill.add("Total bill: " + totalBill);
-			return bill;
+	// get rate to create the bill
+	public String getRateText() {
+		String billRate;
+		billRate = ("Rate: " + this.getRate().toString());
+		return billRate;
+	}
+
+	// get total cost of all calls
+	public String getTotalCost() {
+		String billCost;
+		BigDecimal totalBill = new BigDecimal(0);
+		for (int i = 0; i < this.getCalls().size(); i++) {
+			totalBill = totalBill.add(this.getCalls().get(i).getTotal());
 		}
+		billCost = ("Total bill: " + totalBill);
+		return billCost;
+	}
+
+	// get calls to create the bill
+	public ArrayList<String> getBillCalls(Integer id) {
+		ArrayList<String> billCalls = new ArrayList<String>();
+		if (id == null) {
+			for (int i = 0; i < this.getCalls().size(); i++) {
+				billCalls.add(this.getCalls().get(i).toString());
+			}
+			return billCalls;
+		} else {
+			for (int i = 0; i < this.getCalls().size(); i++) {
+				billCalls.add(this.getCalls().get(i).toString());
+			}
+
+			return billCalls;
+		}
+	}
+
+	// create the bill
+	public ArrayList<String> getBillText(Integer id) {
+		ArrayList<String> bill = new ArrayList<String>();
+		bill.add(getRateText());
+		bill.addAll(getBillCalls(id));
+		bill.add(getTotalCost());
+		return bill;
 	}
 } // end class
