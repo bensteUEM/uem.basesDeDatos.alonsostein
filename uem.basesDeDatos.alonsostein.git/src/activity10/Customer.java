@@ -443,10 +443,9 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 			for (int i = 0; i < cust.getCalls().size(); i++) {
 				bill.add(cust.getCalls().get(i).toString());
 			}
-			BigDecimal totalBill = null;
-			for (int i = 1; i < cust.getCalls().size(); i++) {
-				totalBill = cust.getCalls().get(i - 1).getTotal()
-						.add(cust.getCalls().get(i).getTotal());
+			float totalBill = 0;
+			for (int i = 0; i < cust.getCalls().size(); i++) {
+				totalBill += (cust.getCalls()).get(i).getTotal().floatValue();
 			}
 			bill.add("Total bill: " + totalBill);
 			return bill;
