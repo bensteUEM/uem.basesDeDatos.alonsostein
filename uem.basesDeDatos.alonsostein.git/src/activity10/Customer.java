@@ -431,6 +431,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		return result;
 	} // end exportText()
 
+	// create the bill using toString method
 	public ArrayList<String> getBill(Customer cust) {
 		ArrayList<String> bill = new ArrayList<String>();
 		if (id == null) {
