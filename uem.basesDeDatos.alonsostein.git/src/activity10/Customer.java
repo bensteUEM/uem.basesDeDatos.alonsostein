@@ -468,16 +468,6 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	}
 
 	// create the bill
-	public ArrayList<String> getBillTextExport(Integer id) {
-		ArrayList<String> bill = new ArrayList<String>();
-		bill.add(getRateText());
-		for (int i = 0; i < this.getBillCalls(id).size(); i++) {
-			bill.add(getBillCalls(id).get(i).toString());
-		}
-		bill.add(getTotalCost());
-		return bill;
-	}
-
 	public ArrayList<String> getBillText(Integer id) {
 		ArrayList<String> bill = new ArrayList<String>();
 		for (int i = 0; i < this.getBillCalls(id).size(); i++) {
