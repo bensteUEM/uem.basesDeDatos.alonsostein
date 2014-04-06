@@ -72,8 +72,8 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 			this.onHangUp(e);
 		}
 	} // end of actionPerformed
-	
-	public void createElements(Customer currentCustomer){
+
+	public void createElements(Customer currentCustomer) {
 		this.setVisible(true);
 		setBounds(100, 100, 450, 335);
 		contentPane = new JPanel();
@@ -91,8 +91,8 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 		textAreaInfo = new JTextArea(15, 20);
 		customer = currentCustomer;
 	}
-	
-	public void fillInformation(){
+
+	public void fillInformation() {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // set to add a
 																// custom close
 																// operation
@@ -109,8 +109,8 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 		textAreaInfo.setEditable(false);
 		textAreaInfo.setVisible(false);
 	}
-	
-	public void arrangeInLayouts(){
+
+	public void arrangeInLayouts() {
 		setContentPane(contentPane);
 		contentPane.add(lblCustomerInformation);
 		contentPane.add(lblInfo);
@@ -120,7 +120,7 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 		contentPane.add(textFieldNumberToCall);
 		contentPane.add(btnCall);
 		contentPane.add(btnHangUp);
-		contentPane.add(textAreaInfo);		
+		contentPane.add(textAreaInfo);
 	}
 
 	public void onExit() { // when the GUI for the call is closed
@@ -131,17 +131,24 @@ public class GuiCallPlacement extends JFrame implements ActionListener {
 	public void onCall(ActionEvent e) { // when button call is clicked
 		this.textAreaInfo.setText(""); // clear the text area
 		this.textAreaInfo.setVisible(false); // set the text area to not visible
-		this.call = new CustomerCall(this.customer,
-				textFieldNumberToCall.getText(), Calendar.getInstance()); // create
-																			// a
-																			// new
-																			// CustomerCall
-		this.btnCall.setVisible(false); // set the button call to not visible
-		this.btnHangUp.setVisible(true); // and set the hang up button to
+		if (this.textFieldNumberToCall.getText().length() == 0) {
+			JOptionPane.showMessageDialog(this, "Please enter a destination");
+		} else {
+			this.call = new CustomerCall(this.customer,
+					textFieldNumberToCall.getText(), Calendar.getInstance()); // create
+																				// a
+																				// new
+																				// CustomerCall
+			this.btnCall.setVisible(false); // set the button call to not
 											// visible
-		this.textFieldNumberToCall.setEnabled(false); // dont allow to edit the
-														// number to call during
-														// the call
+			this.btnHangUp.setVisible(true); // and set the hang up button to
+												// visible
+			this.textFieldNumberToCall.setEnabled(false); // dont allow to edit
+															// the
+															// number to call
+															// during
+															// the call
+		}
 	}
 
 	public void onHangUp(ActionEvent e) { // when button hang up is clicked
