@@ -172,6 +172,31 @@ public class CustomerSQL extends Customer {
 		// finally run the real insert query
 		db.ownSQLCommand(query2, null);
 	} // end addCall
+	
+	/**
+	 * This function should delete all calls of the current;
+	 */
+	@Override
+	public void deleteCalls(){
+		LOG.entering("CustomerSQL", "deleteCalls");
+		String query = "DELETE FROM CustomerCalls WHERE OriginID="+this.getId()+";";
+		LOG.finest("Defined Query Text: " + query);
+		db.ownSQLCommand(query, null);
+		LOG.exiting("CustomerSQL", "deleteCalls");
+	}
+	
+	/**
+	 * Delete all Bills
+	 */
+	@Override
+	public void deleteBills() {
+		LOG.entering("CustomerSQL", "deleteBills");
+		String query = "DELETE FROM CustomerBills WHERE OwnerID="+this.getId()+";";
+		LOG.finest("Defined Query Text: " + query);
+		db.ownSQLCommand(query, null);
+		LOG.exiting("CustomerSQL", "deleteCalls");
+	}
+	
 
 	/**
 	 * @return the owner
@@ -202,5 +227,4 @@ public class CustomerSQL extends Customer {
 	public void setDb(SQLiteStorage db) {
 		this.db = db;
 	}
-
 }

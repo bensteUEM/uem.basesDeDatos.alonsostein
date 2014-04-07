@@ -44,6 +44,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 	private JButton btnImport;
 	private JButton btnExport;
 	private JButton btnBill;
+	private JButton btnDeleteCalls;
 	private CustomerAbstract customer;
 	private Pbes parent;
 	// private CustomerAbstract dataCall; // remove in future if no issues
@@ -102,6 +103,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		btnImport = new JButton("Import customer from file");
 		btnExport = new JButton("Export customer to file");
 		btnBill = new JButton("Monthly bill");
+		btnDeleteCalls = new JButton("Delete all Calls");
 		this.customer = currentCustomer;
 	}
 
@@ -142,6 +144,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		btnImport.addActionListener(this);
 		btnExport.addActionListener(this);
 		btnBill.addActionListener(this);
+		btnDeleteCalls.addActionListener(this);
 		this.customer = currentCustomer;
 	}
 
@@ -187,6 +190,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		pnlBot2.add(btnExport);
 		pnlBot2.add(btnChangeId);
 		pnlBot2.add(btnBill);
+		pnlBot2.add(btnDeleteCalls);
 	}
 
 	public void setUserModificator(CustomerAbstract customer2) {
@@ -223,6 +227,8 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 			this.onExportCustomer(e);
 		} else if (sourceName.contains("Monthly bill")) {
 			this.onMonthlyBill();
+		} else if (sourceName.contains("Delete all Calls")){
+			this.getCustomer().deleteCalls();
 		}
 	}
 

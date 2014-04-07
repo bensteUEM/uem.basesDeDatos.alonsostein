@@ -475,4 +475,19 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		bill.add(getTotalCost());
 		return bill;
 	}
+
+	/**
+	 * Delete all Calls
+	 */
+	public void deleteCalls() {
+		this.calls = new ArrayList<CustomerCall>();
+	}
+
+	/**
+	 * Delete all Bills
+	 */
+	@Override
+	public void deleteBills() {
+		//not used w/o SQL
+	}
 } // end class

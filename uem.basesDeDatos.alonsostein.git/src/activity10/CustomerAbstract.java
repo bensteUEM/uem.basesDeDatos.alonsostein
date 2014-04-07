@@ -105,5 +105,6 @@ public abstract class CustomerAbstract {
 	public abstract boolean setId(Integer newId);
 	public abstract ArrayList<String> getBillText(Integer id);
 	public abstract ArrayList<CustomerCall> getBillCalls(Integer id);
-	
+	public abstract void deleteCalls();
+	public abstract void deleteBills();
 }

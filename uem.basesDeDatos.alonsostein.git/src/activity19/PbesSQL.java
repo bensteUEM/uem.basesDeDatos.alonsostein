@@ -214,6 +214,11 @@ public class PbesSQL extends Pbes {
 	@Override
 	public boolean deleteCustomer(Integer searchId) {
 		LOG.entering("PbesSQL", "deleteCustomer");
+		
+		CustomerAbstract customer = this.getCustomer(searchId);
+		customer.deleteCalls();
+		customer.deleteBills();
+		
 		String query = "DELETE FROM Customers WHERE ID="
 				+ searchId + ";";	
 		LOG.finer("Defined SQL query: "+query);
