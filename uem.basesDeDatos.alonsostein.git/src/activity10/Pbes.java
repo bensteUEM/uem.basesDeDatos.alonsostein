@@ -691,8 +691,9 @@ public class Pbes extends PbesAbstract implements ActionListener {
 																// customers
 			if (compareCustomer != null) // customer exists
 			{
-				compareCustomer.setBalance(); // calculate Balance for all
-												// customers
+				compareCustomer.setBalance(); 
+				// calculate Balance for all customers
+				this.saveCustomer(compareCustomer);
 			}// end if precondition customer exists
 		}// end of iterating through all customers
 	} // end calculate Balance
