@@ -227,7 +227,6 @@ public class DataFile {
 
 			// 3. CLOSE
 			writer.flush(); // make sure the buffer writes everything
-			System.out.println("Following file has been written" + fileName);
 			LOG.info("Following file has been written" + fileName);
 			writer.close(); // close the file
 			LOG.exiting("DataFile", "exportCustomer");
