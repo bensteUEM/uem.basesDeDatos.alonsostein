@@ -81,7 +81,7 @@ public class DataFile {
 			String fileName = path.getPath();
 			// 2. Create Writer
 			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
-					true));
+					false));
 			// Creates a buffered character-output stream of a class for writing
 			// character files
 			// 3. Write Heading
@@ -155,7 +155,7 @@ public class DataFile {
 			String fileName = path.getPath();
 			// 2. Create Writer
 			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
-					true));
+					false));
 			// get the billing text from Customer class
 
 			for (int i = 0; i < customer.getBillText(customer.getId()).size(); i++) {
