@@ -253,9 +253,12 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	public BigDecimal getBalance() {
 		BigDecimal minBalance = this.getMinimumConsumption(); // get customer min
 														// Balance
+		System.out.println("DEBUG:  minBalance:"+minBalance);
 		if (this.balance.compareTo(minBalance) == 1) {
 			return this.balance;
 		} // end if
+		System.out.println("DEBUG:  minBalance:"+minBalance); //TODO DEBUG
+		System.out.println("DEBUG:  this.balance:"+this.balance);//TODO DEBUG
 		return minBalance;
 	} // end getBalance
 
@@ -276,9 +279,8 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		 */
 		BigDecimal total = new BigDecimal(this.getAirtimeMinutes() * this.getRate());
 		BigDecimal divisor = new BigDecimal(100*60);
-		total = total.divide(divisor, 2, RoundingMode.HALF_UP);
-
-		// System.out.println("saved balance="+this.balance); //TODO DEBUG
+		this.balance = total.divide(divisor, 2, RoundingMode.HALF_UP);		
+		
 		this.setAirtimeMinutes(0);
 	} // end setBalance
 
@@ -439,8 +441,8 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 */
 	public ArrayList<String> getBillText(Integer id) {		
 		ArrayList<String> bill = new ArrayList<String>();
-		for (int i = 0; i < this.getBillCalls(id).size(); i++) {
-			bill.add(getBillCalls(id).get(i).toString());
+		for (CustomerCall call : this.getBillCalls(id)){
+			bill.add(call.toString());
 		}
 		bill.add(getTotalCost());
 		return bill;
