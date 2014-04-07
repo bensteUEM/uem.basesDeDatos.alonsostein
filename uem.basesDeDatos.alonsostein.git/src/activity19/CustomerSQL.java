@@ -1,5 +1,6 @@
 package activity19;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.logging.FileHandler;
@@ -196,7 +197,6 @@ public class CustomerSQL extends Customer {
 		db.ownSQLCommand(query, null);
 		LOG.exiting("CustomerSQL", "deleteCalls");
 	}
-	
 
 	/**
 	 * @return the owner

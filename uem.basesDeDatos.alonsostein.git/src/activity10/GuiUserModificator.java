@@ -78,19 +78,21 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		this.setVisible(true);
 		contentPane = new JPanel(); // creation of content Pane
 		lblName = new JLabel("Name");
-		textFieldName = new JTextField(currentCustomer.getName());
+		textFieldName = new JTextField();
+
 		lblId = new JLabel("ID number");
-		textFieldId = new JTextField(Integer.toString(currentCustomer.getId()));
+		textFieldId = new JTextField();
+
 		lblCell = new JLabel("Cellphone number");
-		textFieldCell = new JTextField(currentCustomer.getCellPhoneNumber());
+		textFieldCell = new JTextField();
+
 		lblLand = new JLabel("Landline phone number");
-		textFieldLand = new JTextField(currentCustomer.getLandlinePhoneNumer());
+		textFieldLand = new JTextField();
+
 		lblAirtime = new JLabel("Airtime");
-		textFieldAir = new JTextField(Integer.toString(currentCustomer
-				.getAirtimeMinutes()));
+		textFieldAir = new JTextField();
 		lblRate = new JLabel("Rate");
-		textFieldRate = new JTextField(Integer.toString(currentCustomer
-				.getRate()));
+		textFieldRate = new JTextField();
 		lblBalance = new JLabel("Balance");
 		textFieldBalance = new JTextField(currentCustomer.getBalance()
 				.toString());
@@ -113,6 +115,22 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); // set Borders
 		setContentPane(contentPane);
 
+		// Value Prep
+		// TODO this is a workaround with SQL Balances autocalculation
+		currentCustomer.addAirtimeMinutesFromCalls();
+		currentCustomer.setBalance();
+
+		// Text Content
+		textFieldName.setText(currentCustomer.getName());
+		textFieldId.setText(Integer.toString(currentCustomer.getId()));
+		textFieldCell.setText(currentCustomer.getCellPhoneNumber());
+		textFieldLand.setText(currentCustomer.getLandlinePhoneNumer());
+		textFieldAir.setText(Integer.toString(currentCustomer
+				.getAirtimeMinutes()));
+		textFieldRate.setText(Integer.toString(currentCustomer.getRate()));
+		textFieldBalance.setText(currentCustomer.getBalance().toString());
+
+		// Other Content
 		textFieldName.setColumns(10);
 		textFieldId.setEditable(false); // disable editing for this field
 										// because it's the identifier
@@ -202,8 +220,8 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		createElements(customer2);
 		fillInformation(customer2);
 		arrangeInLayouts();
-		this.invalidate();
-		this.validate();
+		// this.invalidate();
+		// this.validate();
 		this.setVisible(true);
 	}
 
@@ -227,7 +245,7 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 			this.onExportCustomer(e);
 		} else if (sourceName.contains("Monthly bill")) {
 			this.onMonthlyBill();
-		} else if (sourceName.contains("Delete all Calls")){
+		} else if (sourceName.contains("Delete all Calls")) {
 			this.getCustomer().deleteCalls();
 		}
 	}
@@ -239,16 +257,18 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 
 	/**
 	 * Function to create a Bill into a text File with all current calls.
+	 * 
 	 * @author benste
 	 */
 	public void onMonthlyBill() {
 		DataFile bill = new DataFile("");
-	
+
 		// SQL part
-		// TODO - currently outside of specification but future improvement of multiple Bills
-		
+		// TODO - currently outside of specification but future improvement of
+		// multiple Bills
+
 		bill.setFileName("");
-		
+
 		JOptionPane.showMessageDialog(this,
 				bill.exportCustomerBill((Customer) this.getCustomer()));
 	}

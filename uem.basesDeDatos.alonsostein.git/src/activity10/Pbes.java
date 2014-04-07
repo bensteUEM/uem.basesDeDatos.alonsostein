@@ -686,11 +686,13 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	@Override
 	public void calculateAllBalances() {
+		
 		for (CustomerAbstract compareCustomer : this.getCustomers()) { // iterate
 																// through all
 																// customers
 			if (compareCustomer != null) // customer exists
 			{
+				compareCustomer.addAirtimeMinutesFromCalls();
 				compareCustomer.setBalance(); 
 				// calculate Balance for all customers
 				this.saveCustomer(compareCustomer);

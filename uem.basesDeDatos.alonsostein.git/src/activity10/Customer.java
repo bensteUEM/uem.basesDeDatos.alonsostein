@@ -295,7 +295,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		 * ()/100.0);
 		 */
 		this.balance = new BigDecimal(
-				(this.getRate() * this.getAirtimeMinutes()) / 100.00,
+				(this.getRate() * this.getAirtimeMinutes()) / 100.0 / 60.0,
 				new MathContext(3, RoundingMode.HALF_UP)); // costs are negative
 															// rates
 		// System.out.println("saved balance="+this.balance); //TODO DEBUG
@@ -338,8 +338,9 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 * Read the Customers Call Log to calculate the minutes which were used
 	 */
 	public void addAirtimeMinutesFromCalls() {
-		for (CustomerCall call : this.calls) {
+		for (CustomerCall call : this.getCalls()) {
 			this.airtimeMinutes += call.getDuration();
+			System.out.println("DEBUG: added minutes from a call: "+this.airtimeMinutes);//TODO DEBUG
 		}
 	}
 
