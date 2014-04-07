@@ -276,9 +276,6 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			// condition to react on the add new customer button try to
 			// create an empty new customer and add it to our list of customers
 			this.onAddCustomer(ae);
-		} else if (sourceName.contains("Pay by User ID")) {
-			// Conditions for Pay by User ID Button
-			this.onPayByUserId(ae);
 		} else if (sourceName.contains("Show all Customers")) {
 			// Conditions for Show all Customer Button
 			this.onShowCustomer(ae);
@@ -336,6 +333,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	} // end SearchId()
 
 	/**
+	 * Functionality for button add customer
 	 * 
 	 * @param Luis
 	 */
@@ -359,28 +357,22 @@ public class Pbes extends PbesAbstract implements ActionListener {
 														// successful
 		}
 	}
-
-	public void onPayByUserId(ActionEvent ae) {
-		String userIdText = txtSearch.getText(); // get the text form
-		// textfield
-		Integer userId = Integer.parseInt(userIdText);
-		Customer myCustomer = (Customer) this.getCustomer(userId);
-		GuiFilter paymentQuestion = new GuiFilter(2);
-		Integer cash = paymentQuestion.getNumber(); // works when luis
-		// made getmoney method
-		JOptionPane.showMessageDialog(
-				this,
-				"Your change is:"
-						+ Integer.toString(myCustomer.payBalance(cash)));
-	}
-
+	/**
+	 * Functionality for button show customer
+	 * 
+	 * @author Luis
+	 */
 	public void onShowCustomer(ActionEvent ae) {
 		GuiCustomerList list = new GuiCustomerList(
 				this.getCustomersAboveRate(Integer.MIN_VALUE),
 				"List of all customers"); // opens list of all customers
 		list.setVisible(true);
 	}
-
+	/**
+	 * Functionality for button show customers above rate
+	 * 
+	 * @author Luis
+	 */
 	public void onCustomerAboveRate(ActionEvent ae) {
 		Integer rate;
 		try {
@@ -398,6 +390,11 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		list.setVisible(true);
 	}// end onCustomerAboveRate
 
+	/**
+	 * Functionality for button show conpany revenue
+	 * 
+	 * @author Luis
+	 */
 	public void onRevenue(ActionEvent ae) {
 		String revenue = this.getCompanyRevenue().toString();
 		System.out.println("Company reveneu big decimal in on revenue is = "
@@ -445,13 +442,22 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		export.exportCustomerExcel2013(this.getCustomers());
 		// export the current set of customers
 	} // end onExportExcel
-
+	/**
+	 * Delete by user id
+	 * 
+	 * @author Luis
+	 */
 	public void onDeleteByUserId(ActionEvent ae) {
 		Integer searchId = Integer.parseInt(this.txtSearch.getText()); // get
 																		// userID
 		this.deleteCustomer(searchId); // delete user
 	} // end onDeleteByUserId
 
+	/**
+	 * Functionality for button call
+	 * 
+	 * @author Luis
+	 */
 	public void onCall(ActionEvent ae) {
 		Integer searchId = Integer.parseInt(this.txtSearch.getText()); // getuserID
 		@SuppressWarnings("unused")
@@ -466,7 +472,11 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			// message when customer does not exist
 		} // end checking existance of user
 	} // end onCall
-
+	/**
+	 * Calculate monthly bill
+	 * 
+	 * @author Luis
+	 */
 	public void onCalculateMonthlyBill(ActionEvent ae) {
 		Integer searchId = Integer.parseInt(this.txtSearch.getText());
 		if (this.getCustomer(searchId) != null) { // check that user exists
@@ -491,13 +501,22 @@ public class Pbes extends PbesAbstract implements ActionListener {
 			// message when customer does not exist
 		} // end checking existance of user
 	} // end onCalculateMonthlyBill
-
+	/**
+	 * Load minimum balance
+	 * 
+	 * @author Luis
+	 */
 	public void onLoadMinimumBalance(ActionEvent ae) {
 		DataFile d = new DataFile("MinimumBalance");
 		this.b = d.importMinimumBalanceExcel2013();
-		JOptionPane.showMessageDialog(this, "Minimum balance loaded: "+this.b);
+		JOptionPane
+				.showMessageDialog(this, "Minimum balance loaded: " + this.b);
 	}
-
+	/**
+	 * Initiate database
+	 * 
+	 * @author Luis
+	 */
 	public void onInitiateDatabase(ActionEvent ae) {
 		System.out.println("WARNING: do not try SQL functions in regular PBES");
 	}
