@@ -36,9 +36,10 @@ public class CustomerSQL extends Customer {
 	 * @param db
 	 */
 	public CustomerSQL(String newName, String newCellPhoneNumber,
-			Integer newId, Integer Owner, SQLiteStorage db) {
+			Integer newId, Integer owner, SQLiteStorage db) {
 		super(newName, newCellPhoneNumber, newId);
 		this.setDb(db);
+		this.setOwner(owner);
 		if (db == null) {
 			LOG.warning("CustomerSQL Init with invalid db");
 		}

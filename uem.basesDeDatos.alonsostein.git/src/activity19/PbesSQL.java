@@ -38,7 +38,7 @@ public class PbesSQL extends Pbes {
 		PbesSQL gui = new PbesSQL();
 		// Database
 		gui.db = new SQLiteStorage("activity19");
-		PbesSQL.LOG.setLevel(Level.SEVERE);
+		PbesSQL.LOG.setLevel(Level.ALL);
 		
 		//check DB consistency
 		String query = "SELECT CIF FROM Owner WHERE CIF="+gui.getCompanyCIF()+";";
