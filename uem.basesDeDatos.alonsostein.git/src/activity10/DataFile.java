@@ -127,7 +127,7 @@ public class DataFile {
 			writer.write("====");
 			writer.newLine();
 			// 5b - minimum Consumption Advice
-			if (customer.getBalance() == customer.getMinimumConsumption()) {
+			if (customer.getBalance().compareTo(customer.getMinimumConsumption())==0) {
 				writer.write("Please be adviced that you are paying the minimum Balance required for your contract!");
 				writer.newLine();
 			}

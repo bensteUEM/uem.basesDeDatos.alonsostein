@@ -275,8 +275,8 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		 * ()/100.0);
 		 */
 		this.balance = new BigDecimal(
-				(this.getRate() * this.getAirtimeMinutes()) / 100.0 / 60.0,
-				new MathContext(3, RoundingMode.HALF_UP)); // costs are negative
+				this.getRate()/ 100.0 * this.getAirtimeMinutes()/ 60.0 ,
+				new MathContext(2, RoundingMode.HALF_UP)); // costs are negative
 															// rates
 		// System.out.println("saved balance="+this.balance); //TODO DEBUG
 		this.setAirtimeMinutes(0);

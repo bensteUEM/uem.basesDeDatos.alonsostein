@@ -86,14 +86,15 @@ public class CustomerCall {
 	/**
 	 * This method does calculate the total costs in Cent of the Call
 	 * 
-	 * @return costs in Cents
+	 * @return costs in Euros with two decimals
 	 * @author benste
 	 */
 	public BigDecimal getTotal() { // method to calculate the total cost of the
 									// call
 		BigDecimal total = new BigDecimal(
-				((duration * origin.getRate()) / 60.0)/ 100.0, new MathContext(3)); 
-		// calculates the total with 3 significative digits as the (duration*the rate of the customer)/100
+				duration /60.0 * origin.getRate() / 100.0, new MathContext(1)); 
+		//TODO @LUIS this function is iterated thousands of times only to display a customer in the list,
+		// most likely the reason for our slowdown!
 		return total;
 	} // end getTotal
 
