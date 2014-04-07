@@ -267,16 +267,6 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 * as they have been billed to balance
 	 */
 	public void setBalance() {
-		/*
-		 * DEBUGGING Part for Balance Calculation //TODO
-		 * System.out.println("Rate= "+this.getRate());
-		 * System.out.println("Airtime= "+this.getAirtimeMinutes());
-		 * System.out.println
-		 * ("Rate*Airtime= "+this.getRate()*this.getAirtimeMinutes());
-		 * System.out
-		 * .println("Rate*Airtime/100= "+(this.getRate())*this.getAirtimeMinutes
-		 * ()/100.0);
-		 */
 		BigDecimal total = new BigDecimal(this.getAirtimeMinutes() * this.getRate());
 		BigDecimal divisor = new BigDecimal(100*60);
 		this.balance = total.divide(divisor, 2, RoundingMode.HALF_UP);		
