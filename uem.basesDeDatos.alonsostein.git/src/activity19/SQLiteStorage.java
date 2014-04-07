@@ -275,6 +275,20 @@ public class SQLiteStorage {
 					money = money.add(value);
 				}
 				result = money;
+				
+			} else if (args.equals("BigDecimal-One")) {
+				LOG.fine("Executing an SQL querry which is expected to return a Double - only one column");
+				ResultSet rs = stmt.executeQuery(sql);
+				BigDecimal money = new BigDecimal(0, new MathContext(3,
+						RoundingMode.HALF_UP));
+				;
+				while (rs.next()) {
+					BigDecimal value = new BigDecimal(
+							rs.getFloat(1), new MathContext(3,
+									RoundingMode.HALF_UP));
+					money = money.add(value);
+				}
+				result = money;
 
 			} else if (args.equals("ArrayList<CustomerCall>")) {
 				LOG.fine("Executing an SQL querry which is expected to return a ArrayList of CustomerCall");

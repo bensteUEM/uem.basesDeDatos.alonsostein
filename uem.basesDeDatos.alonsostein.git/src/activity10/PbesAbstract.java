@@ -22,6 +22,8 @@ public abstract class PbesAbstract  extends JFrame{
 	public abstract void calculateAllBalances();
 	
 	public abstract BigDecimal getCompanyRevenue();
+	public abstract BigDecimal getMinimumBalance();
+	public abstract void setMinimumBalance(BigDecimal b);
 	
 	@SuppressWarnings("unused") //use to block default constructor
 	protected PbesAbstract() {

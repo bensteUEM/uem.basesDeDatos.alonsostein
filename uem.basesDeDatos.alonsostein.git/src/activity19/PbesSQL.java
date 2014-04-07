@@ -38,6 +38,18 @@ public class PbesSQL extends Pbes {
 		PbesSQL gui = new PbesSQL();
 		// Database
 		gui.db = new SQLiteStorage("activity19");
+		
+		//check DB consistency
+		String query = "SELECT CIF FROM Owner WHERE CIF="+gui.getCompanyCIF()+";";
+		Integer checkCIF = (Integer) gui.db.ownSQLCommand(query,"Integer");
+		if ((gui.getCompanyCIF() - checkCIF) == 0){
+			gui.setTitle("PBES - SQLite Version © CIF("+ checkCIF+ ")");
+			LOG.info("Started PBES SQL registered for Company with CIF: "+checkCIF);
+		}
+		else {
+			LOG.warning("Empty database or unknown license - make sure you Own the Database (if unsure run DB.init())");
+			gui.setTitle("PBES - SQLite Version (DEMO ONLY - no CIF or Database)");
+		}
 		gui.setVisible(true);
 	}
 
@@ -59,15 +71,13 @@ public class PbesSQL extends Pbes {
 		} catch (SecurityException | IOException e) {
 			e.printStackTrace();
 		}
-		// set deviating GUI Setting
-		this.setTitle("PBES - SQLite Version");
 	}
 
 	@Override
 	public void onAddCustomer(ActionEvent ae) {
 		CustomerSQL newCustomer = new CustomerSQL("", "",
 				Integer.parseInt(this.txtSearch.getText()),
-				this.getCompanyID(), this.db);
+				this.getCompanyCIF(), this.db);
 		// function to add new customer
 		if (!(this.addCustomer(newCustomer))) {
 			JOptionPane
@@ -83,7 +93,7 @@ public class PbesSQL extends Pbes {
 	@Override
 	public void onInitiateDatabase(ActionEvent ae) {
 		db.init();
-		String query = "INSERT INTO Owner VALUES (" + getCompanyID()
+		String query = "INSERT INTO Owner VALUES (" + getCompanyCIF()
 				+ ",0.00,\'" + getCompanyName() + "\')";
 		db.ownSQLCommand(query, null);
 	}
@@ -240,12 +250,48 @@ public class PbesSQL extends Pbes {
 		return money;
 	}
 
-	public Integer getCompanyID() {
+	/**
+	 * GETTER company ID
+	 * @return
+	 */
+	public Integer getCompanyCIF() {
 		return COMPANYID;
 	}
 
+	/**
+	 * GETTER company Name
+	 * @return
+	 */
 	public String getCompanyName() {
 		return COMPANYNAME;
+	}
+	
+	/**
+	 * Getter Minimum Balance
+	 * @return currentMinBalance
+	 */
+	@Override
+	public BigDecimal getMinimumBalance() {
+		LOG.entering("PbesSQL","getMinimumBalance");
+		String query = "SELECT MinimumConsumption FROM Owner WHERE CIF="+this.getCompanyCIF()+";";
+		LOG.finest("Defined Query: "+query);
+		BigDecimal consumption = (BigDecimal) db.ownSQLCommand(query,"BigDecimal-One");
+		LOG.finest("will return: "+consumption);
+		LOG.exiting("PbesSQL","getMinimumBalance");
+		return consumption;
+	}
+
+	/**
+	 * Setter Minimum Balance
+	 * @param newMinBalance
+	 */
+	@Override
+	public void setMinimumBalance(BigDecimal newBalance) {
+		LOG.entering("PbesSQL","setMinimumBalance");
+		String query = "UPDATE Owner SET MinimumConsumption="+newBalance.toString()+" WHERE CIF="+this.getCompanyCIF()+";";
+		LOG.finest("Defined Query: "+query);
+		db.ownSQLCommand(query,null);
+		LOG.exiting("PbesSQL","setMinimumBalance");
 	}
 
 }

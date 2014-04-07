@@ -509,10 +509,11 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	public void onLoadMinimumBalance(ActionEvent ae) {
 		DataFile d = new DataFile("MinimumBalance");
-		this.b = d.importMinimumBalanceExcel2013();
+		this.setMinimumBalance(d.importMinimumBalanceExcel2013());
 		JOptionPane
-				.showMessageDialog(this, "Minimum balance loaded: " + this.b);
+				.showMessageDialog(this, "Minimum balance loaded: " + this.getMinimumBalance());
 	}
+
 	/**
 	 * Initiate database
 	 * 
@@ -730,6 +731,24 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public ArrayList<CustomerAbstract> getCustomers() {
 		System.out.println("THIS IS PBES.getCustomers()");//TODO DEBUG
 		return (ArrayList<CustomerAbstract>) this.customers;
+	}
+	
+	/**
+	 * Getter Minimum Balance
+	 * @return currentMinBalance
+	 */
+	@Override
+	public BigDecimal getMinimumBalance() {
+		return this.b;
+	}
+
+	/**
+	 * Setter Minimum Balance
+	 * @param newMinBalance
+	 */
+	@Override
+	public void setMinimumBalance(BigDecimal newBalance) {
+		this.b = newBalance;
 	}
 } // end class
 
