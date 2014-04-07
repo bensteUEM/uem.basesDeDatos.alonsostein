@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import javax.swing.JOptionPane;
+
+import activity10.Customer;
 import activity10.CustomerAbstract;
 import activity10.GuiUserModificator;
 import activity10.Pbes;
@@ -184,18 +186,7 @@ public class PbesSQL extends Pbes {
 			return customer;
 		}// end if null
 	}// end getCustomer method
-
-	@Override
-	public boolean deleteCustomer(Integer searchId) {
-		LOG.entering("PbesSQL", "deleteCustomer");
-		String query = "DELETE FROM Customers WHERE ID="
-				+ searchId + ";";	
-		LOG.finer("Defined SQL query: "+query);
-		db.ownSQLCommand(query, null);
-		LOG.exiting("PbesSQL", "deleteCustomer");
-		return true;
-	}
-
+	
 	/**
 	 * Method to return all customers
 	 * 
@@ -213,6 +204,22 @@ public class PbesSQL extends Pbes {
 		LOG.fine("excecuted SQL Statement with result: " + customers);
 		LOG.exiting("PbesSQL", "getCustomersAboveRate");
 		return customers;
+	}
+	
+	public ArrayList<CustomerAbstract> getCustomers() {
+		LOG.entering("PbesSQL","getCustomers");
+		return this.getCustomersAboveRate(Integer.MIN_VALUE);
+	}
+
+	@Override
+	public boolean deleteCustomer(Integer searchId) {
+		LOG.entering("PbesSQL", "deleteCustomer");
+		String query = "DELETE FROM Customers WHERE ID="
+				+ searchId + ";";	
+		LOG.finer("Defined SQL query: "+query);
+		db.ownSQLCommand(query, null);
+		LOG.exiting("PbesSQL", "deleteCustomer");
+		return true;
 	}
 
 	/**

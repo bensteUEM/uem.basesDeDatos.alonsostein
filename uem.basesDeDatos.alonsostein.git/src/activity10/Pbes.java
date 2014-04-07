@@ -28,7 +28,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	protected JPanel contentPane;
 	protected JTextField txtSearch;
 	protected JTextField txtMoney;
-	protected ArrayList<Customer> customers;
+	protected ArrayList<CustomerAbstract> customers;
 
 	protected BigDecimal b = new BigDecimal(0); // store the minimum balance
 	final Color UEMCOLOR = new Color(143, 27, 39);
@@ -74,7 +74,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		fillInformation(); // fill the information of the elements of the gui
 		arrangeInLayouts(); // arrange the elements of the gui in Layouts
 
-		customers = new ArrayList<Customer>();
+		customers = new ArrayList<CustomerAbstract>();
 		// initialize empty customer array with predefined count
 
 		// Frame and GUI Setup
@@ -432,7 +432,8 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void onExportText(ActionEvent ae) {
 		DataFile export = new DataFile(); // create a new file without a
 											// customer object
-		export.exportCustomer(this.getCustomers());
+		System.out.println("NUmber of customers in PBES passed to export"+ this.getCustomers().size()); //TODO DEBUG
+		export.exportCustomer((ArrayList<CustomerAbstract>) this.getCustomers());
 		// export the current set of customers
 	} // end onExportText
 
@@ -442,7 +443,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public void onExportExcel(ActionEvent ae) {
 		DataFile export = new DataFile(); // create a new file without a
 											// customer object
-		export.exportCustomerExcel2013(this.getCustomers());
+		export.exportCustomerExcel2013((ArrayList<CustomerAbstract>)this.getCustomers());
 		// export the current set of customers
 	} // end onExportExcel
 
@@ -544,7 +545,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	@Override
 	public boolean saveCustomer(CustomerAbstract currentCustomer) {
 		Integer position = 0; // initialize iteration variable
-		for (Customer compareCustomer : this.getCustomers()) { // iterate
+		for (CustomerAbstract compareCustomer : this.getCustomers()) { // iterate
 																// through all
 			// customers
 			if (compareCustomer == null) {
@@ -564,7 +565,9 @@ public class Pbes extends PbesAbstract implements ActionListener {
 
 	@Override
 	public ArrayList<CustomerAbstract> getCustomers(Integer searchId) {
-		return getCustomersAboveRate(Integer.MIN_VALUE);
+		System.out.println("DEBUG this is PBES.getCustomers"); //TODO DEBUG
+		System.out.println("DEBUG returns: "+this.getCustomersAboveRate(Integer.MIN_VALUE));//TODO DEBUG
+		return this.getCustomersAboveRate(Integer.MIN_VALUE);
 	}
 
 	/**
@@ -577,7 +580,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	@Override
 	public CustomerAbstract getCustomer(Integer searchId) {
-		for (Customer compareCustomer : this.getCustomers()) { // iterate
+		for (CustomerAbstract compareCustomer : this.getCustomers()) { // iterate
 																// through all
 			// customers
 			if (compareCustomer != null) {
@@ -601,7 +604,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * @author benste
 	 */
 	public boolean deleteCustomer(Integer searchId) {
-		for (Customer compareCustomer : this.getCustomers()) {
+		for (CustomerAbstract compareCustomer : this.getCustomers()) {
 			// iterate through all customers
 			if (compareCustomer.getId().equals(searchId))
 			// customer is the one we
@@ -625,7 +628,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	public BigDecimal getAllCustomerBalance() {
 		BigDecimal result = new BigDecimal(0, new MathContext(3,
 				RoundingMode.HALF_UP)); // initialize result variable
-		for (Customer compareCustomer : this.getCustomers()) { // iterate
+		for (CustomerAbstract compareCustomer : this.getCustomers()) { // iterate
 																// through all
 																// customers
 			if (compareCustomer != null) // customer exists
@@ -643,7 +646,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	public ArrayList<CustomerAbstract> getCustomersAboveRate(Integer maxRate) {
 		ArrayList<CustomerAbstract> results = new ArrayList<CustomerAbstract>();
-		for (Customer compareCustomer : this.getCustomers()) {
+		for (CustomerAbstract compareCustomer : this.getCustomers()) {
 			if (compareCustomer != null) // customer exists
 			{
 				if (compareCustomer.getRate() > maxRate)// customer exceeds rate
@@ -664,7 +667,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	@Override
 	public void calculateAllBalances() {
-		for (Customer compareCustomer : this.getCustomers()) { // iterate
+		for (CustomerAbstract compareCustomer : this.getCustomers()) { // iterate
 																// through all
 																// customers
 			if (compareCustomer != null) // customer exists
@@ -682,7 +685,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 * @return Total Revenue in Cents
 	 */
 	@Override
-	public BigDecimal getCompanyRevenue() {
+	public BigDecimal getCompanyRevenue() {		
 		// TODO Include money that has been paid by customer
 		BigDecimal paid = new BigDecimal(0, new MathContext(3,
 				RoundingMode.HALF_UP)); // temporary var only - needs to be
@@ -690,7 +693,7 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		// payment is implemented
 		BigDecimal outstanding = new BigDecimal(0.00, new MathContext(3)); // initialize
 																			// outstanding
-		for (Customer compareCustomer : this.getCustomers()) { // iterate
+		for (CustomerAbstract compareCustomer : this.getCustomers()) { // iterate
 																// through all
 			// customers
 			if (compareCustomer != null) // customer exists
@@ -702,8 +705,9 @@ public class Pbes extends PbesAbstract implements ActionListener {
 		return (paid.add(outstanding));
 	}// end getCompanyRevenue();
 
-	public ArrayList<Customer> getCustomers() {
-		return this.customers;
+	public ArrayList<CustomerAbstract> getCustomers() {
+		System.out.println("THIS IS PBES.getCustomers()");//TODO DEBUG
+		return (ArrayList<CustomerAbstract>) this.customers;
 	}
 } // end class
 

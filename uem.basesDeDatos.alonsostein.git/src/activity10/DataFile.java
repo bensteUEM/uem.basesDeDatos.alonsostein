@@ -239,14 +239,14 @@ public class DataFile {
 		}// end catch
 	}// end exportcustomer
 
-	public void exportCustomerExcel2013(ArrayList<Customer> customers) {
+	public void exportCustomerExcel2013(ArrayList<CustomerAbstract> arrayList) {
 		System.out.println("Experimental Excel Export Function of DataFile"); // TODO
 																				// debug
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet = workbook.createSheet("Full Customer Export");
 
 		int rownum = 0;
-		for (Customer currentCustomer : customers) {
+		for (CustomerAbstract currentCustomer : arrayList) {
 			Row row = sheet.createRow(rownum++);
 			int cellnum = 0;
 			for (Object obj : currentCustomer.exportText().split(",")) {
@@ -402,7 +402,7 @@ public class DataFile {
 	 * 
 	 * @param newCustomers
 	 */
-	public void exportCustomer(ArrayList<Customer> newCustomers) {
+	public void exportCustomer(ArrayList<CustomerAbstract> newCustomers) {
 		Customer[] custArray = new Customer[newCustomers.size()];
 		custArray = newCustomers.toArray(new Customer[0]);
 		this.exportCustomer(custArray);
