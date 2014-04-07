@@ -207,24 +207,6 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	} // end setCellPhone...
 
 	/**
-	 * Adds the specified ammount of mintues to the existing airtime
-	 * 
-	 * @author benste
-	 * @param airtimeMinutes
-	 *            total minutes to be added into account
-	 */
-	public boolean addAirtimeMinutes(Integer airtimeMinutes) {// TODO simply set
-																// by default
-		if (this.airtimeMinutes != null) {// needed for importing first
-											// customers
-			this.airtimeMinutes += airtimeMinutes;
-		} else {
-			this.airtimeMinutes = airtimeMinutes;
-		} // end null check
-		return true;
-	} // end setAirtime...
-
-	/**
 	 * set a new Rate for the customer cellphone contract in Cents per Minute
 	 * 
 	 * @author benste
