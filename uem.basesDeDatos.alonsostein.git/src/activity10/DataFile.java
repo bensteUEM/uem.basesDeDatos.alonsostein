@@ -127,7 +127,7 @@ public class DataFile {
 			writer.write("====");
 			writer.newLine();
 			// 5b - minimum Consumption Advice
-			if (customer.getBalance() == customer.getMinBalance()) {
+			if (customer.getBalance() == customer.getMinimumConsumption()) {
 				writer.write("Please be adviced that you are paying the minimum Balance required for your contract!");
 				writer.newLine();
 			}
@@ -166,7 +166,7 @@ public class DataFile {
 			writer.write("====");
 			writer.newLine();
 			// 5b - minimum Consumption Advice
-			if (customer.getBalance() == customer.getMinBalance()) {
+			if (customer.getBalance() == customer.getMinimumConsumption()) {
 				writer.write("Please be adviced that you are paying the minimum Balance required for your contract!");
 				writer.newLine();
 			}
@@ -343,6 +343,7 @@ public class DataFile {
 	 */
 	public BigDecimal importMinimumBalanceExcel2013() {
 		FileInputStream file;
+		LOG.info("Minimum Balance will be loaded from Excel - this might take some time!");
 		try {
 			file = new FileInputStream(new File(this.fileName + ".xlsx"));
 			// Get the workbook instance for XLS file

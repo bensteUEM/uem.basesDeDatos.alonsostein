@@ -197,6 +197,27 @@ public class CustomerSQL extends Customer {
 		db.ownSQLCommand(query, null);
 		LOG.exiting("CustomerSQL", "deleteCalls");
 	}
+	
+	/**
+	 * Get minimum Balance from the Database related to this Customer
+	 * @return related Minimum Balance relevant to this User
+	 */
+	public BigDecimal getMinimumConsumption() {
+		LOG.entering("CustomerSQL","getMinimumConsumption");
+		//1. get parent company CIF
+		String query =  "SELECT Owner FROM Customers WHERE ID="+this.getId()+";";
+		Integer cif = (Integer) db.ownSQLCommand(query,"Integer");
+		LOG.fine("Found Company Owning the Customer with CIF: "+cif);
+		
+		// 2. get minimum consumption for that company
+		query = "SELECT MinimumConsumption FROM Owner WHERE CIF="+cif+";";
+		LOG.finest("Defined Query: "+query);
+		BigDecimal consumption = (BigDecimal) db.ownSQLCommand(query,"BigDecimal-One");
+		LOG.finest("will return: "+consumption);
+		LOG.exiting("CustomerSQL","getMinimumConsumption");
+		return consumption;
+	}
+	
 
 	/**
 	 * @return the owner
@@ -227,4 +248,6 @@ public class CustomerSQL extends Customer {
 	public void setDb(SQLiteStorage db) {
 		this.db = db;
 	}
+	
+	//TODO getBillCalls(Integer id) // overwrite from PBES
 }

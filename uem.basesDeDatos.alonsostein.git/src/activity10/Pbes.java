@@ -532,8 +532,6 @@ public class Pbes extends PbesAbstract implements ActionListener {
 	 */
 	public boolean addCustomer(CustomerAbstract customer) {
 		Integer newId;
-		customer.setMinBalance(b); // set minimum balance for customer once it
-									// is read from excel
 		// System.out.println("User added to DataStore with min balance "+customer.getMinBalance());
 
 		// as long as the current customer has an id that already exists

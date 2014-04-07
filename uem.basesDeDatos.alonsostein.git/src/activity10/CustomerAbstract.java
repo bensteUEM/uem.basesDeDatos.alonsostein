@@ -22,10 +22,8 @@ public abstract class CustomerAbstract {
 	
 	public abstract void addAirtimeMinutesFromCalls();
 	public abstract void setBalance();
-	public abstract BigDecimal getMinBalance();
 	public abstract String exportText();
-	
-	public abstract void setMinBalance(BigDecimal value);
+	public abstract BigDecimal getMinimumConsumption();
 
 	@SuppressWarnings("unused")
 	private CustomerAbstract() {

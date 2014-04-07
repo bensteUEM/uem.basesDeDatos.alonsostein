@@ -38,6 +38,7 @@ public class PbesSQL extends Pbes {
 		PbesSQL gui = new PbesSQL();
 		// Database
 		gui.db = new SQLiteStorage("activity19");
+		PbesSQL.LOG.setLevel(Level.SEVERE);
 		
 		//check DB consistency
 		String query = "SELECT CIF FROM Owner WHERE CIF="+gui.getCompanyCIF()+";";
@@ -65,7 +66,6 @@ public class PbesSQL extends Pbes {
 		try {
 			fh = new FileHandler("Logs"+File.separator+"execution.log");
 			LOG.addHandler(fh);
-			// LOG.setLevel(Level.FINE);
 			SimpleFormatter formatter = new SimpleFormatter();
 			fh.setFormatter(formatter);
 		} catch (SecurityException | IOException e) {
@@ -110,8 +110,6 @@ public class PbesSQL extends Pbes {
 			LOG.finest("Added following DB to the Customer" + db);
 		}
 		LOG.finest("Customer should have a DB now");
-
-		sqlcustomer.setMinBalance(b);
 		LOG.finest("Customer minimum Balance updated with Global Value");
 
 		Integer newId;

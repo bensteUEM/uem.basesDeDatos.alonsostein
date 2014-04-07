@@ -44,7 +44,6 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		this.balance = new BigDecimal(0, new MathContext(3,
 				RoundingMode.HALF_UP));
 		DataFile d = new DataFile("MinimumBalance");
-		this.setMinBalance(d.importMinimumBalanceExcel2013());
 		this.rate = 0;
 	} // end Customer()
 
@@ -62,7 +61,6 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		super(fullyQualifiedExportedCustomerString);
 		// import from text
 		DataFile d = new DataFile("MinimumBalance");
-		this.setMinBalance(d.importMinimumBalanceExcel2013());
 		boolean success = this.importText(fullyQualifiedExportedCustomerString);
 		if (!(success)) {
 			System.out
@@ -253,7 +251,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	 * balance per customer
 	 */
 	public BigDecimal getBalance() {
-		BigDecimal minBalance = this.getMinBalance(); // get customer min
+		BigDecimal minBalance = this.getMinimumConsumption(); // get customer min
 														// Balance
 		if (this.balance.compareTo(minBalance) == 1) {
 			return this.balance;
@@ -287,16 +285,8 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	/**
 	 * @return the minBalance
 	 */
-	public BigDecimal getMinBalance() {
+	public BigDecimal getMinimumConsumption() {
 		return minBalance;
-	}
-
-	/**
-	 * @param minBalance
-	 *            the minBalance to set
-	 */
-	public void setMinBalance(BigDecimal minBalance) {
-		this.minBalance = minBalance;
 	}
 
 	/**
@@ -322,7 +312,6 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	public void addAirtimeMinutesFromCalls() {
 		for (CustomerCall call : this.getCalls()) {
 			this.airtimeMinutes += call.getDuration();
-			System.out.println("DEBUG: added minutes from a call: "+this.airtimeMinutes);//TODO DEBUG
 		}
 	}
 
@@ -443,7 +432,6 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	// get calls to create the bill
 	public ArrayList<CustomerCall> getBillCalls(Integer id) {
 		return this.getCalls();
-		//TODO overwrite in SQL Custoemr once Bills get used
 	}
 
 	/**

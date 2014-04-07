@@ -50,8 +50,6 @@ public class SQLiteStorage {
 	 */
 	public SQLiteStorage(String databasename) {
 		LOG.entering("SQLiteStorage", "Constructor");
-		// This is to configure the logger
-		LOG.setLevel(Level.ALL);
 		// remaining settings
 		this.name = databasename;
 		this.openDB(this.name);
