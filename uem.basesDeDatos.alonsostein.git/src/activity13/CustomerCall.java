@@ -91,8 +91,10 @@ public class CustomerCall {
 	 */
 	public BigDecimal getTotal() { // method to calculate the total cost of the
 									// call
-		BigDecimal total = new BigDecimal(
-				duration /60.0 * origin.getRate() / 100.0, new MathContext(1)); 
+		BigDecimal total = new BigDecimal(duration * origin.getRate());
+		BigDecimal divisor = new BigDecimal(100*60);
+		total = total.divide(divisor, 2, RoundingMode.HALF_UP);
+		
 		//TODO @LUIS this function is iterated thousands of times only to display a customer in the list,
 		// most likely the reason for our slowdown!
 		return total;

@@ -19,8 +19,8 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	public final static Integer IMPLEMENTEDARGS = 7; // number of arguments
 														// implemented for a
 														// customer
-	private BigDecimal minBalance = new BigDecimal(0, new MathContext(3,
-			RoundingMode.HALF_UP)); // in full � cutting of Cents
+	private BigDecimal minBalance = new BigDecimal(0, new MathContext(2,
+			RoundingMode.HALF_UP)); // in full EURO cutting of Cents
 	private ArrayList<CustomerCall> calls = new ArrayList<CustomerCall>(0);
 	private DefaultListModel<String> callList;
 
@@ -41,7 +41,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		this.cellPhoneNumber = newCellPhoneNumber;
 		this.landlinePhoneNumber = "";
 		this.airtimeMinutes = 0;
-		this.balance = new BigDecimal(0, new MathContext(3,
+		this.balance = new BigDecimal(0, new MathContext(2,
 				RoundingMode.HALF_UP));
 		DataFile d = new DataFile("MinimumBalance");
 		this.rate = 0;
@@ -274,10 +274,10 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 		 * .println("Rate*Airtime/100= "+(this.getRate())*this.getAirtimeMinutes
 		 * ()/100.0);
 		 */
-		this.balance = new BigDecimal(
-				this.getRate()/ 100.0 * this.getAirtimeMinutes()/ 60.0 ,
-				new MathContext(2, RoundingMode.HALF_UP)); // costs are negative
-															// rates
+		BigDecimal total = new BigDecimal(this.getAirtimeMinutes() * this.getRate());
+		BigDecimal divisor = new BigDecimal(100*60);
+		total = total.divide(divisor, 2, RoundingMode.HALF_UP);
+
 		// System.out.println("saved balance="+this.balance); //TODO DEBUG
 		this.setAirtimeMinutes(0);
 	} // end setBalance
@@ -370,7 +370,7 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 			success = success
 					&& this.setAirtimeMinutes(Integer.parseInt(parts[4]));
 			success = success && this.setRate(Integer.parseInt(parts[5]));
-			this.balance = new BigDecimal(parts[6], new MathContext(4,
+			this.balance = new BigDecimal(parts[6], new MathContext(2,
 					RoundingMode.HALF_UP));
 		} // end if validated parts
 		return success;
@@ -415,12 +415,11 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	// get total cost of all calls
 	public String getTotalCost() {
 		String billCost;
-		BigDecimal totalBill = new BigDecimal(0, new MathContext(3,
+		BigDecimal totalBill = new BigDecimal(0, new MathContext(2,
 				RoundingMode.HALF_UP));
-		for (int i = 0; i < this.getCalls().size(); i++) {
-			totalBill = totalBill.add(this.getCalls().get(i).getTotal());
+		for (CustomerCall call : this.getCalls()) {
+			totalBill = totalBill.add(call.getTotal());
 		}
-		
 		if (totalBill.compareTo(this.minBalance) == -1){
 			billCost = "Minimum Consumption not reached : "+this.minBalance;
 		} else {

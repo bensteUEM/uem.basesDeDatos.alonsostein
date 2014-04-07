@@ -262,14 +262,15 @@ public class SQLiteStorage {
 			} else if (args.equals("BigDecimal")) {
 				LOG.fine("Executing an SQL querry which is expected to return a Double - Balance for one or more than one customer");
 				ResultSet rs = stmt.executeQuery(sql);
-				BigDecimal money = new BigDecimal(0, new MathContext(3,
+				BigDecimal money = new BigDecimal(0, new MathContext(2,
 						RoundingMode.HALF_UP));
 				;
 				while (rs.next()) {
-					BigDecimal value = new BigDecimal(
-							rs.getInt("AirtimeMinutes") * rs.getInt("Rate")
-									/ 60.0 / 100.0, new MathContext(3,
-									RoundingMode.HALF_UP));
+					
+					BigDecimal value = new BigDecimal(rs.getInt("AirtimeMinutes") * rs.getInt("Rate"));
+					BigDecimal divisor = new BigDecimal(100*60);
+					value = value.divide(divisor, 2, RoundingMode.HALF_UP);
+
 					money = money.add(value);
 				}
 				result = money;
@@ -282,7 +283,7 @@ public class SQLiteStorage {
 				;
 				while (rs.next()) {
 					BigDecimal value = new BigDecimal(
-							rs.getFloat(1), new MathContext(3,
+							rs.getFloat(1), new MathContext(2,
 									RoundingMode.HALF_UP));
 					money = money.add(value);
 				}
