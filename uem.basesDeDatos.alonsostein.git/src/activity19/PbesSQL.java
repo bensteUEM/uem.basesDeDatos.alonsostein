@@ -5,6 +5,7 @@ package activity19;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class PbesSQL extends Pbes {
 		super();
 		// Create logfile on filesystem
 		try {
-			fh = new FileHandler("execution.log");
+			fh = new FileHandler("Logs"+File.separator+"execution.log");
 			LOG.addHandler(fh);
 			// LOG.setLevel(Level.FINE);
 			SimpleFormatter formatter = new SimpleFormatter();

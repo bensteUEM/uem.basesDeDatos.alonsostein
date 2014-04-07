@@ -1,5 +1,6 @@
 package activity19;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.FileHandler;
@@ -62,7 +63,7 @@ public class TestClass {
 	public static boolean setLogger(SQLiteStorage db) {
 
 		try {
-			FileHandler fh = new FileHandler("TestClass.log");
+			FileHandler fh = new FileHandler("Logs"+File.separator+"TestClass.log");
 			SQLiteStorage.LOG.addHandler(fh);
 			SQLiteStorage.LOG.setLevel(Level.FINEST);
 			SimpleFormatter formatter = new SimpleFormatter();
