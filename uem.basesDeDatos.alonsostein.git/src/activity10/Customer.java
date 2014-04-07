@@ -253,12 +253,10 @@ public class Customer extends CustomerAbstract implements Comparator<Customer> {
 	public BigDecimal getBalance() {
 		BigDecimal minBalance = this.getMinimumConsumption(); // get customer min
 														// Balance
-		System.out.println("DEBUG:  minBalance:"+minBalance);
 		if (this.balance.compareTo(minBalance) == 1) {
 			return this.balance;
 		} // end if
-		System.out.println("DEBUG:  minBalance:"+minBalance); //TODO DEBUG
-		System.out.println("DEBUG:  this.balance:"+this.balance);//TODO DEBUG
+		System.out.println("DEBUG:  PERFORMANCE ??? get balance of Customer called"); //TODO DEBUG
 		return minBalance;
 	} // end getBalance
 

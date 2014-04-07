@@ -283,7 +283,7 @@ public class SQLiteStorage {
 				;
 				while (rs.next()) {
 					BigDecimal value = new BigDecimal(
-							rs.getFloat(1), new MathContext(2,
+							rs.getFloat(1), new MathContext(3,
 									RoundingMode.HALF_UP));
 					money = money.add(value);
 				}

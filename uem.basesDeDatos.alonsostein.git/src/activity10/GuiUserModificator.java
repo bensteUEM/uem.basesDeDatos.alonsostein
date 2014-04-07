@@ -118,7 +118,12 @@ public class GuiUserModificator extends JFrame implements ActionListener {
 		// Value Prep
 		// TODO this is a workaround with SQL Balances autocalculation
 		currentCustomer.addAirtimeMinutesFromCalls();
+		System.out.println("\tCURRENT CUSTOMER airtimeMINUTES: "+currentCustomer.airtimeMinutes);//TODO DEBUG
+		System.out.println("\tCURRENT CUSTOMER getairtimeMINUTES: "+currentCustomer.getAirtimeMinutes());//TODO DEBUG
+		System.out.println("\tCURRENT CUSTOMER BALANCE: "+currentCustomer.balance);//TODO DEBUG
+		System.out.println("\tCURRENT CUSTOMER getBALANCE: "+currentCustomer.getBalance());//TODO DEBUG
 		currentCustomer.setBalance();
+		System.out.println("BALANCE IS NOW: "+currentCustomer.getBalance());//TODO DEBUG
 
 		// Text Content
 		textFieldName.setText(currentCustomer.getName());
