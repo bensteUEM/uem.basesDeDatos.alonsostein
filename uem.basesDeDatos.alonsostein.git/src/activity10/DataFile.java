@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
@@ -31,9 +32,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import activity13.CustomerCall;
 import activity19.CustomerSQL;
+import activity19.SQLiteStorage;
 
 public class DataFile {
 	private CustomerAbstract[] groupOfCustomers;
+	public final static Logger LOG = Logger.getLogger(SQLiteStorage.class
+			.getName());
 	private int numberOfLines = 0;
 	private String fileName = "";
 
@@ -58,6 +62,7 @@ public class DataFile {
 	 * @return File Location
 	 */
 	public String exportCustomerBill(CustomerAbstract customer) {
+		LOG.entering("DataFile", "exportCustomerBill");
 		try {
 			// 0. Calculate Customer Balance
 			Integer previousMinutes = customer.getAirtimeMinutes();
@@ -112,7 +117,6 @@ public class DataFile {
 			writer.write("====");
 			writer.newLine();
 			// get the billing text from Customer class
-
 			//TODO specify Bill ID
 			for (String textline : customer.getBillText(null)) {
 				writer.write(textline);
@@ -132,8 +136,12 @@ public class DataFile {
 			writer.write("Last updated:" + sdf.format(currentDate));
 			writer.flush();
 			writer.close();
+			LOG.info("Finished writing file called: "+path.getPath());
+			LOG.exiting("DataFile", "exportCustomerBill");
 			return path.getPath();
 		} catch (IOException e) {
+			LOG.exiting("DataFile", "exportCustomerBill");
+			LOG.warning(e.getMessage());
 			return e.getMessage(); // throws a standard error when there are
 									// errors with file handling
 			
@@ -187,6 +195,7 @@ public class DataFile {
 		// SORTING Addon - ref comparator to empty customer object
 		// Arrays.sort(customers, new Customer("", "", -1));
 
+		LOG.entering("DataFile","exportCustomer");
 		this.groupOfCustomers = customers;
 		// optional Addon - sort customers by ID
 
@@ -196,6 +205,8 @@ public class DataFile {
 		File path = new File(this.fileName + ".csv");
 		String fileName = path.getPath();
 
+		LOG.finer("finished initializing values with customers: "+this.groupOfCustomers);
+		
 		try {
 			// 2. WRITE
 			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
@@ -206,6 +217,7 @@ public class DataFile {
 			for (int i = 0; i < maxCustomers; i++) { // Covers the array of
 														// customers to export
 														// them
+				LOG.finest("Iterate customer: "+customers[i]);
 				if (customers[i] != null) { // our array can have empty spaces
 											// which should not be exported
 					writer.write(customers[i].exportText()); // writes a
@@ -217,14 +229,19 @@ public class DataFile {
 										// customer
 				}
 			}
+			LOG.info("finished iterating all customers");
 
 			// 3. CLOSE
 			writer.flush(); // make sure the buffer writes everything
 			System.out.println("Following file has been written" + fileName);
+			LOG.info("Following file has been written" + fileName);
 			writer.close(); // close the file
+			LOG.exiting("DataFile","exportCustomer");
 		} catch (IOException e) {
+			LOG.warning(e.getMessage());
 			e.printStackTrace(); // throws a standard error when there are
 									// errors with file handling
+			LOG.exiting("DataFile","exportCustomer");
 		}// end catch
 	}// end exportcustomer
 
