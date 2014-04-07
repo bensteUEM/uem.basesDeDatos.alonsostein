@@ -73,10 +73,11 @@ public class DataFile {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
 			Date currentDate = Calendar.getInstance().getTime();
-			
+
 			// 1. OPEN
-			//this.fileName+"_"
-			File path = new File("Bills"+File.separator+customer.getName()+"-"+sdf2.format(currentDate)+".txt");
+			// this.fileName+"_"
+			File path = new File("Bills" + File.separator + customer.getName()
+					+ "-" + sdf2.format(currentDate) + ".txt");
 			String fileName = path.getPath();
 			// 2. Create Writer
 			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
@@ -117,13 +118,12 @@ public class DataFile {
 			writer.write("====");
 			writer.newLine();
 			// get the billing text from Customer class
-			//TODO specify Bill ID
+			// TODO specify Bill ID
 			for (String textline : customer.getBillText(null)) {
 				writer.write(textline);
 				writer.newLine();
 			} // end for
 
-			
 			writer.write("====");
 			writer.newLine();
 			// 5b - minimum Consumption Advice
@@ -136,7 +136,7 @@ public class DataFile {
 			writer.write("Last updated:" + sdf.format(currentDate));
 			writer.flush();
 			writer.close();
-			LOG.info("Finished writing file called: "+path.getPath());
+			LOG.info("Finished writing file called: " + path.getPath());
 			LOG.exiting("DataFile", "exportCustomerBill");
 			return path.getPath();
 		} catch (IOException e) {
@@ -144,7 +144,7 @@ public class DataFile {
 			LOG.warning(e.getMessage());
 			return e.getMessage(); // throws a standard error when there are
 									// errors with file handling
-			
+
 		} // end try
 	}
 
@@ -195,53 +195,47 @@ public class DataFile {
 		// SORTING Addon - ref comparator to empty customer object
 		// Arrays.sort(customers, new Customer("", "", -1));
 
-		LOG.entering("DataFile","exportCustomer");
+		LOG.entering("DataFile", "exportCustomer");
 		this.groupOfCustomers = customers;
 		// optional Addon - sort customers by ID
-
-		Integer maxCustomers = customers.length;
 
 		// 1. OPEN
 		File path = new File(this.fileName + ".csv");
 		String fileName = path.getPath();
 
-		LOG.finer("finished initializing values with customers: "+this.groupOfCustomers);
-		
+		LOG.finer("finished initializing values with customers: "
+				+ this.groupOfCustomers);
+
 		try {
 			// 2. WRITE
 			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,
 					false)); // Creates a buffered character-output
 								// stream of a
 								// class for writing character files
-
-			for (int i = 0; i < maxCustomers; i++) { // Covers the array of
-														// customers to export
-														// them
-				LOG.finest("Iterate customer: "+customers[i]);
-				if (customers[i] != null) { // our array can have empty spaces
-											// which should not be exported
-					writer.write(customers[i].exportText()); // writes a
-																// string
-																// with
-																// the
-																// number
-					writer.newLine(); // adds a line separator for every
-										// customer
-				}
+			LOG.finest("initialized Buffered Writer");
+			LOG.info("There are: "+customers.length+ " Customers to be exported");
+			
+			for (CustomerAbstract customer : customers) {
+				// Covers the array of customers to export them
+				LOG.finest("Iterate customer: " + customer);
+				writer.write(customer.exportText());
+				// writes a string with the number
+				writer.newLine();
+				// adds a line separator for every customer
 			}
-			LOG.info("finished iterating all customers");
+			LOG.finer("finished iterating all customers");
 
 			// 3. CLOSE
 			writer.flush(); // make sure the buffer writes everything
 			System.out.println("Following file has been written" + fileName);
 			LOG.info("Following file has been written" + fileName);
 			writer.close(); // close the file
-			LOG.exiting("DataFile","exportCustomer");
+			LOG.exiting("DataFile", "exportCustomer");
 		} catch (IOException e) {
 			LOG.warning(e.getMessage());
 			e.printStackTrace(); // throws a standard error when there are
 									// errors with file handling
-			LOG.exiting("DataFile","exportCustomer");
+			LOG.exiting("DataFile", "exportCustomer");
 		}// end catch
 	}// end exportcustomer
 
